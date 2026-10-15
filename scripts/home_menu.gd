@@ -190,7 +190,7 @@ func _on_update_pressed() -> void:
 	btn_close_update.disabled = true
 	update_panel.visible = true
 	
-	# Chạy toàn bộ quy trình: fetch → pull tự động
+	# Bản export tự tải executable từ GitHub Releases; không cần Git hay thư mục .git.
 	await _do_auto_update()
 
 func _on_close_update_pressed() -> void:
@@ -198,68 +198,80 @@ func _on_close_update_pressed() -> void:
 		audio_manager.play_click()
 	update_panel.visible = false
 
-# Lấy thư mục gốc của game (nơi chứa .git, version.json, run_game.bat)
-# - Khi chạy từ Editor: dùng đường dẫn project res://
-# - Khi export: dùng thư mục chứa file .exe
-func get_game_dir() -> String:
-	if OS.has_feature("editor"):
-		return ProjectSettings.globalize_path("res://")
-	else:
-		return OS.get_executable_path().get_base_dir()
-
-# Chạy lệnh git trong đúng thư mục game (cd /d <thư mục> && git ...)
-func git_execute(git_args: String, output: Array) -> int:
-	var game_dir = get_game_dir()
-	var cmd = "cd /d \"%s\" && git %s" % [game_dir, git_args]
-	return OS.execute("cmd.exe", ["/c", cmd], output, true)
-
-# Quy trình cập nhật tự động: fetch + pull trong 1 bước
+# Query GitHub's latest release. The release must contain LittleDaNang.exe.
 func _do_auto_update() -> void:
-	var game_dir = get_game_dir()
-	
-	# Bước 1: Kiểm tra Git có tồn tại không
-	update_feedback_label.text = "⏳ [1/3] Đang kiểm tra kết nối Git...\n📂 " + game_dir
-	await get_tree().create_timer(0.2).timeout
-	
-	var remote_out = []
-	var remote_code = git_execute("remote -v", remote_out)
-	
-	if remote_code != 0 or remote_out.is_empty() or str(remote_out[0]).strip_edges() == "":
-		update_feedback_label.text = "⚠️ Thư mục game chưa có kho Git!\n📂 " + game_dir + "\n\n💡 Giải pháp:\n1. Đặt file game (.exe) vào cùng thư mục dự án chứa .git\n2. Hoặc chạy 'git_setup_and_push.bat'"
+	if OS.has_feature("editor"):
+		update_feedback_label.text = "ℹ️ Cập nhật bản export chỉ hoạt động trong game đã xuất bản."
 		btn_close_update.disabled = false
 		return
-	
-	# Bước 2: Git fetch
-	update_feedback_label.text = "⏳ [2/3] Đang đồng bộ với GitHub (git fetch)..."
-	await get_tree().create_timer(0.2).timeout
-	
-	var fetch_out = []
-	git_execute("fetch origin", fetch_out)
-	
-	# Bước 3: Git pull
-	update_feedback_label.text = "⏳ [3/3] Đang kéo mã nguồn mới nhất (git pull)..."
-	await get_tree().create_timer(0.2).timeout
-	
-	var pull_out = []
-	var code = git_execute("pull origin main", pull_out)
-	if code != 0:
-		code = git_execute("pull origin master", pull_out)
-	
-	var result_msg = str(pull_out[0]).strip_edges() if not pull_out.is_empty() else ""
-	
+
+	var http := $UpdateHttpReq as HTTPRequest
+	http.timeout = 0
+	http.body_size_limit = -1
+	update_feedback_label.text = "⏳ Đang kiểm tra bản phát hành GitHub..."
+	var api_url := "https://api.github.com/repos/zinh8803/FARM/releases/latest"
+	var err := http.request(api_url, ["User-Agent: LittleDaNang-Updater", "Accept: application/vnd.github+json"])
+	if err != OK:
+		_update_failed("Không thể kết nối GitHub (mã lỗi %d)." % err)
+		return
+	var response: Array = await http.request_completed
+	if response[0] != HTTPRequest.RESULT_SUCCESS or response[1] != 200:
+		_update_failed("GitHub không trả về bản phát hành (HTTP %d). Hãy tạo Release trước." % response[1])
+		return
+	var parsed = JSON.parse_string((response[3] as PackedByteArray).get_string_from_utf8())
+	if not parsed is Dictionary:
+		_update_failed("Dữ liệu bản phát hành không hợp lệ.")
+		return
+	var release: Dictionary = parsed
+	var asset_url := ""
+	for asset in release.get("assets", []):
+		if asset is Dictionary and asset.get("name", "") == "LittleDaNang.exe":
+			asset_url = str(asset.get("browser_download_url", ""))
+			break
+	if asset_url.is_empty():
+		_update_failed("Release mới nhất chưa có asset LittleDaNang.exe.")
+		return
+
+	var tag := str(release.get("tag_name", "")).trim_prefix("v")
+	var current := str(local_version_info.get("version", "0.0.0"))
+	if tag == current:
+		update_feedback_label.text = "✅ Game đã ở phiên bản mới nhất: v%s." % current
+		btn_close_update.disabled = false
+		return
+
+	update_feedback_label.text = "⏳ Đang tải bản v%s..." % tag
+	err = http.request(asset_url, ["User-Agent: LittleDaNang-Updater", "Accept: application/octet-stream"])
+	if err != OK:
+		_update_failed("Không thể tải file cập nhật (mã lỗi %d)." % err)
+		return
+	response = await http.request_completed
+	if response[0] != HTTPRequest.RESULT_SUCCESS or response[1] != 200 or (response[3] as PackedByteArray).is_empty():
+		_update_failed("Tải bản cập nhật thất bại (HTTP %d)." % response[1])
+		return
+
+	var exe_path := OS.get_executable_path()
+	var temp_path := exe_path + ".update"
+	var file := FileAccess.open(temp_path, FileAccess.WRITE)
+	if file == null:
+		_update_failed("Không ghi được file cập nhật cạnh game. Hãy chuyển game vào thư mục có quyền ghi.")
+		return
+	file.store_buffer(response[3])
+	file.close()
+	var helper_path := exe_path.get_base_dir().path_join("apply_game_update.bat")
+	var helper := FileAccess.open(helper_path, FileAccess.WRITE)
+	if helper == null:
+		DirAccess.remove_absolute(temp_path)
+		_update_failed("Không tạo được trình cài cập nhật cạnh game.")
+		return
+	helper.store_string("@echo off\r\nsetlocal\r\nset \"GAME=%~1\"\r\nset \"NEW=%GAME%.update\"\r\n:wait_game\r\ntasklist /FI \"IMAGENAME eq %~nx1\" | find /I \"%~nx1\" >nul && (timeout /t 1 /nobreak >nul & goto wait_game)\r\nmove /Y \"%NEW%\" \"%GAME%\" >nul\r\nif errorlevel 1 exit /b 1\r\nstart \"\" \"%GAME%\"\r\ndel \"%~f0\"\r\n")
+	helper.close()
+	OS.create_process("cmd.exe", ["/c", "start", "", helper_path, exe_path])
+	update_feedback_label.text = "✅ Đã tải bản v%s. Game sẽ khởi động lại để áp dụng." % tag
+	get_tree().create_timer(0.5).timeout.connect(func(): get_tree().quit())
+
+func _update_failed(message: String) -> void:
+	update_feedback_label.text = "❌ Cập nhật thất bại:\n" + message
 	btn_close_update.disabled = false
-	
-	if code == 0:
-		load_version_file()
-		var ver = str(local_version_info.get("version", "1.1.0"))
-		
-		if "Already up to date" in result_msg or "Already up-to-date" in result_msg:
-			update_feedback_label.text = "✅ Game đã ở phiên bản mới nhất: v%s!\n\nKhông có bản cập nhật mới." % ver
-		else:
-			update_feedback_label.text = "🎉 Cập nhật thành công!\n📦 Phiên bản: v%s\n\n%s\n\n👉 Nhấn 'Khởi động lại' để áp dụng bản cập nhật." % [ver, result_msg]
-			btn_restart_game.visible = true
-	else:
-		update_feedback_label.text = "❌ Cập nhật thất bại:\n" + result_msg + "\n\n💡 Thử chạy file 'update_game.bat' trong thư mục game."
 
 # Giữ lại handler cho các nút cũ (phòng trường hợp scene vẫn tham chiếu)
 func _on_check_update_pressed() -> void:
@@ -272,13 +284,6 @@ func _on_restart_game_pressed() -> void:
 	if audio_manager:
 		audio_manager.play_click()
 	
-	# Khởi động lại game
-	var game_dir = get_game_dir()
-	var exe_path = OS.get_executable_path()
-	if OS.has_feature("editor"):
-		OS.create_process("cmd.exe", ["/c", "cd /d \"" + game_dir + "\" && start \"\" run_game.bat"])
-	else:
-		OS.create_process(exe_path, [])
 	get_tree().quit()
 
 func _on_quit_pressed() -> void:

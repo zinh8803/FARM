@@ -65,19 +65,16 @@ git push -u origin main
 
 ---
 
-## PHẦN 4: CƠ CHẾ BẤM "CẬP NHẬT" TỰ ĐỘNG LẤY BẢN MỚI TỪ GIT
+## PHẦN 4: CẬP NHẬT BẢN GAME ĐÃ EXPORT QUA GITHUB RELEASES
 
-### 1. Khi bạn (nhà phát triển) ra mắt tính năng mới:
-1. Mở file [version.json](file:///c:/vinhnq/game_test_3d/version.json):
-   - Nâng số phiên bản: ví dụ `"version": "1.2.0"`, `"version_code": 120`.
-   - Cập nhật nội dung các tính năng mới vào mục `"changelog"`.
-2. Đẩy lên Git bằng cách chạy file [git_setup_and_push.bat](file:///c:/vinhnq/game_test_3d/git_setup_and_push.bat) (hoặc `git add .`, `git commit -m "v1.2.0"`, `git push origin main`).
+### 1. Phát hành phiên bản mới:
+1. Trong `version.json`, tăng `version` (ví dụ `1.1.1`) và cập nhật `changelog`.
+2. Commit và push mã nguồn lên nhánh `main` trước khi phát hành.
+3. Cài GitHub CLI (`gh`) trên máy xuất bản và đăng nhập một lần bằng `gh auth login`.
+4. Chạy `export_game.bat`, chọn `Y` ở câu hỏi tạo GitHub Release. Script export `LittleDaNang.exe` rồi đính kèm file đó vào release có tag `v` + version, ví dụ `v1.1.1`.
 
-### 2. Người chơi trong game:
-1. Mở game lên -> Chọn **🚀 Cập nhật game**.
-2. Nhấn nút **🔄 Kiểm Tra Cập Nhật**:
-   - Game sẽ tự động kết nối và so khớp `version.json` trên Git hoặc kiểm tra commit mới nhất.
-   - Nếu có bản cập nhật mới, nút **⬇️ Cập Nhật Ngay (Git Pull)** sẽ sáng lên.
-3. Nhấn **⬇️ Cập Nhật Ngay (Git Pull)**:
-   - Game tự động kéo mã nguồn và tài nguyên mới nhất về máy qua `git pull`.
-   - Sau khi hoàn thành, màn hình hiện thông báo thành công và cung cấp nút **Khởi động lại game** để người chơi trải nghiệm ngay!
+### 2. Người chơi cập nhật:
+1. Chỉ cần tải và chạy `LittleDaNang.exe`; không cần cài Git, clone repository hay có thư mục `.git`.
+2. Chọn **🚀 Cập nhật game**. Game kiểm tra GitHub Releases, tải `LittleDaNang.exe` mới nhất và tự thay file sau khi thoát.
+
+Release mới nhất phải có asset tên chính xác `LittleDaNang.exe`. Game cần quyền ghi vào thư mục chứa file exe và kết nối Internet. Nếu GitHub báo tag đã tồn tại, tăng version trước khi xuất bản phiên bản kế tiếp.

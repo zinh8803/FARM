@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "version_code": 110,
+  "version": "1.1.1",
+  "version_code": 111,
   "release_date": "2026-10-15",
   "game_name": "Little DaNang - Game Nông Trại Việt",
   "github_repo": "https://github.com/zinh8803/FARM",
@@ -10,7 +10,7 @@
     "🌧️ Bật/Tắt thời tiết thực tế (mưa rào, tự động tưới ruộng)",
     "🌓 Bật/Tắt sáng/tối môi trường theo thời gian thực",
     "🔊 Hệ thống âm thanh nông cụ và nhạc nền đồng quê",
-    "🔄 Tự động kiểm tra phiên bản và kéo mã nguồn mới nhất từ Git (Git Pull)"
+    "🔄 Tự tải bản game mới từ GitHub Releases, không cần Git hoặc thư mục .git"
   ],
   "upcoming_features": [
     "🌊 Bản đồ Bờ biển Mỹ Khê & Chợ Đêm Hải Sản",
