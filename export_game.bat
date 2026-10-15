@@ -21,15 +21,21 @@ if exist "%USERPROFILE%\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-sta
     set "GODOT_EXE=%USERPROFILE%\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe"
     goto :found_godot
 )
+if exist "%USERPROFILE%\Downloads\Godot_v4.7.2-stable_win64.exe" (
+    set "GODOT_EXE=%USERPROFILE%\Downloads\Godot_v4.7.2-stable_win64.exe"
+    goto :found_godot
+)
 if exist "%USERPROFILE%\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64.exe" (
     set "GODOT_EXE=%USERPROFILE%\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64.exe"
     goto :found_godot
 )
 
-for /r "%USERPROFILE%\Downloads" %%f in (Godot*win64*.exe) do (
-    if exist "%%~f" (
-        set "GODOT_EXE=%%~f"
-        goto :found_godot
+if exist "%USERPROFILE%\Downloads\" (
+    for /r "%USERPROFILE%\Downloads" %%f in (Godot*win64*.exe) do (
+        if exist "%%~f" (
+            set "GODOT_EXE=%%~f"
+            goto :found_godot
+        )
     )
 )
 
@@ -47,9 +53,20 @@ exit /b 1
 echo [OK] Tim thay Godot: "!GODOT_EXE!"
 echo.
 
+if not exist "%~dp0project.godot" (
+    echo [LOI] Khong tim thay project.godot trong thu muc: %~dp0
+    pause
+    exit /b 1
+)
+
 :: === Buoc 1: Import project (headless) ===
 echo [1/4] Dang import project (can thiet truoc khi export)...
-"!GODOT_EXE!" --headless --editor --quit 2>nul
+"!GODOT_EXE!" --headless --editor --quit
+if errorlevel 1 (
+    echo [LOI] Godot import project that bai. Xem loi Godot phia tren.
+    pause
+    exit /b 1
+)
 echo [OK] Import hoan tat.
 echo.
 
@@ -57,14 +74,14 @@ echo.
 set "EXPORT_NAME=LittleDaNang.exe"
 echo [2/4] Dang export game ra file: %EXPORT_NAME% ...
 
-"!GODOT_EXE!" --headless --export-release "Windows Desktop" "%~dp0%EXPORT_NAME%" 2>nul
+"!GODOT_EXE!" --headless --export-release "Windows Desktop" "%~dp0%EXPORT_NAME%"
 
 if not exist "%~dp0%EXPORT_NAME%" (
     echo [LOI] Export that bai! Kiem tra lai export preset trong Godot Editor.
     echo      Mo Godot Editor ^> Project ^> Export ^> Tao preset "Windows Desktop"
     echo.
     echo [THU LAI] Dang thu export voi debug mode...
-    "!GODOT_EXE!" --headless --export-debug "Windows Desktop" "%~dp0%EXPORT_NAME%" 2>nul
+    "!GODOT_EXE!" --headless --export-debug "Windows Desktop" "%~dp0%EXPORT_NAME%"
 )
 
 if not exist "%~dp0%EXPORT_NAME%" (

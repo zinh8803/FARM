@@ -224,12 +224,14 @@ func _do_auto_update() -> void:
 		return
 	var release: Dictionary = parsed
 	var asset_url := ""
+	var asset_name := ""
 	for asset in release.get("assets", []):
-		if asset is Dictionary and str(asset.get("name", "")).to_lower() == "littledanang.exe":
+		if asset is Dictionary and str(asset.get("name", "")).to_lower() in ["littledanang.exe", "littledanang.zip"]:
 			asset_url = str(asset.get("browser_download_url", ""))
+			asset_name = str(asset.get("name", ""))
 			break
 	if asset_url.is_empty():
-		_update_failed("Release mới nhất chưa đính kèm LittleDaNang.exe. Hãy chạy export_game.bat và tải file LittleDaNang.exe lên release: https://github.com/zinh8803/FARM/releases/latest")
+		_update_failed("Release mới nhất chưa có LittleDaNang.exe hoặc LittleDaNang.zip: https://github.com/zinh8803/FARM/releases/latest")
 		return
 
 	var tag := str(release.get("tag_name", "")).trim_prefix("v")
@@ -250,12 +252,41 @@ func _do_auto_update() -> void:
 		return
 
 	var exe_path := OS.get_executable_path()
+	var update_bytes: PackedByteArray = response[3]
+	if asset_name.to_lower().ends_with(".zip"):
+		var zip_path := exe_path + ".download.zip"
+		var zip_file := FileAccess.open(zip_path, FileAccess.WRITE)
+		if zip_file == null:
+			_update_failed("Không ghi được file ZIP cập nhật cạnh game.")
+			return
+		zip_file.store_buffer(update_bytes)
+		zip_file.close()
+		var zip_reader := ZIPReader.new()
+		var zip_err := zip_reader.open(zip_path)
+		if zip_err != OK:
+			DirAccess.remove_absolute(zip_path)
+			_update_failed("File tải về không phải ZIP hợp lệ.")
+			return
+		var exe_entry := ""
+		for entry in zip_reader.get_files():
+			if entry.get_file().to_lower() == "littledanang.exe":
+				exe_entry = entry
+				break
+		if exe_entry.is_empty():
+			zip_reader.close()
+			DirAccess.remove_absolute(zip_path)
+			_update_failed("Trong ZIP không tìm thấy LittleDaNang.exe.")
+			return
+		update_bytes = zip_reader.read_file(exe_entry)
+		zip_reader.close()
+		DirAccess.remove_absolute(zip_path)
+
 	var temp_path := exe_path + ".update"
 	var file := FileAccess.open(temp_path, FileAccess.WRITE)
 	if file == null:
 		_update_failed("Không ghi được file cập nhật cạnh game. Hãy chuyển game vào thư mục có quyền ghi.")
 		return
-	file.store_buffer(response[3])
+	file.store_buffer(update_bytes)
 	file.close()
 	var helper_path := exe_path.get_base_dir().path_join("apply_game_update.bat")
 	var helper := FileAccess.open(helper_path, FileAccess.WRITE)
@@ -263,7 +294,7 @@ func _do_auto_update() -> void:
 		DirAccess.remove_absolute(temp_path)
 		_update_failed("Không tạo được trình cài cập nhật cạnh game.")
 		return
-	helper.store_string("@echo off\r\nsetlocal\r\nset \"GAME=%~1\"\r\nset \"NEW=%GAME%.update\"\r\n:wait_game\r\ntasklist /FI \"IMAGENAME eq %~nx1\" | find /I \"%~nx1\" >nul && (timeout /t 1 /nobreak >nul & goto wait_game)\r\nmove /Y \"%NEW%\" \"%GAME%\" >nul\r\nif errorlevel 1 exit /b 1\r\nstart \"\" \"%GAME%\"\r\ndel \"%~f0\"\r\n")
+	helper.store_string("@echo off\r\nsetlocal\r\nset \"GAME=%~1\"\r\nset \"NEW=%GAME%.update\"\r\n:wait_game\r\ntasklist /FI \"IMAGENAME eq %~nx1\" | find /I \"%~nx1\" >nul && (timeout /t 1 /nobreak >nul & goto wait_game)\r\ndel /F /Q \"%GAME%\"\r\nif exist \"%GAME%\" exit /b 1\r\nmove /Y \"%NEW%\" \"%GAME%\" >nul\r\nif errorlevel 1 exit /b 1\r\nstart \"\" \"%GAME%\"\r\ndel \"%~f0\"\r\n")
 	helper.close()
 	OS.create_process("cmd.exe", ["/c", "start", "", helper_path, exe_path])
 	update_feedback_label.text = "✅ Đã tải bản v%s. Game sẽ khởi động lại để áp dụng." % tag
