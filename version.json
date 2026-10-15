@@ -3,8 +3,8 @@
   "version_code": 110,
   "release_date": "2026-10-15",
   "game_name": "Little DaNang - Game Nông Trại Việt",
-  "github_repo": "https://github.com/YOUR_USERNAME/game_test_3d",
-  "raw_version_url": "https://raw.githubusercontent.com/YOUR_USERNAME/game_test_3d/main/version.json",
+  "github_repo": "https://github.com/zinh8803/FARM",
+  "raw_version_url": "https://raw.githubusercontent.com/zinh8803/FARM/main/version.json",
   "changelog": [
     "✨ Màn hình Trang Chủ (Home Menu) với Chơi, Chơi mới, Cài đặt, Cập nhật",
     "🌧️ Bật/Tắt thời tiết thực tế (mưa rào, tự động tưới ruộng)",

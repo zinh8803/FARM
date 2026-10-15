@@ -51,7 +51,7 @@ git branch -M main
 
 # 2. Thêm liên kết với GitHub Repository của bạn
 # (Thay đường dẫn bên dưới bằng link repo của bạn)
-git remote add origin https://github.com/<tên_tài_khoản_của_bạn>/game_test_3d.git
+git remote add origin https://github.com/zinh8803/FARM.git
 
 # 3. Chọn toàn bộ file trong dự án
 git add .
