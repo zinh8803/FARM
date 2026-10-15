@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dpov2v8q41g23"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/time_system.gd" id="2_timesys"]
+[ext_resource type="Script" path="res://scripts/inventory_data.gd" id="3_invdata"]
+[ext_resource type="PackedScene" path="res://scenes/ui.tscn" id="4_uiscene"]
+[ext_resource type="PackedScene" uid="uid://cxvh4892qnl4m" path="res://scenes/home_menu.tscn" id="5_homescene"]
+[ext_resource type="Script" path="res://scripts/game_settings.gd" id="6_settings"]
+[ext_resource type="Script" path="res://scripts/audio_manager.gd" id="7_audio"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="GameSettings" type="Node" parent="."]
+script = ExtResource("6_settings")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("7_audio")
+
+[node name="TimeSystem" type="Node" parent="."]
+script = ExtResource("2_timesys")
+
+[node name="InventoryData" type="Node" parent="."]
+script = ExtResource("3_invdata")
+
+[node name="DayNightLight" type="CanvasModulate" parent="."]
+color = Color(1, 1, 0.98, 1)
+
+[node name="MapContainer" type="Node2D" parent="."]
+
+[node name="UI" parent="." instance=ExtResource("4_uiscene")]
+
+[node name="HomeMenu" parent="." instance=ExtResource("5_homescene")]
+
+[node name="TransitionLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="TransitionRect" type="ColorRect" parent="TransitionLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://cih84f2n6y1m9"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_intext"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_intptl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/interior_tiles.png" id="3_inttex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top"]
+size = Vector2(380, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_side"]
+size = Vector2(20, 260)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot"]
+size = Vector2(160, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_altar_col"]
+size = Vector2(60, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bed_col"]
+size = Vector2(58, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_table_col"]
+size = Vector2(36, 26)
+
+[node name="HouseInterior" type="Node2D"]
+script = ExtResource("1_intext")
+map_title = "🏡 Nhà Ba Gian Cổ Truyền"
+default_spawn_name = "spawn_entrance"
+map_width = 380.0
+map_height = 260.0
+
+[node name="Flooring" type="Node2D" parent="."]
+
+[node name="RoomBackground" type="ColorRect" parent="Flooring"]
+offset_right = 380.0
+offset_bottom = 260.0
+color = Color(0.72, 0.45, 0.32, 1)
+
+[node name="TilePattern" type="Polygon2D" parent="Flooring"]
+color = Color(0.82, 0.52, 0.38, 1)
+polygon = PackedVector2Array(20, 40, 360, 40, 360, 240, 20, 240)
+
+[node name="WoodWall" type="ColorRect" parent="Flooring"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 370.0
+offset_bottom = 44.0
+color = Color(0.48, 0.28, 0.16, 1)
+
+[node name="Carpet" type="ColorRect" parent="Flooring"]
+offset_left = 140.0
+offset_top = 80.0
+offset_right = 240.0
+offset_bottom = 170.0
+color = Color(0.65, 0.22, 0.18, 0.8)
+
+[node name="WallsCollision" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="WallsCollision"]
+position = Vector2(190, 20)
+shape = SubResource("RectangleShape2D_wall_top")
+
+[node name="WallLeft" type="CollisionShape2D" parent="WallsCollision"]
+position = Vector2(10, 130)
+shape = SubResource("RectangleShape2D_wall_side")
+
+[node name="WallRight" type="CollisionShape2D" parent="WallsCollision"]
+position = Vector2(370, 130)
+shape = SubResource("RectangleShape2D_wall_side")
+
+[node name="WallBotLeft" type="CollisionShape2D" parent="WallsCollision"]
+position = Vector2(90, 250)
+shape = SubResource("RectangleShape2D_wall_bot")
+
+[node name="WallBotRight" type="CollisionShape2D" parent="WallsCollision"]
+position = Vector2(290, 250)
+shape = SubResource("RectangleShape2D_wall_bot")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Altar" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(190, 46)
+collision_mask = 2
+
+[node name="AltarSprite" type="Sprite2D" parent="YSort/Altar"]
+texture_filter = 0
+texture = ExtResource("3_inttex")
+region_enabled = true
+region_rect = Rect2(0, 32, 64, 48)
+
+[node name="AltarCol" type="CollisionShape2D" parent="YSort/Altar"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_altar_col")
+
+[node name="Daybed" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(300, 110)
+collision_mask = 2
+
+[node name="DaybedSprite" type="Sprite2D" parent="YSort/Daybed"]
+texture_filter = 0
+texture = ExtResource("3_inttex")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 32)
+
+[node name="DaybedCol" type="CollisionShape2D" parent="YSort/Daybed"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_bed_col")
+
+[node name="TeaTable" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(85, 120)
+collision_mask = 2
+
+[node name="TableSprite" type="Sprite2D" parent="YSort/TeaTable"]
+texture_filter = 0
+texture = ExtResource("3_inttex")
+region_enabled = true
+region_rect = Rect2(64, 32, 64, 48)
+
+[node name="TableCol" type="CollisionShape2D" parent="YSort/TeaTable"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_table_col")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_entrance" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(190, 215)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_Exit" parent="Portals" instance=ExtResource("2_intptl")]
+position = Vector2(190, 245)
+target_map_path = "res://scenes/maps/farm_map.tscn"
+target_spawn_name = "spawn_house_exit"
+portal_prompt = "Ra ngoài sân"
+requires_interaction_key = true

@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://c8k71bm4v6y2p"]
+
+[ext_resource type="Script" path="res://scripts/vehicle.gd" id="1_vhscript"]
+[ext_resource type="Texture2D" path="res://assets/sprites/vehicles.png" id="2_vhtex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vcol"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_varea"]
+radius = 24.0
+
+[node name="Vehicle" type="StaticBody2D"]
+y_sort_enabled = true
+collision_mask = 0
+script = ExtResource("1_vhscript")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 0
+texture = ExtResource("2_vhtex")
+region_enabled = true
+region_rect = Rect2(96, 64, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("CircleShape2D_vcol")
+
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource("CircleShape2D_varea")
+
+[node name="PromptLabel" type="Label" parent="."]
+visible = false
+offset_left = -50.0
+offset_top = -28.0
+offset_right = 50.0
+offset_bottom = -12.0
+theme_override_colors/font_color = Color(1, 0.95, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 9
+text = "[E] Lên xe đạp 🚲"
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
+[connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]

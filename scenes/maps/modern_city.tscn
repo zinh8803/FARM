@@ -1,0 +1,424 @@
+[gd_scene format=3 uid="uid://cm0d3rnc1ty81"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_citybase"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_cityptl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_buildings.png" id="3_citybld"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_props.png" id="4_cityprops"]
+[ext_resource type="PackedScene" path="res://scenes/npc.tscn" id="5_citynpc"]
+[ext_resource type="PackedScene" path="res://scenes/vehicle.tscn" id="6_vehscene"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_npcs.png" id="7_citynpcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top"]
+size = Vector2(1100, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_side"]
+size = Vector2(16, 620)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_left"]
+size = Vector2(510, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_right"]
+size = Vector2(510, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_bank"]
+size = Vector2(130, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_sky"]
+size = Vector2(150, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_mart"]
+size = Vector2(120, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_villa"]
+size = Vector2(140, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door_portal"]
+size = Vector2(36, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_road_portal"]
+size = Vector2(80, 24)
+
+[node name="ModernCity" type="Node2D"]
+script = ExtResource("1_citybase")
+map_title = "🏙️ Thành Phố Hiện Đại - Smart City"
+default_spawn_name = "spawn_from_bamboo"
+map_width = 1100.0
+map_height = 620.0
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="ParkGrass" type="ColorRect" parent="Ground"]
+offset_right = 1100.0
+offset_bottom = 620.0
+color = Color(0.35, 0.58, 0.38, 1)
+
+[node name="MainBoulevard" type="ColorRect" parent="Ground"]
+offset_top = 310.0
+offset_right = 1100.0
+offset_bottom = 420.0
+color = Color(0.23, 0.25, 0.28, 1)
+
+[node name="SouthAvenue" type="ColorRect" parent="Ground"]
+offset_left = 510.0
+offset_top = 420.0
+offset_right = 590.0
+offset_bottom = 620.0
+color = Color(0.23, 0.25, 0.28, 1)
+
+[node name="NorthPlazaSidewalk" type="ColorRect" parent="Ground"]
+offset_left = 30.0
+offset_top = 190.0
+offset_right = 1070.0
+offset_bottom = 310.0
+color = Color(0.85, 0.88, 0.92, 1)
+
+[node name="SouthSidewalk" type="ColorRect" parent="Ground"]
+offset_left = 30.0
+offset_top = 420.0
+offset_right = 1070.0
+offset_bottom = 455.0
+color = Color(0.85, 0.88, 0.92, 1)
+
+[node name="VillaDriveway" type="ColorRect" parent="Ground"]
+offset_left = 130.0
+offset_top = 455.0
+offset_right = 270.0
+offset_bottom = 570.0
+color = Color(0.42, 0.45, 0.50, 1)
+
+[node name="LaneStripe1" type="ColorRect" parent="Ground"]
+offset_left = 40.0
+offset_top = 363.0
+offset_right = 180.0
+offset_bottom = 367.0
+color = Color(0.96, 0.82, 0.22, 1)
+
+[node name="LaneStripe2" type="ColorRect" parent="Ground"]
+offset_left = 280.0
+offset_top = 363.0
+offset_right = 480.0
+offset_bottom = 367.0
+color = Color(0.96, 0.82, 0.22, 1)
+
+[node name="LaneStripe3" type="ColorRect" parent="Ground"]
+offset_left = 620.0
+offset_top = 363.0
+offset_right = 840.0
+offset_bottom = 367.0
+color = Color(0.96, 0.82, 0.22, 1)
+
+[node name="LaneStripe4" type="ColorRect" parent="Ground"]
+offset_left = 940.0
+offset_top = 363.0
+offset_right = 1060.0
+offset_bottom = 367.0
+color = Color(0.96, 0.82, 0.22, 1)
+
+[node name="CrosswalkWest" type="ColorRect" parent="Ground"]
+offset_left = 190.0
+offset_top = 312.0
+offset_right = 210.0
+offset_bottom = 418.0
+color = Color(0.95, 0.95, 0.98, 0.9)
+
+[node name="CrosswalkCenter" type="ColorRect" parent="Ground"]
+offset_left = 512.0
+offset_top = 416.0
+offset_right = 588.0
+offset_bottom = 432.0
+color = Color(0.95, 0.95, 0.98, 0.9)
+
+[node name="CrosswalkEast" type="ColorRect" parent="Ground"]
+offset_left = 890.0
+offset_top = 312.0
+offset_right = 910.0
+offset_bottom = 418.0
+color = Color(0.95, 0.95, 0.98, 0.9)
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(550, 8)
+shape = SubResource("RectangleShape2D_wall_top")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 310)
+shape = SubResource("RectangleShape2D_wall_side")
+
+[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(1092, 310)
+shape = SubResource("RectangleShape2D_wall_side")
+
+[node name="WallBotLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(255, 612)
+shape = SubResource("RectangleShape2D_wall_bot_left")
+
+[node name="WallBotRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(845, 612)
+shape = SubResource("RectangleShape2D_wall_bot_right")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Building_Bank" type="StaticBody2D" parent="YSort"]
+position = Vector2(190, 140)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/Building_Bank"]
+texture_filter = 0
+texture = ExtResource("3_citybld")
+region_enabled = true
+region_rect = Rect2(165, 20, 140, 140)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_Bank"]
+position = Vector2(0, 20)
+shape = SubResource("RectangleShape2D_bld_bank")
+
+[node name="Building_Skyscraper" type="StaticBody2D" parent="YSort"]
+position = Vector2(550, 120)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/Building_Skyscraper"]
+texture_filter = 0
+texture = ExtResource("3_citybld")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_Skyscraper"]
+position = Vector2(0, 40)
+shape = SubResource("RectangleShape2D_bld_sky")
+
+[node name="Building_Mart" type="StaticBody2D" parent="YSort"]
+position = Vector2(910, 150)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/Building_Mart"]
+texture_filter = 0
+texture = ExtResource("3_citybld")
+region_enabled = true
+region_rect = Rect2(310, 20, 130, 120)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_Mart"]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_bld_mart")
+
+[node name="Building_Villa" type="StaticBody2D" parent="YSort"]
+position = Vector2(200, 470)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/Building_Villa"]
+texture_filter = 0
+texture = ExtResource("3_citybld")
+region_enabled = true
+region_rect = Rect2(0, 230, 160, 140)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_Villa"]
+position = Vector2(0, 25)
+shape = SubResource("RectangleShape2D_bld_villa")
+
+[node name="OutdoorATM" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(265, 215)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(36, 12, 32, 48)
+
+[node name="BillboardWest" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(400, 205)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(72, 8, 64, 48)
+
+[node name="BillboardEast" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(700, 205)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(72, 8, 64, 48)
+
+[node name="StreetLight1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(100, 280)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="StreetLight2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(340, 280)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="StreetLight3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(760, 280)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="StreetLight4" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1000, 280)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="PalmPlanter1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(460, 215)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="PalmPlanter2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(640, 215)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="PalmPlanter3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(70, 215)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="PalmPlanter4" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1030, 215)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="ParkBench1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(310, 250)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(0, 70, 48, 32)
+
+[node name="ParkBench2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(790, 250)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(0, 70, 48, 32)
+
+[node name="ParkedRoadster" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(250, 520)
+texture = ExtResource("4_cityprops")
+region_enabled = true
+region_rect = Rect2(60, 70, 64, 32)
+
+[node name="CityMotorbike" parent="YSort" instance=ExtResource("6_vehscene")]
+position = Vector2(850, 250)
+vehicle_type = 1
+
+[node name="CityBicycle" parent="YSort" instance=ExtResource("6_vehscene")]
+position = Vector2(330, 440)
+
+[node name="NPC_CEO" parent="YSort" instance=ExtResource("5_citynpc")]
+position = Vector2(480, 255)
+npc_name = "Anh Minh (Giám Đốc Công Nghệ TechCorp)"
+dialogue_line = "Chào bạn! Đây là Đặc khu Kinh tế & Thành phố Thông minh hiện đại bậc nhất. Chúng tôi có ngân hàng trung tâm, trung tâm tài chính Sky Tower và chuỗi siêu thị tiện ích 24/7!"
+custom_texture = ExtResource("7_citynpcs")
+sprite_region = Rect2(224, 0, 32, 32)
+
+[node name="NPC_Tourist" parent="YSort" instance=ExtResource("5_citynpc")]
+position = Vector2(620, 255)
+npc_name = "Bạn Hương (Khách Du Lịch)"
+dialogue_line = "Thành phố này đẹp và tráng lệ quá! Đi từ Rừng Trúc cổ kính lên đây như bước qua cánh cổng thời gian tới tương lai vậy."
+custom_texture = ExtResource("7_citynpcs")
+sprite_region = Rect2(288, 0, 32, 32)
+
+[node name="NPC_Shipper" parent="YSort" instance=ExtResource("5_citynpc")]
+position = Vector2(980, 250)
+npc_name = "Shipper Thành (Giao Hàng Siêu Tốc)"
+dialogue_line = "Thành phố hiện đại đường xá rộng thênh thang, đi giao hàng bằng xe máy điện lướt êm ru không một tiếng động!"
+custom_texture = ExtResource("7_citynpcs")
+sprite_region = Rect2(256, 0, 32, 32)
+
+[node name="WelcomeArch" type="Label" parent="YSort"]
+offset_left = 460.0
+offset_top = 465.0
+offset_right = 640.0
+offset_bottom = 485.0
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.2, 0.4, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 8
+text = "🏙️ ĐẠI LỘ SMART CITY 🏙️"
+horizontal_alignment = 1
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_from_bamboo" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(550, 560)
+
+[node name="spawn_from_bank" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(190, 225)
+
+[node name="spawn_from_skyscraper" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(550, 245)
+
+[node name="spawn_from_mart" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(910, 230)
+
+[node name="spawn_from_villa" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(180, 550)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_ToBamboo" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(550, 610)
+target_map_path = "res://scenes/maps/bamboo_forest.tscn"
+target_spawn_name = "spawn_north"
+portal_prompt = "Về Rừng Trúc 🎋"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToBamboo" index="0"]
+shape = SubResource("RectangleShape2D_road_portal")
+
+[node name="Portal_Bank" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(190, 205)
+target_map_path = "res://scenes/maps/city_bank_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào Ngân Hàng 🏛️"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_Bank" index="0"]
+shape = SubResource("RectangleShape2D_door_portal")
+
+[node name="Portal_Skyscraper" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(550, 225)
+target_map_path = "res://scenes/maps/city_skyscraper_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào Sky Tower 81 🏙️"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_Skyscraper" index="0"]
+shape = SubResource("RectangleShape2D_door_portal")
+
+[node name="Portal_Mart" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(910, 210)
+target_map_path = "res://scenes/maps/city_mart_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào Siêu Thị 24/7 🏪"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_Mart" index="0"]
+shape = SubResource("RectangleShape2D_door_portal")
+
+[node name="Portal_Villa" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(180, 535)
+target_map_path = "res://scenes/maps/city_villa_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào Biệt Thự 🏡"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_Villa" index="0"]
+shape = SubResource("RectangleShape2D_door_portal")

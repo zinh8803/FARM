@@ -1,0 +1,40 @@
+# Godot editor cache and imported assets
+.godot/
+
+# Exported builds
+/build/
+/dist/
+/export.cfg
+/export_presets.cfg
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local certificates and signing keys
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+
+# Temporary backup files
+*~
+
+.feature.md
+.HUONG_DAN_GIT.md

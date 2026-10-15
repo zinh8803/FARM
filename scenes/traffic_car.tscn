@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://c6xk1b32v458a"]
+
+[ext_resource type="Script" path="res://scripts/traffic_car.gd" id="1_carscript"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cars.png" id="2_cartex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_car"]
+size = Vector2(54, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_front"]
+size = Vector2(90, 24)
+
+[node name="TrafficCar" type="CharacterBody2D" groups=["traffic_car"]]
+y_sort_enabled = true
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_carscript")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(0, -18)
+texture = ExtResource("2_cartex")
+region_enabled = true
+region_rect = Rect2(0, 0, 72, 36)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_car")
+
+[node name="FrontDetector" type="Area2D" parent="."]
+position = Vector2(45, -9)
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontDetector"]
+shape = SubResource("RectangleShape2D_front")
+
+[node name="HornLabel" type="Label" parent="."]
+visible = false
+z_index = 20
+offset_left = -50.0
+offset_top = -42.0
+offset_right = 50.0
+offset_bottom = -22.0
+pivot_offset = Vector2(50, 10)
+theme_override_colors/font_color = Color(1, 0.92, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "📢 BÍP BÍP!"
+horizontal_alignment = 1
+vertical_alignment = 1

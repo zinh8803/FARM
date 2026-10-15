@@ -1,0 +1,470 @@
+[gd_scene format=3 uid="uid://b2k8vm14n09sq"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_basemap"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_portalscene"]
+[ext_resource type="PackedScene" path="res://scenes/npc.tscn" id="3_npcscene"]
+[ext_resource type="PackedScene" path="res://scenes/animal.tscn" id="4_animalscene"]
+[ext_resource type="Texture2D" path="res://assets/sprites/house.png" id="5_house"]
+[ext_resource type="Texture2D" path="res://assets/sprites/barn.png" id="6_barn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props.png" id="7_props"]
+[ext_resource type="PackedScene" path="res://scenes/vehicle.tscn" id="8_vehiclescene"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_house_wall"]
+size = Vector2(170, 70)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_barn_wall"]
+size = Vector2(100, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_haystack"]
+size = Vector2(36, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fence_top_left"]
+size = Vector2(110, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fence_top_right"]
+size = Vector2(40, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fence_right_top"]
+size = Vector2(10, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fence_right_bot"]
+size = Vector2(10, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_top_left"]
+size = Vector2(215, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_top_right"]
+size = Vector2(370, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_side"]
+size = Vector2(16, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_east_top"]
+size = Vector2(16, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_east_bot"]
+size = Vector2(16, 260)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_bot_left"]
+size = Vector2(215, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_border_bot_right"]
+size = Vector2(370, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_east_wide"]
+size = Vector2(30, 48)
+
+[node name="FarmMap" type="Node2D"]
+script = ExtResource("1_basemap")
+map_title = "🌾 Game Nông Trại - Làng Quê"
+map_width = 640.0
+map_height = 360.0
+
+[node name="GroundLayers" type="Node2D" parent="."]
+
+[node name="GrassBackground" type="Polygon2D" parent="GroundLayers"]
+color = Color(0.44, 0.71, 0.42, 1)
+polygon = PackedVector2Array(0, 0, 640, 0, 640, 360, 0, 360)
+
+[node name="NorthWallBorder1" type="ColorRect" parent="GroundLayers"]
+offset_right = 215.0
+offset_bottom = 12.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="NorthWallBorder2" type="ColorRect" parent="GroundLayers"]
+offset_left = 265.0
+offset_right = 640.0
+offset_bottom = 12.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="WestWallBorder" type="ColorRect" parent="GroundLayers"]
+offset_right = 12.0
+offset_bottom = 360.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="EastWallBorderTop" type="ColorRect" parent="GroundLayers"]
+offset_left = 628.0
+offset_right = 640.0
+offset_bottom = 74.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="EastWallBorderBot" type="ColorRect" parent="GroundLayers"]
+offset_left = 628.0
+offset_top = 98.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="SouthWallBorder1" type="ColorRect" parent="GroundLayers"]
+offset_top = 348.0
+offset_right = 215.0
+offset_bottom = 360.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="SouthWallBorder2" type="ColorRect" parent="GroundLayers"]
+offset_left = 265.0
+offset_top = 348.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.88, 0.89, 0.86, 1)
+
+[node name="HouseTerracottaPatio" type="ColorRect" parent="GroundLayers"]
+offset_left = 32.0
+offset_top = 138.0
+offset_right = 210.0
+offset_bottom = 166.0
+color = Color(0.82, 0.48, 0.35, 1)
+
+[node name="AnimalPenSand" type="ColorRect" parent="GroundLayers"]
+offset_left = 18.0
+offset_top = 224.0
+offset_right = 212.0
+offset_bottom = 348.0
+color = Color(0.91, 0.85, 0.65, 1)
+
+[node name="DirtRoad_MainVertical" type="ColorRect" parent="GroundLayers"]
+offset_left = 220.0
+offset_right = 260.0
+offset_bottom = 360.0
+color = Color(0.87, 0.81, 0.70, 1)
+
+[node name="DirtRoad_HouseBranch" type="ColorRect" parent="GroundLayers"]
+offset_left = 14.0
+offset_top = 160.0
+offset_right = 220.0
+offset_bottom = 190.0
+color = Color(0.87, 0.81, 0.70, 1)
+
+[node name="DirtRoad_NorthEastBranch" type="ColorRect" parent="GroundLayers"]
+offset_left = 260.0
+offset_top = 74.0
+offset_right = 640.0
+offset_bottom = 98.0
+color = Color(0.87, 0.81, 0.70, 1)
+
+[node name="DirtRoad_FarmAccess" type="ColorRect" parent="GroundLayers"]
+offset_left = 255.0
+offset_top = 135.0
+offset_right = 285.0
+offset_bottom = 230.0
+color = Color(0.87, 0.81, 0.70, 1)
+
+[node name="DirtRoad_PenGate" type="ColorRect" parent="GroundLayers"]
+offset_left = 128.0
+offset_top = 190.0
+offset_right = 170.0
+offset_bottom = 236.0
+color = Color(0.87, 0.81, 0.70, 1)
+
+[node name="DirtRoad_PenEastGate" type="ColorRect" parent="GroundLayers"]
+offset_left = 205.0
+offset_top = 274.0
+offset_right = 222.0
+offset_bottom = 310.0
+color = Color(0.87, 0.81, 0.70, 1)
+
+[node name="VisualFence_TopLeft" type="ColorRect" parent="GroundLayers"]
+offset_left = 18.0
+offset_top = 222.0
+offset_right = 128.0
+offset_bottom = 226.0
+color = Color(0.55, 0.35, 0.20, 1)
+
+[node name="VisualFence_TopRight" type="ColorRect" parent="GroundLayers"]
+offset_left = 170.0
+offset_top = 222.0
+offset_right = 212.0
+offset_bottom = 226.0
+color = Color(0.55, 0.35, 0.20, 1)
+
+[node name="VisualFence_RightTop" type="ColorRect" parent="GroundLayers"]
+offset_left = 210.0
+offset_top = 226.0
+offset_right = 214.0
+offset_bottom = 274.0
+color = Color(0.55, 0.35, 0.20, 1)
+
+[node name="VisualFence_RightBot" type="ColorRect" parent="GroundLayers"]
+offset_left = 210.0
+offset_top = 310.0
+offset_right = 214.0
+offset_bottom = 348.0
+color = Color(0.55, 0.35, 0.20, 1)
+
+[node name="FarmPlots" type="Node2D" parent="."]
+
+[node name="WorldCollisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="ColBorderTopLeft" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(107, 6)
+shape = SubResource("RectangleShape2D_border_top_left")
+
+[node name="ColBorderTopRight" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(452, 6)
+shape = SubResource("RectangleShape2D_border_top_right")
+
+[node name="ColBorderBotLeft" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(107, 354)
+shape = SubResource("RectangleShape2D_border_bot_left")
+
+[node name="ColBorderBotRight" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(452, 354)
+shape = SubResource("RectangleShape2D_border_bot_right")
+
+[node name="ColBorderLeft" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(6, 180)
+shape = SubResource("RectangleShape2D_border_side")
+
+[node name="ColBorderRightTop" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(634, 37)
+shape = SubResource("RectangleShape2D_border_east_top")
+
+[node name="ColBorderRightBot" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(634, 229)
+shape = SubResource("RectangleShape2D_border_east_bot")
+
+[node name="ColFenceTopLeft" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(73, 224)
+shape = SubResource("RectangleShape2D_fence_top_left")
+
+[node name="ColFenceTopRight" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(190, 224)
+shape = SubResource("RectangleShape2D_fence_top_right")
+
+[node name="ColFenceRightTop" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(212, 250)
+shape = SubResource("RectangleShape2D_fence_right_top")
+
+[node name="ColFenceRightBot" type="CollisionShape2D" parent="WorldCollisions"]
+position = Vector2(212, 330)
+shape = SubResource("RectangleShape2D_fence_right_bot")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="House" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(115, 90)
+collision_mask = 2
+
+[node name="HouseSprite" type="Sprite2D" parent="YSort/House"]
+texture_filter = 0
+position = Vector2(0, -20)
+texture = ExtResource("5_house")
+
+[node name="HouseCollision" type="CollisionShape2D" parent="YSort/House"]
+position = Vector2(0, -30)
+shape = SubResource("RectangleShape2D_house_wall")
+
+[node name="Barn" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(75, 280)
+collision_mask = 2
+
+[node name="BarnSprite" type="Sprite2D" parent="YSort/Barn"]
+texture_filter = 0
+position = Vector2(0, -20)
+texture = ExtResource("6_barn")
+
+[node name="BarnCollision" type="CollisionShape2D" parent="YSort/Barn"]
+position = Vector2(0, -24)
+shape = SubResource("RectangleShape2D_barn_wall")
+
+[node name="Haystack" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(178, 265)
+collision_mask = 2
+
+[node name="HaystackSprite" type="Sprite2D" parent="YSort/Haystack"]
+texture_filter = 0
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="HaystackCollision" type="CollisionShape2D" parent="YSort/Haystack"]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_haystack")
+
+[node name="Bamboo1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(380, 40)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="Bamboo2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(495, 38)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="Bamboo3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(585, 38)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="BananaTree1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(305, 50)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(128, 0, 64, 96)
+
+[node name="BananaTree2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(450, 48)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(128, 0, 64, 96)
+
+[node name="BananaTree3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(105, 202)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(128, 0, 64, 96)
+
+[node name="Clothesline" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(365, 48)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(0, 96, 96, 48)
+
+[node name="FruitTree1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(285, 36)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="FruitTree2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(400, 64)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="FruitTree3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(530, 42)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="FruitTree4" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(30, 202)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="Signpost" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(275, 150)
+texture = ExtResource("7_props")
+region_enabled = true
+region_rect = Rect2(100, 96, 32, 32)
+
+[node name="AnimalRooster" parent="YSort" instance=ExtResource("4_animalscene")]
+position = Vector2(100, 310)
+
+[node name="AnimalHen" parent="YSort" instance=ExtResource("4_animalscene")]
+position = Vector2(135, 305)
+animal_type = 1
+
+[node name="AnimalHen2" parent="YSort" instance=ExtResource("4_animalscene")]
+position = Vector2(70, 275)
+animal_type = 1
+
+[node name="AnimalDuck" parent="YSort" instance=ExtResource("4_animalscene")]
+position = Vector2(125, 260)
+animal_type = 2
+
+[node name="AnimalPig" parent="YSort" instance=ExtResource("4_animalscene")]
+position = Vector2(165, 315)
+animal_type = 3
+
+[node name="NPCVillager" parent="YSort" instance=ExtResource("3_npcscene")]
+position = Vector2(245, 125)
+
+[node name="Bicycle" parent="YSort" instance=ExtResource("8_vehiclescene")]
+position = Vector2(195, 160)
+
+[node name="Motorbike" parent="YSort" instance=ExtResource("8_vehiclescene")]
+position = Vector2(250, 95)
+vehicle_type = 1
+
+[node name="PenGateSign" type="Label" parent="YSort"]
+offset_left = 120.0
+offset_top = 208.0
+offset_right = 180.0
+offset_bottom = 224.0
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0.15, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 7
+text = "🐔 Chuồng Gà ⬇"
+horizontal_alignment = 1
+
+[node name="PenEastGateSign" type="Label" parent="YSort"]
+offset_left = 215.0
+offset_top = 260.0
+offset_right = 260.0
+offset_bottom = 276.0
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0.15, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 7
+text = "⬅ Vào Gà"
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_default" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(240, 155)
+
+[node name="spawn_house_exit" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(115, 145)
+
+[node name="spawn_from_north" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(240, 35)
+
+[node name="spawn_from_south" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(240, 325)
+
+[node name="spawn_from_east" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(595, 86)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_House" parent="Portals" instance=ExtResource("2_portalscene")]
+position = Vector2(115, 126)
+target_map_path = "res://scenes/maps/house_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào nhà"
+requires_interaction_key = true
+
+[node name="Portal_North" parent="Portals" instance=ExtResource("2_portalscene")]
+position = Vector2(240, 6)
+target_map_path = "res://scenes/maps/bamboo_forest.tscn"
+target_spawn_name = "spawn_south"
+portal_prompt = "Rừng Trúc"
+
+[node name="Portal_South" parent="Portals" instance=ExtResource("2_portalscene")]
+position = Vector2(240, 354)
+target_map_path = "res://scenes/maps/village_market.tscn"
+target_spawn_name = "spawn_north"
+portal_prompt = "Chợ Quê"
+
+[node name="Portal_East" parent="Portals" instance=ExtResource("2_portalscene")]
+position = Vector2(630, 86)
+target_map_path = "res://scenes/maps/danang_highway.tscn"
+target_spawn_name = "spawn_from_farm"
+portal_prompt = "Đại Lộ Làng Quê"
+
+[node name="CollisionShape2D" parent="Portals/Portal_East" index="0"]
+shape = SubResource("RectangleShape2D_portal_east_wide")

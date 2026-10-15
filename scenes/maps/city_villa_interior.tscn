@@ -1,0 +1,221 @@
+[gd_scene format=3 uid="uid://47lkqi134wk6"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_villabase"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_villaptl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_interiors.png" id="3_villaint"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_props.png" id="4_villaprops"]
+[ext_resource type="PackedScene" path="res://scenes/npc.tscn" id="5_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_npcs.png" id="6_citynpcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top"]
+size = Vector2(460, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(20, 320)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_left"]
+size = Vector2(200, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_right"]
+size = Vector2(200, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tv"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sofa"]
+size = Vector2(60, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kitchen"]
+size = Vector2(64, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_coffee"]
+size = Vector2(40, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dining"]
+size = Vector2(76, 40)
+
+[node name="CityVillaInterior" type="Node2D"]
+script = ExtResource("1_villabase")
+map_title = "🏡 Biệt Thự Thông Minh Hiện Đại - Smart Villa"
+default_spawn_name = "spawn_entrance"
+map_width = 460.0
+map_height = 320.0
+
+[node name="Flooring" type="Node2D" parent="."]
+
+[node name="RoomBackground" type="ColorRect" parent="Flooring"]
+offset_right = 460.0
+offset_bottom = 320.0
+color = Color(0.18, 0.16, 0.15, 1)
+
+[node name="HardwoodFloor" type="ColorRect" parent="Flooring"]
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 444.0
+offset_bottom = 304.0
+color = Color(0.82, 0.65, 0.48, 1)
+
+[node name="LivingRoomCarpet" type="ColorRect" parent="Flooring"]
+offset_left = 50.0
+offset_top = 80.0
+offset_right = 210.0
+offset_bottom = 220.0
+color = Color(0.25, 0.28, 0.32, 0.65)
+
+[node name="KitchenTiles" type="ColorRect" parent="Flooring"]
+offset_left = 250.0
+offset_top = 40.0
+offset_right = 440.0
+offset_bottom = 220.0
+color = Color(0.92, 0.93, 0.95, 0.9)
+
+[node name="VillaTitleBanner" type="ColorRect" parent="Flooring"]
+offset_left = 110.0
+offset_top = 10.0
+offset_right = 350.0
+offset_bottom = 32.0
+color = Color(0.35, 0.22, 0.15, 1)
+
+[node name="VillaTitle" type="Label" parent="Flooring/VillaTitleBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.8, 1)
+theme_override_font_sizes/font_size = 9
+text = "🏡 SMART VILLA - NỘI THẤT NGHỈ DƯỠNG THÔNG MINH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(230, 20)
+shape = SubResource("RectangleShape2D_wall_top")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(10, 160)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(450, 160)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallBotLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(100, 310)
+shape = SubResource("RectangleShape2D_wall_bot_left")
+
+[node name="WallBotRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(360, 310)
+shape = SubResource("RectangleShape2D_wall_bot_right")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="TVWall" type="StaticBody2D" parent="YSort"]
+position = Vector2(120, 68)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/TVWall"]
+texture_filter = 0
+texture = ExtResource("3_villaint")
+region_enabled = true
+region_rect = Rect2(400, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/TVWall"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_tv")
+
+[node name="SectionalSofa" type="StaticBody2D" parent="YSort"]
+position = Vector2(120, 140)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/SectionalSofa"]
+texture_filter = 0
+texture = ExtResource("3_villaint")
+region_enabled = true
+region_rect = Rect2(0, 70, 64, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/SectionalSofa"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_sofa")
+
+[node name="CoffeeTable" type="StaticBody2D" parent="YSort"]
+position = Vector2(120, 180)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/CoffeeTable"]
+texture_filter = 0
+texture = ExtResource("3_villaint")
+region_enabled = true
+region_rect = Rect2(410, 70, 44, 28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/CoffeeTable"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_coffee")
+
+[node name="KitchenIsland" type="StaticBody2D" parent="YSort"]
+position = Vector2(340, 95)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/KitchenIsland"]
+texture_filter = 0
+texture = ExtResource("3_villaint")
+region_enabled = true
+region_rect = Rect2(70, 70, 64, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/KitchenIsland"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_kitchen")
+
+[node name="DiningTable" type="StaticBody2D" parent="YSort"]
+position = Vector2(340, 180)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/DiningTable"]
+texture_filter = 0
+texture = ExtResource("3_villaint")
+region_enabled = true
+region_rect = Rect2(325, 70, 80, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/DiningTable"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_dining")
+
+[node name="IndoorPlant1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(40, 60)
+texture = ExtResource("4_villaprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="IndoorPlant2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(420, 60)
+texture = ExtResource("4_villaprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="SmartButlerNPC" parent="YSort" instance=ExtResource("5_npc")]
+position = Vector2(240, 150)
+npc_name = "Quản Gia AI (Jarvis Smart Home)"
+dialogue_line = "Kính chào Chủ Nhân! Hệ thống Smart Home đang vận hành hoàn hảo: Điều hòa 24 độ, pin mặt trời đạt 100%, tủ lạnh thông minh đã bổ sung đầy đủ đồ ăn ngon!"
+custom_texture = ExtResource("6_citynpcs")
+sprite_region = Rect2(192, 0, 32, 32)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_entrance" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(230, 270)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_Exit" parent="Portals" instance=ExtResource("2_villaptl")]
+position = Vector2(230, 310)
+target_map_path = "res://scenes/maps/modern_city.tscn"
+target_spawn_name = "spawn_from_villa"
+portal_prompt = "Ra Phố"
+requires_interaction_key = true

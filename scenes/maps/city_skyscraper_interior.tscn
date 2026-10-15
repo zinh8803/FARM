@@ -1,0 +1,228 @@
+[gd_scene format=3 uid="uid://bj0o1ou8l7lfx"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_skybase"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_skyptl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_interiors.png" id="3_skyint"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_props.png" id="4_skyprops"]
+[ext_resource type="PackedScene" path="res://scenes/npc.tscn" id="5_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_npcs.png" id="6_citynpcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top"]
+size = Vector2(480, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(20, 320)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_left"]
+size = Vector2(210, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_right"]
+size = Vector2(210, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_elevator"]
+size = Vector2(64, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_reception"]
+size = Vector2(96, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lounge"]
+size = Vector2(60, 32)
+
+[node name="CitySkyscraperInterior" type="Node2D"]
+script = ExtResource("1_skybase")
+map_title = "🏙️ Sảnh Tòa Nhà Chọc Trời - Sky Tower 81"
+default_spawn_name = "spawn_entrance"
+map_width = 480.0
+map_height = 320.0
+
+[node name="Flooring" type="Node2D" parent="."]
+
+[node name="RoomBackground" type="ColorRect" parent="Flooring"]
+offset_right = 480.0
+offset_bottom = 320.0
+color = Color(0.08, 0.10, 0.14, 1)
+
+[node name="GraniteFloor" type="ColorRect" parent="Flooring"]
+offset_left = 16.0
+offset_top = 36.0
+offset_right = 464.0
+offset_bottom = 304.0
+color = Color(0.15, 0.18, 0.23, 1)
+
+[node name="GoldCenterInlay" type="ColorRect" parent="Flooring"]
+offset_left = 160.0
+offset_top = 110.0
+offset_right = 320.0
+offset_bottom = 250.0
+color = Color(0.20, 0.25, 0.32, 1)
+
+[node name="GoldBorder" type="ColorRect" parent="Flooring/GoldCenterInlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.18, 0.23, 1)
+
+[node name="LobbyTitleBanner" type="ColorRect" parent="Flooring"]
+offset_left = 120.0
+offset_top = 10.0
+offset_right = 360.0
+offset_bottom = 32.0
+color = Color(0.12, 0.22, 0.35, 1)
+
+[node name="LobbyTitle" type="Label" parent="Flooring/LobbyTitleBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 9
+text = "🏙️ SKY TOWER - GRAND EXECUTIVE LOBBY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(240, 20)
+shape = SubResource("RectangleShape2D_wall_top")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(10, 160)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(470, 160)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallBotLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(105, 310)
+shape = SubResource("RectangleShape2D_wall_bot_left")
+
+[node name="WallBotRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(375, 310)
+shape = SubResource("RectangleShape2D_wall_bot_right")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Elevator1" type="StaticBody2D" parent="YSort"]
+position = Vector2(180, 52)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/Elevator1"]
+texture_filter = 0
+texture = ExtResource("3_skyint")
+region_enabled = true
+region_rect = Rect2(330, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Elevator1"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_elevator")
+
+[node name="Elevator2" type="StaticBody2D" parent="YSort"]
+position = Vector2(300, 52)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/Elevator2"]
+texture_filter = 0
+texture = ExtResource("3_skyint")
+region_enabled = true
+region_rect = Rect2(330, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Elevator2"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_elevator")
+
+[node name="ReceptionDesk" type="StaticBody2D" parent="YSort"]
+position = Vector2(240, 150)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/ReceptionDesk"]
+texture_filter = 0
+texture = ExtResource("3_skyint")
+region_enabled = true
+region_rect = Rect2(140, 70, 96, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/ReceptionDesk"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_reception")
+
+[node name="LoungeSofa1" type="StaticBody2D" parent="YSort"]
+position = Vector2(70, 180)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/LoungeSofa1"]
+texture_filter = 0
+texture = ExtResource("3_skyint")
+region_enabled = true
+region_rect = Rect2(0, 70, 64, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/LoungeSofa1"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_lounge")
+
+[node name="LoungeSofa2" type="StaticBody2D" parent="YSort"]
+position = Vector2(410, 180)
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/LoungeSofa2"]
+texture_filter = 0
+texture = ExtResource("3_skyint")
+region_enabled = true
+region_rect = Rect2(0, 70, 64, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/LoungeSofa2"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_lounge")
+
+[node name="TreePlanter0" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(50, 60)
+texture = ExtResource("4_skyprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="TreePlanter1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(430, 60)
+texture = ExtResource("4_skyprops")
+region_enabled = true
+region_rect = Rect2(140, 0, 48, 64)
+
+[node name="ReceptionistNPC" parent="YSort" instance=ExtResource("5_npc")]
+position = Vector2(240, 126)
+npc_name = "Thư Ký Phương (Lễ Tân Sky Tower)"
+dialogue_line = "Kính chào quý khách đến với Sky Tower 81! Tòa tháp cao nhất thành phố quy tụ các tập đoàn tài chính đa quốc gia, đài quan sát 360 độ trên tầng 81 và nhà hàng 5 sao thượng hạng!"
+custom_texture = ExtResource("6_citynpcs")
+sprite_region = Rect2(64, 0, 32, 32)
+
+[node name="SecurityNPC" parent="YSort" instance=ExtResource("5_npc")]
+position = Vector2(370, 240)
+npc_name = "Anh Tuấn (An Ninh Tòa Nhà)"
+dialogue_line = "Tòa nhà hoạt động với hệ thống an ninh nhận diện khuôn mặt AI tự động. Quý khách có thể tự do tham quan sảnh và các tầng tiện ích!"
+custom_texture = ExtResource("6_citynpcs")
+sprite_region = Rect2(96, 0, 32, 32)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_entrance" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(240, 280)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_Exit" parent="Portals" instance=ExtResource("2_skyptl")]
+position = Vector2(240, 310)
+target_map_path = "res://scenes/maps/modern_city.tscn"
+target_spawn_name = "spawn_from_skyscraper"
+portal_prompt = "Ra Phố"
+requires_interaction_key = true

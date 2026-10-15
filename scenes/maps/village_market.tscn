@@ -1,0 +1,201 @@
+[gd_scene format=3 uid="uid://bvx11k28q59lp"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_mktbase"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_mktptl"]
+[ext_resource type="Script" path="res://scripts/npc_market.gd" id="3_npcscript"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player.png" id="4_playertex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/market_tiles.png" id="5_mkttex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props.png" id="6_propstex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate_pillar"]
+size = Vector2(16, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_market_farm"]
+size = Vector2(60, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stall_col"]
+size = Vector2(56, 26)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_npc"]
+radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(500, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(16, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v_half"]
+size = Vector2(16, 150)
+
+[node name="VillageMarket" type="Node2D"]
+script = ExtResource("1_mktbase")
+map_title = "🏮 Chợ Quê & Làng Dân Cư"
+default_spawn_name = "spawn_north"
+map_width = 500.0
+map_height = 360.0
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Grass" type="ColorRect" parent="Ground"]
+offset_right = 500.0
+offset_bottom = 360.0
+color = Color(0.48, 0.68, 0.32, 1)
+
+[node name="MarketSquare" type="ColorRect" parent="Ground"]
+offset_left = 60.0
+offset_top = 80.0
+offset_right = 440.0
+offset_bottom = 320.0
+color = Color(0.86, 0.78, 0.62, 1)
+
+[node name="RoadNorth" type="ColorRect" parent="Ground"]
+offset_left = 220.0
+offset_right = 280.0
+offset_bottom = 100.0
+color = Color(0.84, 0.78, 0.65, 1)
+
+[node name="RoadEast" type="ColorRect" parent="Ground"]
+offset_left = 400.0
+offset_top = 160.0
+offset_right = 500.0
+offset_bottom = 200.0
+color = Color(0.84, 0.78, 0.65, 1)
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 180)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRightTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(492, 75)
+shape = SubResource("RectangleShape2D_wall_v_half")
+
+[node name="WallRightBot" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(492, 285)
+shape = SubResource("RectangleShape2D_wall_v_half")
+
+[node name="WallBottom" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(250, 352)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="VillageGate" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(250, 50)
+collision_mask = 2
+
+[node name="GateSprite" type="Sprite2D" parent="YSort/VillageGate"]
+texture_filter = 0
+texture = ExtResource("5_mkttex")
+region_enabled = true
+region_rect = Rect2(0, 48, 64, 64)
+
+[node name="GateColLeft" type="CollisionShape2D" parent="YSort/VillageGate"]
+position = Vector2(-24, -8)
+shape = SubResource("RectangleShape2D_gate_pillar")
+
+[node name="GateColRight" type="CollisionShape2D" parent="YSort/VillageGate"]
+position = Vector2(24, -8)
+shape = SubResource("RectangleShape2D_gate_pillar")
+
+[node name="Lanterns1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(160, 90)
+texture = ExtResource("5_mkttex")
+region_enabled = true
+region_rect = Rect2(64, 0, 32, 32)
+
+[node name="Lanterns2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(340, 90)
+texture = ExtResource("5_mkttex")
+region_enabled = true
+region_rect = Rect2(64, 0, 32, 32)
+
+[node name="MarketStall" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(150, 160)
+collision_mask = 2
+
+[node name="StallSprite" type="Sprite2D" parent="YSort/MarketStall"]
+texture_filter = 0
+texture = ExtResource("5_mkttex")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
+
+[node name="StallCol" type="CollisionShape2D" parent="YSort/MarketStall"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_stall_col")
+
+[node name="NPCCoUt" type="CharacterBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(150, 195)
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("3_npcscript")
+
+[node name="Sprite2D" type="Sprite2D" parent="YSort/NPCCoUt"]
+texture_filter = 0
+texture = ExtResource("4_playertex")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/NPCCoUt"]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_npc")
+
+[node name="InteractLabel" type="Label" parent="YSort/NPCCoUt"]
+visible = false
+offset_left = -34.0
+offset_top = -28.0
+offset_right = 36.0
+offset_bottom = -12.0
+theme_override_colors/font_color = Color(1, 0.95, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 9
+text = "[E] Mua bán"
+horizontal_alignment = 1
+
+[node name="Trees1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(80, 240)
+texture = ExtResource("6_propstex")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="Trees2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(420, 240)
+texture = ExtResource("6_propstex")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_north" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(250, 75)
+
+[node name="spawn_from_highway" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(450, 180)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_ToFarm" parent="Portals" instance=ExtResource("2_mktptl")]
+position = Vector2(250, 20)
+target_map_path = "res://scenes/maps/farm_map.tscn"
+target_spawn_name = "spawn_from_south"
+portal_prompt = "Về Nông Trại"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToFarm" index="0"]
+shape = SubResource("RectangleShape2D_portal_market_farm")
+
+[node name="Portal_ToHighway" parent="Portals" instance=ExtResource("2_mktptl")]
+position = Vector2(494, 180)
+target_map_path = "res://scenes/maps/danang_highway.tscn"
+target_spawn_name = "spawn_from_market"
+portal_prompt = "Đại Lộ Làng Quê"

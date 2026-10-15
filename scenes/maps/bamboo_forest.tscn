@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://cih84f2n6y7k3"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_bmbase"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_bmptl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props.png" id="3_bmprops"]
+[ext_resource type="Texture2D" path="res://assets/sprites/market_tiles.png" id="4_mkttex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stream_left"]
+size = Vector2(216, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stream_right"]
+size = Vector2(216, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bridge_rail_side"]
+size = Vector2(4, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top_left"]
+size = Vector2(216, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top_right"]
+size = Vector2(216, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(16, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_road_portal"]
+size = Vector2(68, 24)
+
+[node name="BambooForest" type="Node2D"]
+script = ExtResource("1_bmbase")
+map_title = "🎋 Rừng Trúc & Suối Nước"
+default_spawn_name = "spawn_south"
+map_width = 500.0
+map_height = 360.0
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Grass" type="ColorRect" parent="Ground"]
+offset_right = 500.0
+offset_bottom = 360.0
+color = Color(0.38, 0.62, 0.32, 1)
+
+[node name="Road" type="ColorRect" parent="Ground"]
+offset_left = 220.0
+offset_right = 280.0
+offset_bottom = 360.0
+color = Color(0.82, 0.76, 0.62, 1)
+
+[node name="StreamWater" type="ColorRect" parent="Ground"]
+offset_top = 160.0
+offset_right = 500.0
+offset_bottom = 192.0
+color = Color(0.22, 0.55, 0.78, 1)
+
+[node name="WoodenBridge" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(250, 176)
+scale = Vector2(2.1, 1.0)
+texture = ExtResource("4_mkttex")
+region_enabled = true
+region_rect = Rect2(96, 48, 32, 32)
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 180)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(492, 180)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallTopLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(108, 8)
+shape = SubResource("RectangleShape2D_wall_top_left")
+
+[node name="WallTopRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(392, 8)
+shape = SubResource("RectangleShape2D_wall_top_right")
+
+[node name="StreamColLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(108, 176)
+shape = SubResource("RectangleShape2D_stream_left")
+
+[node name="StreamColRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(392, 176)
+shape = SubResource("RectangleShape2D_stream_right")
+
+[node name="BridgeRailLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(216, 176)
+shape = SubResource("RectangleShape2D_bridge_rail_side")
+
+[node name="BridgeRailRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(284, 176)
+shape = SubResource("RectangleShape2D_bridge_rail_side")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="BambooDense1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(80, 80)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="BambooDense2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(160, 70)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="BambooDense3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(340, 70)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="BambooDense4" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(420, 80)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="BambooDense5" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(80, 260)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="BambooDense6" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(420, 260)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 96)
+
+[node name="AncientMonument" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(170, 70)
+texture = ExtResource("3_bmprops")
+region_enabled = true
+region_rect = Rect2(100, 96, 32, 32)
+
+[node name="CityRoadSign" type="Label" parent="YSort"]
+offset_left = 200.0
+offset_top = 50.0
+offset_right = 300.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(0.95, 0.9, 0.5, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 7
+text = "🏙️ Thành Phố Hiện Đại ⬆"
+horizontal_alignment = 1
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_south" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(250, 310)
+
+[node name="spawn_north" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(250, 45)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_ToFarm" parent="Portals" instance=ExtResource("2_bmptl")]
+position = Vector2(250, 350)
+target_map_path = "res://scenes/maps/farm_map.tscn"
+target_spawn_name = "spawn_from_north"
+portal_prompt = "Về Nông Trại"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToFarm" index="0"]
+shape = SubResource("RectangleShape2D_road_portal")
+
+[node name="Portal_ToCity" parent="Portals" instance=ExtResource("2_bmptl")]
+position = Vector2(250, 10)
+target_map_path = "res://scenes/maps/modern_city.tscn"
+target_spawn_name = "spawn_from_bamboo"
+portal_prompt = "Đến Thành Phố Hiện Đại 🏙️"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToCity" index="0"]
+shape = SubResource("RectangleShape2D_road_portal")

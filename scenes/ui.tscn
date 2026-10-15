@@ -1,0 +1,695 @@
+[gd_scene format=3 uid="uid://ci11516u4pkw7"]
+
+[ext_resource type="Script" path="res://scripts/ui_controller.gd" id="1_uictr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_time"]
+bg_color = Color(0.988235, 0.94902, 0.866667, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.639216, 0.466667, 0.329412, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_loc"]
+bg_color = Color(0.988235, 0.956863, 0.890196, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.42, 0.28, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+bg_color = Color(0.12, 0.12, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.8, 0.4, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialogue"]
+bg_color = Color(0.96, 0.92, 0.84, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.35, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hotbar_normal"]
+bg_color = Color(0.16, 0.14, 0.12, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.4, 0.3, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hotbar_active"]
+bg_color = Color(0.85, 0.55, 0.2, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.5, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shop"]
+bg_color = Color(0.97, 0.94, 0.88, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.38, 0.24, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
+bg_color = Color(0.96, 0.93, 0.86, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.35, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_uictr")
+
+[node name="TopBar" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -105.0
+offset_top = 4.0
+offset_right = 105.0
+offset_bottom = 22.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_time")
+
+[node name="TimeLabel" type="Label" parent="TopBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.24, 0.18, 0.12, 1)
+theme_override_font_sizes/font_size = 9
+text = "☀️ 11:40 - Thứ ba, 13/10 - Buổi trưa"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LocationBadge" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -160.0
+offset_top = 4.0
+offset_right = -30.0
+offset_bottom = 22.0
+grow_horizontal = 0
+grow_vertical = 1
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_loc")
+
+[node name="LocationLabel" type="Label" parent="LocationBadge"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.25, 0.18, 0.12, 1)
+theme_override_font_sizes/font_size = 9
+text = "🌾 Game Nông Trại"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnMenu" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -26.0
+offset_top = 4.0
+offset_right = -6.0
+offset_bottom = 22.0
+grow_horizontal = 0
+focus_mode = 0
+tooltip_text = "Cài đặt & Màn hình chính [ESC]"
+theme_override_colors/font_color = Color(0.25, 0.18, 0.12, 1)
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_loc")
+text = "⚙️"
+
+[node name="ResourcePanel" type="PanelContainer" parent="."]
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 190.0
+offset_bottom = 22.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_time")
+
+[node name="ResourceLabel" type="Label" parent="ResourcePanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.24, 0.18, 0.12, 1)
+theme_override_font_sizes/font_size = 8
+text = "💰150  🌱10  🌾0  🥚0  🌿5"
+vertical_alignment = 1
+
+[node name="QuestPanel" type="PanelContainer" parent="."]
+offset_left = 6.0
+offset_top = 26.0
+offset_right = 190.0
+offset_bottom = 42.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_time")
+
+[node name="QuestLabel" type="Label" parent="QuestPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.42, 0.15, 1)
+theme_override_font_sizes/font_size = 8
+text = "📋 Cuốc 0/4 luống đất"
+vertical_alignment = 1
+
+[node name="HotbarContainer" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -225.0
+offset_top = -32.0
+offset_right = 225.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="BtnTool1" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(48, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+button_pressed = true
+text = "1.Cuốc ⛏️"
+
+[node name="BtnTool2" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(48, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+text = "2.Tưới 💧"
+
+[node name="BtnTool3" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(52, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+text = "3.Hạt 🌱"
+
+[node name="BtnTool4" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(48, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+text = "4.Liềm 🌾"
+
+[node name="BtnTool5" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(52, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+text = "5.Rơm 🌿"
+
+[node name="BtnTool6" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(52, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+text = "6.Bắp 🌽"
+
+[node name="BtnTool7" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(54, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hotbar_active")
+toggle_mode = true
+text = "7.Trứng 🥚"
+
+[node name="BtnInventory" type="Button" parent="HotbarContainer"]
+custom_minimum_size = Vector2(56, 24)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_hotbar_normal")
+text = "🎒 Túi [Tab]"
+
+[node name="ToastPanel" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.0
+offset_top = 38.0
+offset_right = 110.0
+offset_bottom = 58.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastLabel" type="Label" parent="ToastPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 9
+text = "Thông báo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DialoguePanel" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -90.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dialogue")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialoguePanel"]
+layout_mode = 2
+
+[node name="SpeakerName" type="Label" parent="DialoguePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.2, 0.15, 1)
+theme_override_font_sizes/font_size = 10
+text = "Bác Ba (Trưởng Thôn)"
+
+[node name="DialogueText" type="Label" parent="DialoguePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.15, 0.1, 1)
+theme_override_font_sizes/font_size = 9
+text = "Nội dung đối thoại..."
+autowrap_mode = 2
+
+[node name="ContinueHint" type="Label" parent="DialoguePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.5, 0.4, 0.3, 0.8)
+theme_override_font_sizes/font_size = 7
+text = "▸ Nhấn E / Space để đóng"
+
+[node name="ShopPanel" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -125.0
+offset_right = 160.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_shop")
+
+[node name="MarginContainer" type="MarginContainer" parent="ShopPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ShopPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ShopTitle" type="Label" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.2, 0.15, 1)
+theme_override_font_sizes/font_size = 11
+text = "🏮 TIỆM HẠT GIỐNG CHỢ QUÊ - CÔ ÚT"
+horizontal_alignment = 1
+
+[node name="ShopCoinsLabel" type="Label" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.2, 0.15, 1)
+theme_override_font_sizes/font_size = 9
+text = "💰 Số xu hiện có: 150 xu"
+horizontal_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LabelSeeds" type="Label" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.45, 0.2, 1)
+theme_override_font_sizes/font_size = 9
+text = "🌱 Mua Hạt Giống Nông Sản (5 xu/gói):"
+
+[node name="SeedButtons" type="HBoxContainer" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnBuySeed1" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer/SeedButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Mua 1x (5 xu)"
+
+[node name="BtnBuySeed5" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer/SeedButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Mua 5x (25 xu)"
+
+[node name="BtnBuySeed10" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer/SeedButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Mua 10x (50 xu)"
+
+[node name="LabelHay" type="Label" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.42, 0.15, 1)
+theme_override_font_sizes/font_size = 9
+text = "🌿 Mua Bó Rơm Gia Súc (4 xu/bó):"
+
+[node name="HayButtons" type="HBoxContainer" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnBuyHay1" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer/HayButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Mua 1x (4 xu)"
+
+[node name="BtnBuyHay5" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer/HayButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Mua 5x (20 xu)"
+
+[node name="HSeparator2" type="HSeparator" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ShopProduceLabel" type="Label" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.25, 0.2, 1)
+theme_override_font_sizes/font_size = 8
+text = "🌾 Nông sản: 0 bắp | 🥚 Trứng gà: 0 quả"
+horizontal_alignment = 1
+
+[node name="BtnSellAll" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.4, 0.2, 1)
+theme_override_font_sizes/font_size = 8
+text = "💰 Bán hết nông sản (+25 xu/bắp) & trứng (+15 xu/quả)"
+
+[node name="BtnCloseShop" type="Button" parent="ShopPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "❌ Đóng cửa hàng (Phím E / ESC)"
+
+[node name="InventoryPanel" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -135.0
+offset_right = 170.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_inventory")
+
+[node name="MarginContainer" type="MarginContainer" parent="InventoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InvTitle" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.25, 0.15, 1)
+theme_override_font_sizes/font_size = 11
+text = "🎒 TÚI ĐỒ NÔNG DÂN - CÁC Ô VẬT PHẨM"
+horizontal_alignment = 1
+
+[node name="InvCoinsLabel" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.2, 0.15, 1)
+theme_override_font_sizes/font_size = 9
+text = "💰 Tiền vàng: 150 xu | Chọn ô để Trang bị / Sử dụng"
+horizontal_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="InventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InventoryPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(325, 150)
+layout_mode = 2
+
+[node name="ItemsList" type="VBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Slot1" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "⛏️ [1] Cuốc Đất (Khai hoang xới ruộng)"
+
+[node name="BtnEquip1" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Trang bị"
+
+[node name="Slot2" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "💧 [2] Bình Tưới (Tưới ẩm luống đất)"
+
+[node name="BtnEquip2" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Trang bị"
+
+[node name="Slot3" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="LabelSeedsInv" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "🌱 [3] Hạt Giống Nông Sản (Còn: x10)"
+
+[node name="BtnEquip3" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Trang bị"
+
+[node name="Slot4" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "🌾 [4] Liềm Gặt (Thu hoạch hoa màu chín)"
+
+[node name="BtnEquip4" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Trang bị"
+
+[node name="Slot5" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="LabelHayInv" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot5"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "🌿 [5] Bó Rơm Gia Súc (Còn: x5)"
+
+[node name="BtnEquip5" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot5"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Trang bị"
+
+[node name="Slot6" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="LabelCropInv" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot6"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "🌽 [6] Bắp Ngô Thu Hoạch (Có: x0)"
+
+[node name="BtnEquip6" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot6"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Cầm"
+
+[node name="BtnEatCrop" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot6"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Ăn (+30% tốc)"
+
+[node name="Slot7" type="HBoxContainer" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList"]
+layout_mode = 2
+
+[node name="LabelEggInv" type="Label" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot7"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "🥚 [7] Trứng Gà Quê (Có: x0)"
+
+[node name="BtnEquip7" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot7"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Cầm"
+
+[node name="BtnEatEgg" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot7"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Ăn (+25% tốc)"
+
+[node name="BtnCloseInventory" type="Button" parent="InventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "❌ Đóng Túi Đồ (Phím Tab / ESC)"
+
+[connection signal="pressed" from="HotbarContainer/BtnTool1" to="." method="_on_tool_button_pressed" binds= [1]]
+[connection signal="pressed" from="HotbarContainer/BtnTool2" to="." method="_on_tool_button_pressed" binds= [2]]
+[connection signal="pressed" from="HotbarContainer/BtnTool3" to="." method="_on_tool_button_pressed" binds= [3]]
+[connection signal="pressed" from="HotbarContainer/BtnTool4" to="." method="_on_tool_button_pressed" binds= [4]]
+[connection signal="pressed" from="HotbarContainer/BtnTool5" to="." method="_on_tool_button_pressed" binds= [5]]
+[connection signal="pressed" from="HotbarContainer/BtnTool6" to="." method="_on_tool_button_pressed" binds= [6]]
+[connection signal="pressed" from="HotbarContainer/BtnTool7" to="." method="_on_tool_button_pressed" binds= [7]]
+[connection signal="pressed" from="HotbarContainer/BtnInventory" to="." method="toggle_inventory_menu"]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot1/BtnEquip1" to="." method="select_tool_and_close" binds= [1]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot2/BtnEquip2" to="." method="select_tool_and_close" binds= [2]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot3/BtnEquip3" to="." method="select_tool_and_close" binds= [3]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot4/BtnEquip4" to="." method="select_tool_and_close" binds= [4]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot5/BtnEquip5" to="." method="select_tool_and_close" binds= [5]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot6/BtnEquip6" to="." method="select_tool_and_close" binds= [6]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot6/BtnEatCrop" to="." method="_on_inventory_use_crop"]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot7/BtnEquip7" to="." method="select_tool_and_close" binds= [7]]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot7/BtnEatEgg" to="." method="_on_inventory_use_egg"]
+[connection signal="pressed" from="InventoryPanel/MarginContainer/VBoxContainer/BtnCloseInventory" to="." method="close_inventory_menu"]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/SeedButtons/BtnBuySeed1" to="." method="_on_buy_seeds_pressed" binds= [1, 5]]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/SeedButtons/BtnBuySeed5" to="." method="_on_buy_seeds_pressed" binds= [5, 5]]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/SeedButtons/BtnBuySeed10" to="." method="_on_buy_seeds_pressed" binds= [10, 5]]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/HayButtons/BtnBuyHay1" to="." method="_on_buy_hay_pressed" binds= [1, 4]]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/HayButtons/BtnBuyHay5" to="." method="_on_buy_hay_pressed" binds= [5, 4]]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/BtnSellAll" to="." method="_on_sell_all_pressed"]
+[connection signal="pressed" from="ShopPanel/MarginContainer/VBoxContainer/BtnCloseShop" to="." method="close_shop"]
+[connection signal="pressed" from="BtnMenu" to="." method="_on_btn_menu_pressed"]

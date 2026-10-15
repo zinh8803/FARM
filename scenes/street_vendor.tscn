@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://df2m118n054k2"]
+
+[ext_resource type="Script" path="res://scripts/street_vendor.gd" id="1_vndscript"]
+[ext_resource type="Texture2D" path="res://assets/sprites/street_vendors.png" id="2_vndtex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vendor"]
+size = Vector2(44, 20)
+
+[node name="StreetVendor" type="CharacterBody2D" groups=["interactable", "npc"]]
+y_sort_enabled = true
+collision_mask = 2
+script = ExtResource("1_vndscript")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(0, -20)
+texture = ExtResource("2_vndtex")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_vendor")
+
+[node name="InteractLabel" type="Label" parent="."]
+visible = false
+z_index = 30
+offset_left = -50.0
+offset_top = -48.0
+offset_right = 50.0
+offset_bottom = -30.0
+pivot_offset = Vector2(50, 9)
+theme_override_colors/font_color = Color(1, 0.95, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "[E] Mua hàng"
+horizontal_alignment = 1
+vertical_alignment = 1

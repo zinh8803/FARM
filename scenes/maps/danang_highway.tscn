@@ -1,0 +1,517 @@
+[gd_scene format=3 uid="uid://ci11599m8v4r2"]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_hwbase"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_hwptl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway_props.png" id="3_hwprops"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props.png" id="4_props"]
+[ext_resource type="PackedScene" path="res://scenes/traffic_car.tscn" id="5_carscene"]
+[ext_resource type="PackedScene" path="res://scenes/street_vendor.tscn" id="6_vendorscene"]
+[ext_resource type="Texture2D" path="res://assets/sprites/beach_props.png" id="7_beachprops"]
+[ext_resource type="Script" path="res://scripts/traffic_manager.gd" id="8_tfmgr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sea_water"]
+size = Vector2(1400, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_beach_wall"]
+size = Vector2(16, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guardrail_1"]
+size = Vector2(328, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guardrail_2"]
+size = Vector2(556, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guardrail_3"]
+size = Vector2(388, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_south_border"]
+size = Vector2(1400, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_west_top"]
+size = Vector2(16, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_west_bot"]
+size = Vector2(16, 110)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_east_bot"]
+size = Vector2(16, 110)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_highway_west"]
+size = Vector2(40, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_highway_market"]
+size = Vector2(80, 40)
+
+[node name="DanangHighway" type="Node2D"]
+script = ExtResource("1_hwbase")
+map_title = "🌉 Đại Lộ Ven Biển & Cầu Sông Quê"
+default_spawn_name = "spawn_from_farm"
+map_width = 1400.0
+map_height = 360.0
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="SeaWater" type="ColorRect" parent="Ground"]
+offset_right = 1400.0
+offset_bottom = 75.0
+color = Color(0.2, 0.52, 0.78, 1)
+
+[node name="SeaWavesShore" type="ColorRect" parent="Ground"]
+offset_top = 70.0
+offset_right = 1400.0
+offset_bottom = 78.0
+color = Color(0.38, 0.72, 0.88, 1)
+
+[node name="SandyBeach" type="ColorRect" parent="Ground"]
+offset_top = 75.0
+offset_right = 1400.0
+offset_bottom = 120.0
+color = Color(0.94, 0.88, 0.72, 1)
+
+[node name="NorthSidewalk" type="ColorRect" parent="Ground"]
+offset_top = 118.0
+offset_right = 1400.0
+offset_bottom = 136.0
+color = Color(0.78, 0.8, 0.82, 1)
+
+[node name="AsphaltHighway" type="ColorRect" parent="Ground"]
+offset_top = 136.0
+offset_right = 1400.0
+offset_bottom = 256.0
+color = Color(0.28, 0.3, 0.33, 1)
+
+[node name="ShoulderLineNorth" type="ColorRect" parent="Ground"]
+offset_top = 138.0
+offset_right = 1400.0
+offset_bottom = 140.0
+color = Color(0.95, 0.95, 0.95, 0.9)
+
+[node name="CenterStripe1" type="ColorRect" parent="Ground"]
+offset_left = 60.0
+offset_top = 195.0
+offset_right = 110.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe2" type="ColorRect" parent="Ground"]
+offset_left = 170.0
+offset_top = 195.0
+offset_right = 220.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe3" type="ColorRect" parent="Ground"]
+offset_left = 280.0
+offset_top = 195.0
+offset_right = 330.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe4" type="ColorRect" parent="Ground"]
+offset_left = 390.0
+offset_top = 195.0
+offset_right = 440.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe5" type="ColorRect" parent="Ground"]
+offset_left = 500.0
+offset_top = 195.0
+offset_right = 550.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe6" type="ColorRect" parent="Ground"]
+offset_left = 610.0
+offset_top = 195.0
+offset_right = 660.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe7" type="ColorRect" parent="Ground"]
+offset_left = 720.0
+offset_top = 195.0
+offset_right = 770.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe8" type="ColorRect" parent="Ground"]
+offset_left = 830.0
+offset_top = 195.0
+offset_right = 880.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe9" type="ColorRect" parent="Ground"]
+offset_left = 940.0
+offset_top = 195.0
+offset_right = 990.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe10" type="ColorRect" parent="Ground"]
+offset_left = 1050.0
+offset_top = 195.0
+offset_right = 1100.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe11" type="ColorRect" parent="Ground"]
+offset_left = 1160.0
+offset_top = 195.0
+offset_right = 1210.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="CenterStripe12" type="ColorRect" parent="Ground"]
+offset_left = 1270.0
+offset_top = 195.0
+offset_right = 1320.0
+offset_bottom = 197.0
+color = Color(0.98, 0.82, 0.22, 1)
+
+[node name="ShoulderLineSouth" type="ColorRect" parent="Ground"]
+offset_top = 252.0
+offset_right = 1400.0
+offset_bottom = 254.0
+color = Color(0.95, 0.95, 0.95, 0.9)
+
+[node name="SouthSidewalk" type="ColorRect" parent="Ground"]
+offset_top = 256.0
+offset_right = 1400.0
+offset_bottom = 280.0
+color = Color(0.78, 0.8, 0.82, 1)
+
+[node name="SouthGreenery" type="ColorRect" parent="Ground"]
+offset_top = 280.0
+offset_right = 1400.0
+offset_bottom = 360.0
+color = Color(0.44, 0.71, 0.42, 1)
+
+[node name="RoadToMarket" type="ColorRect" parent="Ground"]
+offset_left = 370.0
+offset_top = 280.0
+offset_right = 430.0
+offset_bottom = 360.0
+color = Color(0.87, 0.81, 0.7, 1)
+
+[node name="WaveStrip1" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(120, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="WaveStrip2" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(300, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="WaveStrip3" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(500, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="WaveStrip4" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(720, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="WaveStrip5" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(940, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="WaveStrip6" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(1160, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="WaveStrip7" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(1340, 70)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(144, 0, 64, 24)
+
+[node name="StairsToBeach1" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(360, 96)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
+
+[node name="StairsToBeach2" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(980, 96)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
+
+[node name="LoungeChair1" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(230, 96)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(112, 0, 32, 32)
+
+[node name="LoungeChair2" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(1200, 96)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(112, 0, 32, 32)
+
+[node name="Crab1" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(490, 95)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(208, 0, 32, 32)
+
+[node name="Crab2" type="Sprite2D" parent="Ground"]
+texture_filter = 0
+position = Vector2(840, 94)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(208, 0, 32, 32)
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="ColSeaWater" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(700, 36)
+shape = SubResource("RectangleShape2D_sea_water")
+
+[node name="ColBeachWest" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 95)
+shape = SubResource("RectangleShape2D_beach_wall")
+
+[node name="ColBeachEast" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(1392, 95)
+shape = SubResource("RectangleShape2D_beach_wall")
+
+[node name="ColGuardrail1" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(164, 118)
+shape = SubResource("RectangleShape2D_guardrail_1")
+
+[node name="ColGuardrail2" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(670, 118)
+shape = SubResource("RectangleShape2D_guardrail_2")
+
+[node name="ColGuardrail3" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(1206, 118)
+shape = SubResource("RectangleShape2D_guardrail_3")
+
+[node name="ColSouth" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(700, 352)
+shape = SubResource("RectangleShape2D_south_border")
+
+[node name="ColWestTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 60)
+shape = SubResource("RectangleShape2D_west_top")
+
+[node name="ColWestBot" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 305)
+shape = SubResource("RectangleShape2D_west_bot")
+
+[node name="ColEastBot" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(1392, 305)
+shape = SubResource("RectangleShape2D_east_bot")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="BeachUmbrella1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(190, 88)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 48, 48)
+
+[node name="BeachUmbrella2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1160, 88)
+texture = ExtResource("7_beachprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 48, 48)
+
+[node name="Lamp1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(100, 110)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="Flag1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(180, 110)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(32, 0, 32, 64)
+
+[node name="TrafficSign" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(70, 130)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(64, 0, 32, 48)
+
+[node name="PalmTree1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(270, 82)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(160, 0, 64, 96)
+
+[node name="Lamp2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(480, 110)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="Flag2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(620, 110)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(32, 0, 32, 64)
+
+[node name="BridgeRail1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(680, 125)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 32)
+
+[node name="BridgeRail2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(744, 125)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 32)
+
+[node name="BridgeRail3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(808, 125)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 32)
+
+[node name="BridgeRail4" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(872, 125)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 32)
+
+[node name="BridgeRail5" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(936, 125)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 32)
+
+[node name="BridgeRail6" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1000, 125)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 32)
+
+[node name="Lamp3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(780, 110)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="PalmTree2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1100, 82)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(160, 0, 64, 96)
+
+[node name="Cyclo" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1180, 265)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(64, 64, 64, 48)
+
+[node name="Lamp4" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1280, 110)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="PalmTree3" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(1340, 82)
+texture = ExtResource("3_hwprops")
+region_enabled = true
+region_rect = Rect2(160, 0, 64, 96)
+
+[node name="Vendor_Sugarcane" parent="YSort" instance=ExtResource("6_vendorscene")]
+position = Vector2(530, 126)
+vendor_type = 0
+vendor_name = "Chị Ba (Nước Mía & Dừa Xiêm)"
+
+[node name="Vendor_Hawker" parent="YSort" instance=ExtResource("6_vendorscene")]
+position = Vector2(860, 126)
+vendor_type = 1
+vendor_name = "Bác Tư (Gánh Bánh Mì & Trái Cây)"
+
+[node name="Vendor_Coffee" parent="YSort" instance=ExtResource("6_vendorscene")]
+position = Vector2(220, 275)
+vendor_type = 3
+vendor_name = "Cô Năm (Cà Phê Muối & Trà Đá)"
+
+[node name="Vendor_Snacks" parent="YSort" instance=ExtResource("6_vendorscene")]
+position = Vector2(820, 280)
+vendor_type = 2
+vendor_name = "Anh Bảy (Cá Viên Chiên & Bắp Xào)"
+
+[node name="TrafficManager" type="Node2D" parent="."]
+script = ExtResource("8_tfmgr")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_from_farm" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(70, 195)
+
+[node name="spawn_from_market" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(400, 305)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_ToFarm" parent="Portals" instance=ExtResource("2_hwptl")]
+position = Vector2(16, 195)
+target_map_path = "res://scenes/maps/farm_map.tscn"
+target_spawn_name = "spawn_from_east"
+portal_prompt = "Về Nông Trại"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToFarm" index="0"]
+shape = SubResource("RectangleShape2D_portal_highway_west")
+
+[node name="Portal_ToMarket" parent="Portals" instance=ExtResource("2_hwptl")]
+position = Vector2(400, 350)
+target_map_path = "res://scenes/maps/village_market.tscn"
+target_spawn_name = "spawn_from_highway"
+portal_prompt = "Vào Chợ Quê"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToMarket" index="0"]
+shape = SubResource("RectangleShape2D_portal_highway_market")

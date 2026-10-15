@@ -1,0 +1,21 @@
+{
+  "version": "1.1.0",
+  "version_code": 110,
+  "release_date": "2026-10-15",
+  "game_name": "Little DaNang - Game Nông Trại Việt",
+  "github_repo": "https://github.com/YOUR_USERNAME/game_test_3d",
+  "raw_version_url": "https://raw.githubusercontent.com/YOUR_USERNAME/game_test_3d/main/version.json",
+  "changelog": [
+    "✨ Màn hình Trang Chủ (Home Menu) với Chơi, Chơi mới, Cài đặt, Cập nhật",
+    "🌧️ Bật/Tắt thời tiết thực tế (mưa rào, tự động tưới ruộng)",
+    "🌓 Bật/Tắt sáng/tối môi trường theo thời gian thực",
+    "🔊 Hệ thống âm thanh nông cụ và nhạc nền đồng quê",
+    "🔄 Tự động kiểm tra phiên bản và kéo mã nguồn mới nhất từ Git (Git Pull)"
+  ],
+  "upcoming_features": [
+    "🌊 Bản đồ Bờ biển Mỹ Khê & Chợ Đêm Hải Sản",
+    "🚜 Xe máy cày đất và xe tải vận chuyển nông sản",
+    "🎣 Câu cá sông Hàn & chế biến đặc sản miền Trung",
+    "👥 Tính năng kết nối nhiều người chơi thăm nông trại"
+  ]
+}
