@@ -193,19 +193,35 @@ func _on_close_update_pressed() -> void:
 		audio_manager.play_click()
 	update_panel.visible = false
 
+# Lấy thư mục gốc của game (nơi chứa .git, version.json, run_game.bat)
+# - Khi chạy từ Editor: dùng đường dẫn project res://
+# - Khi export: dùng thư mục chứa file .exe
+func get_game_dir() -> String:
+	if OS.has_feature("editor"):
+		return ProjectSettings.globalize_path("res://")
+	else:
+		return OS.get_executable_path().get_base_dir()
+
+# Chạy lệnh git trong đúng thư mục game (cd /d <thư mục> && git ...)
+func git_execute(git_args: String, output: Array) -> int:
+	var game_dir = get_game_dir()
+	var cmd = "cd /d \"%s\" && git %s" % [game_dir, git_args]
+	return OS.execute("cmd.exe", ["/c", cmd], output, true)
+
 func _on_check_update_pressed() -> void:
 	if audio_manager:
 		audio_manager.play_click()
 	
-	update_feedback_label.text = "⏳ Đang kết nối Git repository kiểm tra phiên bản..."
+	var game_dir = get_game_dir()
+	update_feedback_label.text = "⏳ Đang kết nối Git repository kiểm tra phiên bản...\n📂 Thư mục: " + game_dir
 	btn_check_update.disabled = true
 	
 	# Kiểm tra trạng thái Git local và remote qua command line
 	var output = []
-	var exit_code = OS.execute("cmd.exe", ["/c", "git", "remote", "-v"], output, true)
+	var exit_code = git_execute("remote -v", output)
 	
 	if exit_code != 0 or output.is_empty() or str(output[0]).strip_edges() == "":
-		update_feedback_label.text = "⚠️ Dự án chưa liên kết với GitHub remote!\nHãy chạy file 'git_setup_and_push.bat' để cấu hình kho Git của bạn."
+		update_feedback_label.text = "⚠️ Thư mục game chưa có kho Git!\n📂 Đường dẫn: " + game_dir + "\n\n💡 Giải pháp:\n1. Hãy đặt file game (.exe) vào cùng thư mục dự án có chứa thư mục .git\n2. Hoặc chạy file 'git_setup_and_push.bat' để cấu hình kho Git."
 		btn_check_update.disabled = false
 		return
 	
@@ -214,11 +230,11 @@ func _on_check_update_pressed() -> void:
 	await get_tree().create_timer(0.3).timeout
 	
 	var fetch_out = []
-	var fetch_code = OS.execute("cmd.exe", ["/c", "git", "fetch", "origin"], fetch_out, true)
+	git_execute("fetch origin", fetch_out)
 	
 	# So sánh commit local và remote
 	var status_out = []
-	OS.execute("cmd.exe", ["/c", "git", "status", "-uno"], status_out, true)
+	git_execute("status -uno", status_out)
 	var status_text = status_out[0] if not status_out.is_empty() else ""
 	
 	var ver = str(local_version_info.get("version", "1.1.0"))
@@ -245,9 +261,9 @@ func _on_pull_update_pressed() -> void:
 	await get_tree().create_timer(0.2).timeout
 	
 	var pull_out = []
-	var code = OS.execute("cmd.exe", ["/c", "git", "pull", "origin", "main"], pull_out, true)
+	var code = git_execute("pull origin main", pull_out)
 	if code != 0:
-		code = OS.execute("cmd.exe", ["/c", "git", "pull", "origin", "master"], pull_out, true)
+		code = git_execute("pull origin master", pull_out)
 	
 	var result_msg = pull_out[0] if not pull_out.is_empty() else ""
 	
@@ -266,8 +282,15 @@ func _on_restart_game_pressed() -> void:
 	if audio_manager:
 		audio_manager.play_click()
 	
-	# Khởi động lại game thông qua run_game.bat
-	OS.create_process("cmd.exe", ["/c", "start", "", "run_game.bat"])
+	# Khởi động lại game — tìm file exe trong thư mục game
+	var game_dir = get_game_dir()
+	var exe_path = OS.get_executable_path()
+	if OS.has_feature("editor"):
+		# Từ editor: chạy run_game.bat
+		OS.create_process("cmd.exe", ["/c", "cd /d \"" + game_dir + "\" && start \"\" run_game.bat"])
+	else:
+		# Từ bản export: chạy lại chính file .exe
+		OS.create_process(exe_path, [])
 	get_tree().quit()
 
 func _on_quit_pressed() -> void:
