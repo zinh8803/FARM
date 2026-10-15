@@ -14,6 +14,9 @@ size = Vector2(1100, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_side"]
 size = Vector2(16, 620)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_side_half"]
+size = Vector2(16, 250)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot_left"]
 size = Vector2(510, 16)
 
@@ -32,15 +35,24 @@ size = Vector2(120, 75)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_villa"]
 size = Vector2(140, 75)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_casino"]
+size = Vector2(150, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bld_school"]
+size = Vector2(180, 86)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door_portal"]
 size = Vector2(36, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_road_portal"]
 size = Vector2(80, 24)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_city_gate"]
+size = Vector2(80, 100)
+
 [node name="ModernCity" type="Node2D"]
 script = ExtResource("1_citybase")
-map_title = "🏙️ Thành Phố Hiện Đại - Smart City"
+map_title = "🏙️ Thành Phố Đà Thành"
 default_spawn_name = "spawn_from_bamboo"
 map_width = 1100.0
 map_height = 620.0
@@ -135,6 +147,54 @@ offset_right = 910.0
 offset_bottom = 418.0
 color = Color(0.95, 0.95, 0.98, 0.9)
 
+[node name="CasinoFacade" type="ColorRect" parent="Ground"]
+offset_left = 700.0
+offset_top = 76.0
+offset_right = 860.0
+offset_bottom = 190.0
+color = Color(0.34, 0.12, 0.2, 1)
+
+[node name="CasinoAwning" type="ColorRect" parent="Ground"]
+offset_left = 710.0
+offset_top = 86.0
+offset_right = 850.0
+offset_bottom = 112.0
+color = Color(0.88, 0.67, 0.22, 1)
+
+[node name="CasinoLabel" type="Label" parent="Ground"]
+offset_left = 710.0
+offset_top = 88.0
+offset_right = 850.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(0.22, 0.08, 0.1, 1)
+theme_override_font_sizes/font_size = 9
+text = "♠ CASINO ♣"
+horizontal_alignment = 1
+
+[node name="SchoolFacade" type="ColorRect" parent="Ground"]
+offset_left = 770.0
+offset_top = 472.0
+offset_right = 990.0
+offset_bottom = 575.0
+color = Color(0.78, 0.47, 0.24, 1)
+
+[node name="SchoolRoof" type="ColorRect" parent="Ground"]
+offset_left = 760.0
+offset_top = 458.0
+offset_right = 1000.0
+offset_bottom = 482.0
+color = Color(0.62, 0.2, 0.16, 1)
+
+[node name="SchoolSign" type="Label" parent="Ground"]
+offset_left = 780.0
+offset_top = 484.0
+offset_right = 980.0
+offset_bottom = 508.0
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 9
+text = "🏫 TRƯỜNG TIỂU HỌC ĐÀ THÀNH"
+horizontal_alignment = 1
+
 [node name="Collisions" type="StaticBody2D" parent="."]
 collision_mask = 2
 
@@ -142,13 +202,21 @@ collision_mask = 2
 position = Vector2(550, 8)
 shape = SubResource("RectangleShape2D_wall_top")
 
-[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(8, 310)
-shape = SubResource("RectangleShape2D_wall_side")
+[node name="WallLeftTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 125)
+shape = SubResource("RectangleShape2D_wall_side_half")
 
-[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(1092, 310)
-shape = SubResource("RectangleShape2D_wall_side")
+[node name="WallLeftBottom" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 495)
+shape = SubResource("RectangleShape2D_wall_side_half")
+
+[node name="WallRightTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(1092, 125)
+shape = SubResource("RectangleShape2D_wall_side_half")
+
+[node name="WallRightBottom" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(1092, 495)
+shape = SubResource("RectangleShape2D_wall_side_half")
 
 [node name="WallBotLeft" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(255, 612)
@@ -216,6 +284,20 @@ region_rect = Rect2(0, 230, 160, 140)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_Villa"]
 position = Vector2(0, 25)
 shape = SubResource("RectangleShape2D_bld_villa")
+
+[node name="Building_Casino" type="StaticBody2D" parent="YSort"]
+position = Vector2(780, 132)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_Casino"]
+shape = SubResource("RectangleShape2D_bld_casino")
+
+[node name="Building_School" type="StaticBody2D" parent="YSort"]
+position = Vector2(880, 524)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Building_School"]
+shape = SubResource("RectangleShape2D_bld_school")
 
 [node name="OutdoorATM" type="Sprite2D" parent="YSort"]
 texture_filter = 0
@@ -372,6 +454,18 @@ position = Vector2(910, 230)
 [node name="spawn_from_villa" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(180, 550)
 
+[node name="spawn_from_highway" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(70, 365)
+
+[node name="spawn_from_casino" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(780, 248)
+
+[node name="spawn_from_school" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(880, 425)
+
+[node name="spawn_from_racecourse" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1030, 365)
+
 [node name="Portals" type="Node2D" parent="."]
 
 [node name="Portal_ToBamboo" parent="Portals" instance=ExtResource("2_cityptl")]
@@ -421,4 +515,42 @@ portal_prompt = "Vào Biệt Thự 🏡"
 requires_interaction_key = true
 
 [node name="CollisionShape2D" parent="Portals/Portal_Villa" index="0"]
+shape = SubResource("RectangleShape2D_door_portal")
+
+[node name="Portal_ToHighway" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(6, 360)
+target_map_path = "res://scenes/maps/danang_highway.tscn"
+target_spawn_name = "spawn_from_city"
+portal_prompt = "Về Đại Lộ Ven Biển"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToHighway" index="0"]
+shape = SubResource("RectangleShape2D_city_gate")
+
+[node name="Portal_ToRacecourse" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(1094, 360)
+target_map_path = "res://scenes/maps/horse_racecourse.tscn"
+target_spawn_name = "spawn_from_city"
+portal_prompt = "Trường Đua Ngựa"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToRacecourse" index="0"]
+shape = SubResource("RectangleShape2D_city_gate")
+
+[node name="Portal_Casino" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(780, 205)
+target_map_path = "res://scenes/maps/casino_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào Casino ♠"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_Casino" index="0"]
+shape = SubResource("RectangleShape2D_door_portal")
+
+[node name="Portal_School" parent="Portals" instance=ExtResource("2_cityptl")]
+position = Vector2(880, 458)
+target_map_path = "res://scenes/maps/school_interior.tscn"
+target_spawn_name = "spawn_entrance"
+portal_prompt = "Vào Trường Học 🏫"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_School" index="0"]
 shape = SubResource("RectangleShape2D_door_portal")

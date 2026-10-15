@@ -1,11 +1,15 @@
 {
-  "version": "1.1.2",
-  "version_code": 112,
+  "version": "1.3.0",
+  "version_code": 130,
   "release_date": "2026-10-15",
   "game_name": "Little DaNang - Game Nông Trại Việt",
   "github_repo": "https://github.com/zinh8803/FARM",
   "raw_version_url": "https://raw.githubusercontent.com/zinh8803/FARM/main/version.json",
   "changelog": [
+    "🏙️ Đại lộ ven biển nối sang Thành Phố Đà Thành với casino, trường học và trường đua ngựa",
+    "♠ Casino có bàn bài Tây, poker cược xu trong game và bi-da tương tác",
+    "🏇 Bốn ngựa đua chạy quanh trường đua; học sinh và khán giả tự đi lại",
+    "🌾 Thêm bản đồ Cánh Đồng Lúa nối trực tiếp với Chợ Quê; có ruộng lúa chín để thu hoạch",
     "✨ Màn hình Trang Chủ (Home Menu) với Chơi, Chơi mới, Cài đặt, Cập nhật",
     "🌧️ Bật/Tắt thời tiết thực tế (mưa rào, tự động tưới ruộng)",
     "🌓 Bật/Tắt sáng/tối môi trường theo thời gian thực",

@@ -42,6 +42,9 @@ size = Vector2(40, 160)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_highway_market"]
 size = Vector2(80, 40)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_highway_city"]
+size = Vector2(80, 80)
+
 [node name="DanangHighway" type="Node2D"]
 script = ExtResource("1_hwbase")
 map_title = "🌉 Đại Lộ Ven Biển & Cầu Sông Quê"
@@ -496,6 +499,9 @@ position = Vector2(70, 195)
 [node name="spawn_from_market" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(400, 305)
 
+[node name="spawn_from_city" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1320, 195)
+
 [node name="Portals" type="Node2D" parent="."]
 
 [node name="Portal_ToFarm" parent="Portals" instance=ExtResource("2_hwptl")]
@@ -515,3 +521,12 @@ portal_prompt = "Vào Chợ Quê"
 
 [node name="CollisionShape2D" parent="Portals/Portal_ToMarket" index="0"]
 shape = SubResource("RectangleShape2D_portal_highway_market")
+
+[node name="Portal_ToCity" parent="Portals" instance=ExtResource("2_hwptl")]
+position = Vector2(1388, 195)
+target_map_path = "res://scenes/maps/modern_city.tscn"
+target_spawn_name = "spawn_from_highway"
+portal_prompt = "Vào Thành Phố Đà Thành"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToCity" index="0"]
+shape = SubResource("RectangleShape2D_portal_highway_city")

@@ -1,0 +1,208 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_base"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_portal"]
+[ext_resource type="PackedScene" path="res://scenes/casino_npc.tscn" id="3_casino_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_npcs.png" id="4_npcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(620, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(20, 400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot"]
+size = Vector2(250, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
+size = Vector2(70, 24)
+
+[node name="CasinoInterior" type="Node2D"]
+script = ExtResource("1_base")
+map_title = "🎰 Casino Đà Thành"
+default_spawn_name = "spawn_entrance"
+map_width = 620.0
+map_height = 400.0
+
+[node name="Floor" type="ColorRect" parent="."]
+offset_right = 620.0
+offset_bottom = 400.0
+color = Color(0.11, 0.12, 0.17, 1)
+
+[node name="Carpet" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 42.0
+offset_right = 600.0
+offset_bottom = 370.0
+color = Color(0.42, 0.08, 0.16, 1)
+
+[node name="Stage" type="ColorRect" parent="."]
+offset_left = 170.0
+offset_top = 48.0
+offset_right = 450.0
+offset_bottom = 82.0
+color = Color(0.82, 0.63, 0.2, 1)
+
+[node name="CasinoSign" type="Label" parent="."]
+offset_left = 170.0
+offset_top = 50.0
+offset_right = 450.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(0.2, 0.07, 0.08, 1)
+theme_override_font_sizes/font_size = 12
+text = "♠ CASINO ĐÀ THÀNH ♣"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardTable" type="ColorRect" parent="."]
+z_index = 1
+offset_left = 54.0
+offset_top = 118.0
+offset_right = 216.0
+offset_bottom = 178.0
+color = Color(0.05, 0.38, 0.22, 1)
+
+[node name="CardTableEdge" type="ColorRect" parent="."]
+offset_left = 48.0
+offset_top = 112.0
+offset_right = 222.0
+offset_bottom = 184.0
+color = Color(0.42, 0.2, 0.1, 1)
+
+[node name="PokerTable" type="ColorRect" parent="."]
+z_index = 1
+offset_left = 256.0
+offset_top = 118.0
+offset_right = 418.0
+offset_bottom = 178.0
+color = Color(0.05, 0.3, 0.19, 1)
+
+[node name="PokerTableEdge" type="ColorRect" parent="."]
+offset_left = 250.0
+offset_top = 112.0
+offset_right = 424.0
+offset_bottom = 184.0
+color = Color(0.42, 0.2, 0.1, 1)
+
+[node name="BilliardsTable" type="ColorRect" parent="."]
+offset_left = 458.0
+offset_top = 112.0
+offset_right = 582.0
+offset_bottom = 190.0
+color = Color(0.03, 0.28, 0.25, 1)
+
+[node name="BilliardsEdge" type="ColorRect" parent="."]
+offset_left = 450.0
+offset_top = 104.0
+offset_right = 590.0
+offset_bottom = 198.0
+color = Color(0.36, 0.17, 0.08, 1)
+
+[node name="BilliardsTop" type="ColorRect" parent="."]
+z_index = 1
+offset_left = 458.0
+offset_top = 112.0
+offset_right = 582.0
+offset_bottom = 190.0
+color = Color(0.03, 0.28, 0.25, 1)
+
+[node name="CueBall" type="ColorRect" parent="."]
+z_index = 2
+offset_left = 506.0
+offset_top = 146.0
+offset_right = 514.0
+offset_bottom = 154.0
+color = Color(1, 1, 1, 1)
+
+[node name="RedBall" type="ColorRect" parent="."]
+z_index = 2
+offset_left = 546.0
+offset_top = 132.0
+offset_right = 554.0
+offset_bottom = 140.0
+color = Color(0.9, 0.12, 0.1, 1)
+
+[node name="YellowBall" type="ColorRect" parent="."]
+z_index = 2
+offset_left = 550.0
+offset_top = 160.0
+offset_right = 558.0
+offset_bottom = 168.0
+color = Color(0.95, 0.8, 0.1, 1)
+
+[node name="TableHints" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 200.0
+offset_right = 590.0
+offset_bottom = 225.0
+theme_override_colors/font_color = Color(1, 0.9, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "BÀI TÂY · POKER · BI-DA   |   Đến gần người chia bài và nhấn E"
+horizontal_alignment = 1
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(310, 10)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(10, 200)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(610, 200)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallBottomLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(120, 390)
+shape = SubResource("RectangleShape2D_wall_bot")
+
+[node name="WallBottomRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(500, 390)
+shape = SubResource("RectangleShape2D_wall_bot")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="CardDealer" parent="YSort" instance=ExtResource("3_casino_npc")]
+position = Vector2(135, 192)
+npc_name = "Cô Mai - Bàn Bài Tây"
+dialogue_line = "Mời bạn thử vận may ở bàn bài Tây nhé!"
+game_kind = "Bài Tây"
+custom_texture = ExtResource("4_npcs")
+sprite_region = Rect2(128, 0, 32, 32)
+
+[node name="PokerDealer" parent="YSort" instance=ExtResource("3_casino_npc")]
+position = Vector2(337, 192)
+npc_name = "Anh Dũng - Bàn Poker"
+dialogue_line = "Chào mừng đến bàn Poker!"
+game_kind = "Poker"
+custom_texture = ExtResource("4_npcs")
+sprite_region = Rect2(224, 0, 32, 32)
+
+[node name="BilliardsHost" parent="YSort" instance=ExtResource("3_casino_npc")]
+position = Vector2(520, 208)
+npc_name = "Chú Lâm - Bàn Bi-da"
+dialogue_line = "Cầm cơ lên nào, xem bạn có thể đưa mấy bi vào lỗ!"
+game_kind = "Bi-da"
+custom_texture = ExtResource("4_npcs")
+sprite_region = Rect2(256, 0, 32, 32)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_entrance" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(310, 350)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_Exit" parent="Portals" instance=ExtResource("2_portal")]
+position = Vector2(310, 390)
+target_map_path = "res://scenes/maps/modern_city.tscn"
+target_spawn_name = "spawn_from_casino"
+portal_prompt = "Ra Thành Phố"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_Exit" index="0"]
+shape = SubResource("RectangleShape2D_portal")

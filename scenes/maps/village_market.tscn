@@ -28,6 +28,9 @@ size = Vector2(16, 360)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v_half"]
 size = Vector2(16, 150)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal_rice_fields"]
+size = Vector2(60, 36)
+
 [node name="VillageMarket" type="Node2D"]
 script = ExtResource("1_mktbase")
 map_title = "🏮 Chợ Quê & Làng Dân Cư"
@@ -62,12 +65,22 @@ offset_right = 500.0
 offset_bottom = 200.0
 color = Color(0.84, 0.78, 0.65, 1)
 
+[node name="RoadWest" type="ColorRect" parent="Ground"]
+offset_right = 100.0
+offset_top = 160.0
+offset_bottom = 200.0
+color = Color(0.84, 0.78, 0.65, 1)
+
 [node name="Collisions" type="StaticBody2D" parent="."]
 collision_mask = 2
 
-[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(8, 180)
-shape = SubResource("RectangleShape2D_wall_v")
+[node name="WallLeftTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 75)
+shape = SubResource("RectangleShape2D_wall_v_half")
+
+[node name="WallLeftBottom" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 285)
+shape = SubResource("RectangleShape2D_wall_v_half")
 
 [node name="WallRightTop" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(492, 75)
@@ -183,6 +196,9 @@ position = Vector2(250, 75)
 [node name="spawn_from_highway" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(450, 180)
 
+[node name="spawn_from_ricefields" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(62, 180)
+
 [node name="Portals" type="Node2D" parent="."]
 
 [node name="Portal_ToFarm" parent="Portals" instance=ExtResource("2_mktptl")]
@@ -199,3 +215,12 @@ position = Vector2(494, 180)
 target_map_path = "res://scenes/maps/danang_highway.tscn"
 target_spawn_name = "spawn_from_market"
 portal_prompt = "Đại Lộ Làng Quê"
+
+[node name="Portal_ToRiceFields" parent="Portals" instance=ExtResource("2_mktptl")]
+position = Vector2(6, 180)
+target_map_path = "res://scenes/maps/rice_fields.tscn"
+target_spawn_name = "spawn_from_village"
+portal_prompt = "Ruộng Lúa"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToRiceFields" index="0"]
+shape = SubResource("RectangleShape2D_portal_rice_fields")

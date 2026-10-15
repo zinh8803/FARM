@@ -7,7 +7,7 @@ Tài liệu này hướng dẫn chi tiết cách đưa dự án game lên GitHub
 ## PHẦN 1: CÁC FILE KIỂM TRA PHIÊN BẢN ĐÃ CÓ TRONG DỰ ÁN
 
 Trong thư mục gốc dự án đã có sẵn các file phục vụ hệ thống cập nhật:
-1. [version.json]: Chứa thông tin số phiên bản hiện tại (`version: "1.1.0"`), ngày phát hành, changelog và đường dẫn repository.
+1. [version.json]: Chứa thông tin số phiên bản hiện tại (`version: "1.3.0"`), ngày phát hành, changelog và đường dẫn repository.
 2. [update_game.bat]: Kịch bản tự động chạy lệnh `git pull` để tải mã nguồn mới nhất từ GitHub về máy.
 3. [git_setup_and_push.bat]: Công cụ 1-click tự động khởi tạo Git, thêm remote và đẩy toàn bộ code lên GitHub.
 4. [.gitignore]: Đã cấu hình loại trừ bộ nhớ tạm `.godot/`, log, bản build nặng để Git luôn nhẹ và sạch sẽ.
@@ -57,7 +57,7 @@ git remote add origin https://github.com/zinh8803/FARM.git
 git add .
 
 # 4. Lưu lại bản commit đầu tiên
-git commit -m "Phát hành phiên bản Little DaNang v1.1.0"
+git commit -m "Phát hành phiên bản Little DaNang v1.3.0"
 
 # 5. Đẩy code lên nhánh main
 git push -u origin main
@@ -68,10 +68,10 @@ git push -u origin main
 ## PHẦN 4: CẬP NHẬT BẢN GAME ĐÃ EXPORT QUA GITHUB RELEASES
 
 ### 1. Phát hành phiên bản mới:
-1. Trong `version.json`, tăng `version` (ví dụ `1.1.1`) và cập nhật `changelog`.
+1. Trong `version.json`, tăng `version` (ví dụ `1.3.1`) và cập nhật `changelog`.
 2. Commit và push mã nguồn lên nhánh `main` trước khi phát hành.
 3. Cài GitHub CLI (`gh`) trên máy xuất bản và đăng nhập một lần bằng `gh auth login`.
-4. Chạy `export_game.bat`, chọn `Y` ở câu hỏi tạo GitHub Release. Script export `LittleDaNang.exe` rồi đính kèm file đó vào release có tag `v` + version, ví dụ `v1.1.1`.
+4. Chạy `export_game.bat`, chọn `Y` ở câu hỏi tạo GitHub Release. Script export `LittleDaNang.exe` rồi đính kèm file đó vào release có tag `v` + version, ví dụ `v1.3.1`.
 
 ### 2. Người chơi cập nhật:
 1. Chỉ cần tải và chạy `LittleDaNang.exe`; không cần cài Git, clone repository hay có thư mục `.git`.

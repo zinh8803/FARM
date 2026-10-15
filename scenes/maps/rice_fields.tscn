@@ -1,0 +1,127 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/rice_field_map.gd" id="1_rice"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_portal"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(700, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(16, 420)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v_half"]
+size = Vector2(16, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
+size = Vector2(60, 40)
+
+[node name="RiceFields" type="Node2D"]
+script = ExtResource("1_rice")
+map_title = "🌾 Cánh Đồng Lúa"
+default_spawn_name = "spawn_from_village"
+map_width = 700.0
+map_height = 420.0
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Grass" type="ColorRect" parent="Ground"]
+offset_right = 700.0
+offset_bottom = 420.0
+color = Color(0.4, 0.66, 0.32, 1)
+
+[node name="PaddyWest" type="ColorRect" parent="Ground"]
+offset_left = 48.0
+offset_top = 50.0
+offset_right = 455.0
+offset_bottom = 335.0
+color = Color(0.55, 0.48, 0.29, 1)
+
+[node name="PaddyWater" type="ColorRect" parent="Ground"]
+offset_left = 58.0
+offset_top = 60.0
+offset_right = 445.0
+offset_bottom = 325.0
+color = Color(0.3, 0.55, 0.35, 1)
+
+[node name="IrrigationCanal" type="ColorRect" parent="Ground"]
+offset_left = 485.0
+offset_top = 0.0
+offset_right = 511.0
+offset_bottom = 420.0
+color = Color(0.28, 0.57, 0.7, 1)
+
+[node name="CanalBankLeft" type="ColorRect" parent="Ground"]
+offset_left = 478.0
+offset_top = 0.0
+offset_right = 485.0
+offset_bottom = 420.0
+color = Color(0.72, 0.63, 0.37, 1)
+
+[node name="CanalBankRight" type="ColorRect" parent="Ground"]
+offset_left = 511.0
+offset_top = 0.0
+offset_right = 518.0
+offset_bottom = 420.0
+color = Color(0.72, 0.63, 0.37, 1)
+
+[node name="VillagePath" type="ColorRect" parent="Ground"]
+offset_left = 500.0
+offset_top = 165.0
+offset_right = 700.0
+offset_bottom = 215.0
+color = Color(0.84, 0.75, 0.58, 1)
+
+[node name="Bridge" type="ColorRect" parent="Ground"]
+offset_left = 476.0
+offset_top = 158.0
+offset_right = 522.0
+offset_bottom = 222.0
+color = Color(0.58, 0.36, 0.2, 1)
+
+[node name="FarmPlots" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(350, 8)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallBottom" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(350, 412)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallWest" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 210)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallEastTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(692, 90)
+shape = SubResource("RectangleShape2D_wall_v_half")
+
+[node name="WallEastBottom" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(692, 330)
+shape = SubResource("RectangleShape2D_wall_v_half")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_from_village" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(565, 190)
+
+[node name="spawn_default" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(565, 190)
+
+[node name="spawn_from_village_return" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(640, 190)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_ToVillage" parent="Portals" instance=ExtResource("2_portal")]
+position = Vector2(690, 190)
+target_map_path = "res://scenes/maps/village_market.tscn"
+target_spawn_name = "spawn_from_ricefields"
+portal_prompt = "Về Chợ Quê"
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToVillage" index="0"]
+shape = SubResource("RectangleShape2D_portal")
