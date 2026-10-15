@@ -225,11 +225,11 @@ func _do_auto_update() -> void:
 	var release: Dictionary = parsed
 	var asset_url := ""
 	for asset in release.get("assets", []):
-		if asset is Dictionary and asset.get("name", "") == "LittleDaNang.exe":
+		if asset is Dictionary and str(asset.get("name", "")).to_lower() == "littledanang.exe":
 			asset_url = str(asset.get("browser_download_url", ""))
 			break
 	if asset_url.is_empty():
-		_update_failed("Release mới nhất chưa có asset LittleDaNang.exe.")
+		_update_failed("Release mới nhất chưa đính kèm LittleDaNang.exe. Hãy chạy export_game.bat và tải file LittleDaNang.exe lên release: https://github.com/zinh8803/FARM/releases/latest")
 		return
 
 	var tag := str(release.get("tag_name", "")).trim_prefix("v")

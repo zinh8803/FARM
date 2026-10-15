@@ -97,11 +97,16 @@ if not defined VERSION (
 )
 set "TAG=v!VERSION!"
 echo Dang tao release !TAG! kem %EXPORT_NAME%...
-gh release create "!TAG!" "%~dp0%EXPORT_NAME%" --repo zinh8803/FARM --title "Little DaNang !TAG!" --generate-notes
+gh release view "!TAG!" --repo zinh8803/FARM >nul 2>&1
 if errorlevel 1 (
-    echo [LOI] Tao release that bai. Hay kiem tra tag/release da ton tai va quyen GitHub.
+    gh release create "!TAG!" "%~dp0%EXPORT_NAME%" --repo zinh8803/FARM --title "Little DaNang !TAG!" --generate-notes
 ) else (
-    echo [OK] Release !TAG! da san sang cho nut Cap nhat trong game.
+    gh release upload "!TAG!" "%~dp0%EXPORT_NAME%" --repo zinh8803/FARM --clobber
+)
+if errorlevel 1 (
+    echo [LOI] Khong the tao release/tai asset. Kiem tra quyen GitHub va release !TAG!.
+) else (
+    echo [OK] Asset LittleDaNang.exe da duoc tai len release !TAG!.
 )
 
 :done
