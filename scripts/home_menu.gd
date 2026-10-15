@@ -182,11 +182,16 @@ func _on_update_pressed() -> void:
 	if audio_manager:
 		audio_manager.play_click()
 	load_version_file()
-	update_feedback_label.text = ""
-	btn_pull_update.visible = false
+	
+	# Mở panel và bắt đầu cập nhật ngay lập tức
 	btn_restart_game.visible = false
-	btn_check_update.disabled = false
+	btn_check_update.visible = false
+	btn_pull_update.visible = false
+	btn_close_update.disabled = true
 	update_panel.visible = true
+	
+	# Chạy toàn bộ quy trình: fetch → pull tự động
+	await _do_auto_update()
 
 func _on_close_update_pressed() -> void:
 	if audio_manager:
@@ -208,56 +213,31 @@ func git_execute(git_args: String, output: Array) -> int:
 	var cmd = "cd /d \"%s\" && git %s" % [game_dir, git_args]
 	return OS.execute("cmd.exe", ["/c", cmd], output, true)
 
-func _on_check_update_pressed() -> void:
-	if audio_manager:
-		audio_manager.play_click()
-	
+# Quy trình cập nhật tự động: fetch + pull trong 1 bước
+func _do_auto_update() -> void:
 	var game_dir = get_game_dir()
-	update_feedback_label.text = "⏳ Đang kết nối Git repository kiểm tra phiên bản...\n📂 Thư mục: " + game_dir
-	btn_check_update.disabled = true
 	
-	# Kiểm tra trạng thái Git local và remote qua command line
-	var output = []
-	var exit_code = git_execute("remote -v", output)
+	# Bước 1: Kiểm tra Git có tồn tại không
+	update_feedback_label.text = "⏳ [1/3] Đang kiểm tra kết nối Git...\n📂 " + game_dir
+	await get_tree().create_timer(0.2).timeout
 	
-	if exit_code != 0 or output.is_empty() or str(output[0]).strip_edges() == "":
-		update_feedback_label.text = "⚠️ Thư mục game chưa có kho Git!\n📂 Đường dẫn: " + game_dir + "\n\n💡 Giải pháp:\n1. Hãy đặt file game (.exe) vào cùng thư mục dự án có chứa thư mục .git\n2. Hoặc chạy file 'git_setup_and_push.bat' để cấu hình kho Git."
-		btn_check_update.disabled = false
+	var remote_out = []
+	var remote_code = git_execute("remote -v", remote_out)
+	
+	if remote_code != 0 or remote_out.is_empty() or str(remote_out[0]).strip_edges() == "":
+		update_feedback_label.text = "⚠️ Thư mục game chưa có kho Git!\n📂 " + game_dir + "\n\n💡 Giải pháp:\n1. Đặt file game (.exe) vào cùng thư mục dự án chứa .git\n2. Hoặc chạy 'git_setup_and_push.bat'"
+		btn_close_update.disabled = false
 		return
 	
-	# Thực hiện git fetch để kiểm tra commit mới
-	update_feedback_label.text = "⏳ Đang kiểm tra commit mới nhất từ Git (git fetch)..."
-	await get_tree().create_timer(0.3).timeout
+	# Bước 2: Git fetch
+	update_feedback_label.text = "⏳ [2/3] Đang đồng bộ với GitHub (git fetch)..."
+	await get_tree().create_timer(0.2).timeout
 	
 	var fetch_out = []
 	git_execute("fetch origin", fetch_out)
 	
-	# So sánh commit local và remote
-	var status_out = []
-	git_execute("status -uno", status_out)
-	var status_text = status_out[0] if not status_out.is_empty() else ""
-	
-	var ver = str(local_version_info.get("version", "1.1.0"))
-	
-	if "behind" in status_text or "can be fast-forwarded" in status_text:
-		update_feedback_label.text = "🔔 Phát hiện mã nguồn phiên bản mới trên Git!\nNhấn nút 'Cập Nhật Git' bên dưới để đồng bộ về máy."
-		btn_pull_update.text = "⬇️ Cập Nhật Git (Pull)"
-		btn_pull_update.visible = true
-	else:
-		update_feedback_label.text = "✅ Bạn đang ở phiên bản mới nhất: v%s!\n(Nếu vừa push commit mới, bạn có thể bấm 'Đồng Bộ Lại' bên dưới)." % ver
-		btn_pull_update.text = "🔄 Đồng Bộ Lại (Git Pull)"
-		btn_pull_update.visible = true
-	
-	btn_check_update.disabled = false
-
-func _on_pull_update_pressed() -> void:
-	if audio_manager:
-		audio_manager.play_click()
-	
-	btn_pull_update.disabled = true
-	btn_check_update.disabled = true
-	update_feedback_label.text = "⏳ Đang kéo mã nguồn và tài nguyên mới nhất (git pull)..."
-	
+	# Bước 3: Git pull
+	update_feedback_label.text = "⏳ [3/3] Đang kéo mã nguồn mới nhất (git pull)..."
 	await get_tree().create_timer(0.2).timeout
 	
 	var pull_out = []
@@ -265,31 +245,39 @@ func _on_pull_update_pressed() -> void:
 	if code != 0:
 		code = git_execute("pull origin master", pull_out)
 	
-	var result_msg = pull_out[0] if not pull_out.is_empty() else ""
+	var result_msg = str(pull_out[0]).strip_edges() if not pull_out.is_empty() else ""
+	
+	btn_close_update.disabled = false
 	
 	if code == 0:
 		load_version_file()
-		update_feedback_label.text = "🎉 Cập nhật thành công từ Git!\n" + result_msg.strip_edges()
-		btn_pull_update.visible = false
-		btn_restart_game.visible = true
+		var ver = str(local_version_info.get("version", "1.1.0"))
+		
+		if "Already up to date" in result_msg or "Already up-to-date" in result_msg:
+			update_feedback_label.text = "✅ Game đã ở phiên bản mới nhất: v%s!\n\nKhông có bản cập nhật mới." % ver
+		else:
+			update_feedback_label.text = "🎉 Cập nhật thành công!\n📦 Phiên bản: v%s\n\n%s\n\n👉 Nhấn 'Khởi động lại' để áp dụng bản cập nhật." % [ver, result_msg]
+			btn_restart_game.visible = true
 	else:
-		update_feedback_label.text = "❌ Quá trình Git pull gặp lỗi:\n" + result_msg.strip_edges() + "\n💡 Bạn có thể chạy file 'update_game.bat' trong thư mục để kiểm tra."
-		btn_pull_update.disabled = false
-	
-	btn_check_update.disabled = false
+		update_feedback_label.text = "❌ Cập nhật thất bại:\n" + result_msg + "\n\n💡 Thử chạy file 'update_game.bat' trong thư mục game."
+
+# Giữ lại handler cho các nút cũ (phòng trường hợp scene vẫn tham chiếu)
+func _on_check_update_pressed() -> void:
+	pass
+
+func _on_pull_update_pressed() -> void:
+	pass
 
 func _on_restart_game_pressed() -> void:
 	if audio_manager:
 		audio_manager.play_click()
 	
-	# Khởi động lại game — tìm file exe trong thư mục game
+	# Khởi động lại game
 	var game_dir = get_game_dir()
 	var exe_path = OS.get_executable_path()
 	if OS.has_feature("editor"):
-		# Từ editor: chạy run_game.bat
 		OS.create_process("cmd.exe", ["/c", "cd /d \"" + game_dir + "\" && start \"\" run_game.bat"])
 	else:
-		# Từ bản export: chạy lại chính file .exe
 		OS.create_process(exe_path, [])
 	get_tree().quit()
 
@@ -297,3 +285,4 @@ func _on_quit_pressed() -> void:
 	if audio_manager:
 		audio_manager.play_click()
 	get_tree().quit()
+
