@@ -71,10 +71,11 @@ git push -u origin main
 1. Trong `version.json`, tăng `version` (ví dụ `1.3.1`) và cập nhật `changelog`.
 2. Commit và push mã nguồn lên nhánh `main` trước khi phát hành.
 3. Cài GitHub CLI (`gh`) trên máy xuất bản và đăng nhập một lần bằng `gh auth login`.
-4. Chạy `export_game.bat`, chọn `Y` ở câu hỏi tạo GitHub Release. Script export `LittleDaNang.exe` rồi đính kèm file đó vào release có tag `v` + version, ví dụ `v1.3.1`.
+4. Chạy `export_game.bat`, chọn `Y` ở câu hỏi tạo GitHub Release. Script export `LittleDaNang.exe`, PCK nền, các patch PCK, SHA-256 và `update_manifest.json` lên release có tag `v` + version.
+5. Bản chuyển tiếp đầu tiên có các patch PCK đầy đủ để người đang ở 1.1.2, 1.3, 1.3.1, 1.4 hoặc 1.4.1 nhảy thẳng tới phiên bản mới; các bản kế tiếp dùng patch nối chuỗi.
 
 ### 2. Người chơi cập nhật:
 1. Chỉ cần tải và chạy `LittleDaNang.exe`; không cần cài Git, clone repository hay có thư mục `.git`.
-2. Chọn **🚀 Cập nhật game**. Game kiểm tra GitHub Releases, tải `LittleDaNang.exe` mới nhất và tự thay file sau khi thoát.
+2. Các bản cũ cập nhật một lần lên executable mới. Sau đó, nút **🚀 Cập nhật game** đọc `update_manifest.json`, tải các PCK theo chuỗi phiên bản, xác minh SHA-256 và khởi động lại để nạp patch.
 
-Release mới nhất phải có asset tên chính xác `LittleDaNang.exe`. Game cần quyền ghi vào thư mục chứa file exe và kết nối Internet. Nếu GitHub báo tag đã tồn tại, tăng version trước khi xuất bản phiên bản kế tiếp.
+Mỗi release cần có `LittleDaNang.exe`, `update_manifest.json`, PCK nền và các PCK được manifest tham chiếu. Game cần kết nối Internet; PCK được lưu trong thư mục dữ liệu người dùng. Nếu GitHub báo tag đã tồn tại, tăng version trước khi xuất bản phiên bản kế tiếp.

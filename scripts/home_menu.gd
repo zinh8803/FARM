@@ -71,12 +71,12 @@ func load_version_file() -> void:
 	
 	if local_version_info.is_empty():
 		local_version_info = {
-			"version": "1.4.1",
+			"version": "1.4.2",
 			"release_date": "2026-10-16",
 			"changelog": []
 		}
 	
-	var ver = str(local_version_info.get("version", "1.4.1"))
+	var ver = str(local_version_info.get("version", "1.4.2"))
 	var rdate = str(local_version_info.get("release_date", ""))
 	if update_status_badge:
 		update_status_badge.text = "● Phiên bản hiện tại: v%s (%s)" % [ver, rdate]
@@ -218,13 +218,14 @@ func _do_auto_update() -> void:
 	if not manifest_data is Dictionary or not manifest_data.get("patches", []) is Array:
 		_update_failed("Manifest cập nhật không đúng định dạng JSON.")
 		return
-	var latest_version := str(manifest_data.get("latest_version", "")).trim_prefix("v")
-	if latest_version.is_empty():
+	var latest_version_text := str(manifest_data.get("latest_version", "")).strip_edges()
+	if latest_version_text.is_empty():
 		_update_failed("Manifest thiếu latest_version.")
 		return
+	var latest_version := _normalize_version(latest_version_text)
 
 	var patch_index_path := "user://patches/installed_patches.json"
-	var patch_index: Dictionary = {"version": str(local_version_info.get("version", "0.0.0")).trim_prefix("v"), "files": []}
+	var patch_index: Dictionary = {"version": _normalize_version(str(local_version_info.get("version", "0.0.0"))), "files": []}
 	if FileAccess.file_exists(patch_index_path):
 		var index_file := FileAccess.open(patch_index_path, FileAccess.READ)
 		if index_file:
@@ -232,7 +233,7 @@ func _do_auto_update() -> void:
 			index_file.close()
 			if parsed_index is Dictionary:
 				patch_index = parsed_index
-	var current_version := str(patch_index.get("version", local_version_info.get("version", "0.0.0"))).trim_prefix("v")
+	var current_version := _normalize_version(str(patch_index.get("version", local_version_info.get("version", "0.0.0"))))
 	var installed_files: Array = patch_index.get("files", [])
 	if current_version == latest_version:
 		if update_progress_bar:
@@ -249,13 +250,13 @@ func _do_auto_update() -> void:
 			break
 		var next_patch: Dictionary = {}
 		for patch_item in manifest_data["patches"]:
-			if patch_item is Dictionary and str(patch_item.get("from", "")).trim_prefix("v") == cursor:
+			if patch_item is Dictionary and _normalize_version(str(patch_item.get("from", ""))) == cursor:
 				next_patch = patch_item
 				break
 		if next_patch.is_empty():
 			_update_failed("Không tìm thấy patch từ v%s đến v%s trong manifest." % [cursor, latest_version])
 			return
-		var next_version := str(next_patch.get("to", "")).trim_prefix("v")
+		var next_version := _normalize_version(str(next_patch.get("to", "")))
 		if next_version.is_empty() or next_version == cursor:
 			_update_failed("Manifest có patch version không hợp lệ tại v%s." % cursor)
 			return
@@ -354,6 +355,13 @@ func _http_response_ok(response: Array) -> bool:
 
 func _http_code(response: Array) -> int:
 	return int(response[1]) if response.size() > 1 else -1
+
+func _normalize_version(version_text: String) -> String:
+	var clean := version_text.trim_prefix("v").strip_edges()
+	var parts := clean.split(".")
+	while parts.size() < 3:
+		parts.append("0")
+	return ".".join(parts)
 
 # Legacy full-executable updater retained for older references; the UI uses the PCK updater above.
 func _do_auto_update_exe_legacy() -> void:

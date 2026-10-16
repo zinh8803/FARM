@@ -19,6 +19,12 @@ function Invoke-GitHub([string[]]$Arguments) {
     if ($LASTEXITCODE -ne 0) { throw "GitHub CLI failed: gh $($Arguments -join ' ')" }
 }
 
+function Normalize-Version([string]$Text) {
+    $Parts = @($Text.TrimStart('v').Split('.'))
+    while ($Parts.Count -lt 3) { $Parts += '0' }
+    return ($Parts -join '.')
+}
+
 try {
     Write-Host "[1/5] Exporting full resource baseline $BaseName ..."
     & $GodotExe --headless --export-pack 'Windows Desktop' $BasePath
@@ -49,7 +55,7 @@ try {
         $PreviousBaseName = "LittleDaNang_base_$PreviousVersion.pck"
         $PreviousBaseDir = Join-Path $TempDir 'previous'
         New-Item -ItemType Directory -Path $PreviousBaseDir | Out-Null
-        & gh release download "v$PreviousVersion" --repo $Repository --pattern $PreviousBaseName --dir $PreviousBaseDir 2>$null
+        & gh release download $LatestTag --repo $Repository --pattern $PreviousBaseName --dir $PreviousBaseDir 2>$null
         $PreviousBasePath = Join-Path $PreviousBaseDir $PreviousBaseName
 
         if (Test-Path -LiteralPath $PreviousBasePath) {
@@ -74,6 +80,40 @@ try {
     } else {
         Write-Host '[2/5] No version transition: establishing this release as the patch baseline.'
     }
+
+    # Legacy releases did not ship PCK baselines/manifests. Add a full-pack bridge
+    # from each known released version so 1.1.x/1.3.x/1.4.x users can jump here.
+    $LegacyVersions = @('1.1.0', '1.1.2', '1.2.0', '1.3.0', '1.3.1', '1.4.0', '1.4.1')
+    $ManifestPatches = @($Manifest.patches)
+    $TargetNormalized = Normalize-Version $Version
+    foreach ($LegacyVersion in $LegacyVersions) {
+        $FromNormalized = Normalize-Version $LegacyVersion
+        if ($FromNormalized -eq $TargetNormalized) { continue }
+        $AlreadyCovered = $false
+        foreach ($KnownPatch in $ManifestPatches) {
+            if ((Normalize-Version ([string]$KnownPatch.from)) -eq $FromNormalized -and (Normalize-Version ([string]$KnownPatch.to)) -eq $TargetNormalized) {
+                $AlreadyCovered = $true
+                break
+            }
+        }
+        if ($AlreadyCovered) { continue }
+
+        $BridgeName = "patch_${FromNormalized}_to_${TargetNormalized}.pck"
+        $BridgePath = Join-Path $ProjectDir $BridgeName
+        Copy-Item -LiteralPath $BasePath -Destination $BridgePath -Force
+        $BridgeHash = (Get-FileHash -LiteralPath $BridgePath -Algorithm SHA256).Hash.ToLowerInvariant()
+        $BridgeUrl = "https://github.com/$Repository/releases/download/$Tag/$BridgeName"
+        $Bridge = [ordered]@{
+            from = $FromNormalized
+            to = $TargetNormalized
+            file = $BridgeName
+            url = $BridgeUrl
+            sha256 = $BridgeHash
+        }
+        $ManifestPatches += $Bridge
+        $ReleaseAssets += $BridgePath
+    }
+    $Manifest.patches = $ManifestPatches
 
     $Manifest.latest_version = $Version
     $Json = ConvertTo-Json -InputObject $Manifest -Depth 20

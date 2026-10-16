@@ -1,13 +1,13 @@
 {
-  "version": "1.4.1",
-  "version_code": 141,
+  "version": "1.4.2",
+  "version_code": 142,
   "release_date": "2026-10-16",
   "game_name": "Little DaNang - Game Nông Trại Việt",
   "github_repo": "https://github.com/zinh8803/FARM",
   "raw_version_url": "https://raw.githubusercontent.com/zinh8803/FARM/main/version.json",
   "update_manifest_url": "https://github.com/zinh8803/FARM/releases/latest/download/update_manifest.json",
   "changelog": [
-    "🔄 Bộ cập nhật PCK theo chuỗi phiên bản, xác minh SHA-256 và tự khởi động lại",
+    "🔄 Bộ cập nhật PCK tương thích các bản 1.1.2–1.4.1, xác minh SHA-256 và tự khởi động lại",
     "👘 Tùy biến trang phục: Áo bà ba vàng, áo bà ba xanh lá sen, áo bà ba nâu đất kèm khăn rằn Nam Bộ, áo dài truyền thống gấm đỏ du xuân",
     "🏡 Nội thất nhà ba gian: Bộ bàn ghế cẩm thạch xưa, sập gỗ lim, tivi đen trắng cổ điển, quạt trần cổ",
     "🌾 Ngoại thất nông thôn: Bù nhìn rơm đuổi chim, chậu hoa cúc đón Tết vàng rực, giàn mướp/bầu trĩu quả ngõ vào",
