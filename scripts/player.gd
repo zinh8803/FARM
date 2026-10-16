@@ -26,7 +26,10 @@ var ui_node: Node
 var input_blocked: bool = false
 
 var tex_player = preload("res://assets/sprites/player.png")
+var tex_outfits = preload("res://assets/sprites/player_outfits.png")
 var tex_vehicles = preload("res://assets/sprites/vehicles.png")
+
+var current_outfit: int = 0 # 0: Bà ba vàng, 1: Bà ba xanh, 2: Bà ba nâu, 3: Áo dài đỏ
 
 var speed_buff_multiplier: float = 1.0
 var speed_buff_timer: float = 0.0
@@ -37,6 +40,11 @@ var speed_buff_timer: float = 0.0
 func _ready() -> void:
 	add_to_group("player")
 	speed = base_speed
+	update_sprite()
+
+func set_outfit(outfit_id: int) -> void:
+	current_outfit = clampi(outfit_id, 0, 3)
+	_last_sprite_region = Rect2()
 	update_sprite()
 
 func setup(inv: InventoryData, ui: Node) -> void:
@@ -175,8 +183,8 @@ func update_sprite() -> void:
 		else:
 			row = 0 # Down
 	
-	var target_tex = tex_player
-	var base_row = row
+	var target_tex = tex_outfits if tex_outfits else tex_player
+	var base_row = current_outfit * 4 + row
 	
 	if vehicle_mode == VehicleMode.BICYCLE:
 		target_tex = tex_vehicles

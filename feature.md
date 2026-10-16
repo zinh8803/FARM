@@ -170,3 +170,29 @@ Bản đồ nông trại được chia thành các khu vực chức năng rõ r�
 - Thêm NPC Bác Ba trưởng thôn đứng bên đường.
 - Hệ thống hội thoại hiển thị tên, nội dung và giao 3 nhiệm vụ mẫu.
 - Kiểm thử và đóng gói hoàn thiện.
+
+---
+
+## 8. Kế hoạch Bản cập nhật 1.4: Tùy biến Nông thôn & Trải nghiệm Âm vang
+
+### 1. Tùy biến Personalization & Xây dựng (Customization & Building)
+- **Tùy biến Trang phục (Cosmetics):**
+  - Thay đổi trang phục nhân vật linh hoạt: Áo bà ba truyền thống (các gam màu đặc trưng: vàng mỡ gà, xanh lá sen, nâu đất), áo dài truyền thống du xuân, nón lá chóp nhọn, khăn rằn Nam Bộ quàng cổ.
+- **Trang trí Nhà cửa & Nông trại (Furniture & Decorating):**
+  - **Nội thất bên trong nhà ba gian:** Bộ bàn ghế cẩm thạch xưa, sập/phản gỗ lim, bàn thờ gia tiên trang nghiêm, tivi đen trắng cổ điển, quạt trần cánh đồng xưa.
+  - **Ngoại thất khuôn viên:** Đặt thêm bù nhìn rơm xua đuổi chim ăn hạt, chậu cúc vàng rực rỡ đón Tết, hàng rào tre đan lát bao quanh bờ ao, giàn bầu/mướp trĩu quả ngay lối vào cổng ngõ.
+
+### 2. Nâng cấp Kỹ thuật & Trải nghiệm (Godot Engine)
+- **Hệ thống Lưu dữ liệu toàn diện (Save/Load System):**
+  - Cơ chế tự động lưu game khi nhân vật lên giường đi ngủ (kết thúc một ngày làm việc nông trại).
+  - Dữ liệu lưu trữ định dạng JSON/Resource bao gồm: trạng thái độ ẩm và sinh trưởng từng ô đất, thời gian trong game, toàn bộ vật phẩm trong túi đồ, trang phục đang mặc và vị trí của các NPC.
+- **Thiết kế Âm thanh & Nhạc nền (Sound & Audio Design):**
+  - **Ambient Sound (Âm thanh môi trường chân thực):**
+    - Tiếng gà trống gáy vang ban mai đánh thức ngày mới.
+    - Tiếng ve sầu râm ran trưa hè rực nắng.
+    - Tiếng dế mèn, ếch nhái rên rỉ râm ran trong đêm thanh vắng.
+    - Tiếng sóng biển vỗ rì rào dọc tuyến đường ven biển và đảo ngọc.
+  - **BGM (Nhạc nền bản sắc):**
+    - Nhạc Acoustic êm dịu kết hợp bộ nhạc cụ dân tộc truyền thống (Đàn bầu tha thiết, Sáo trúc véo von, Đàn tranh thánh thót).
+    - Phối khí cùng phong cách điệu điệu hiện đại chillhop/lo-fi nhẹ nhàng, thư giãn cho người chơi khi làm nông.
+

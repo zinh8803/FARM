@@ -506,3 +506,12 @@ func _on_inventory_use_egg() -> void:
 		update_inventory_display()
 	else:
 		show_toast("❌ Bạn không có quả trứng nào trong túi để ăn!")
+
+func _on_select_outfit(outfit_id: int) -> void:
+	var player = get_tree().get_first_node_in_group("player")
+	if player and player.has_method("set_outfit"):
+		player.set_outfit(outfit_id)
+		var names = ["Áo bà ba vàng & Nón lá 🌾", "Áo bà ba xanh lá sen & Nón lá 🍃", "Áo bà ba nâu đất & Khăn rằn Nam Bộ 🧣", "Áo dài truyền thống gấm đỏ du xuân 🧧"]
+		show_toast("👘 Đã đổi trang phục: %s" % names[clampi(outfit_id, 0, 3)])
+		_play_ui_sound("click")
+

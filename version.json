@@ -1,27 +1,26 @@
 {
-  "version": "1.3.1",
-  "version_code": 131,
+  "version": "1.4.0",
+  "version_code": 140,
   "release_date": "2026-10-16",
   "game_name": "Little DaNang - Game Nông Trại Việt",
   "github_repo": "https://github.com/zinh8803/FARM",
   "raw_version_url": "https://raw.githubusercontent.com/zinh8803/FARM/main/version.json",
   "changelog": [
-    "🏝️ Tàu thuyền qua lại trên biển, mở tuyến ra Đảo Ngọc với làng chài và NPC riêng",
-    "🎣 Câu cá trên đảo bằng minigame canh thanh đo; bán cá tại vựa cá để lấy xu",
-    "🏙️ Đại lộ ven biển nối sang Thành Phố Đà Thành với casino, trường học và trường đua ngựa",
-    "♠ Casino có bàn bài Tây, poker cược xu trong game và bi-da tương tác",
-    "🏇 Bốn ngựa đua chạy quanh trường đua; học sinh và khán giả tự đi lại",
-    "🌾 Thêm bản đồ Cánh Đồng Lúa nối trực tiếp với Chợ Quê; có ruộng lúa chín để thu hoạch",
-    "✨ Màn hình Trang Chủ (Home Menu) với Chơi, Chơi mới, Cài đặt, Cập nhật",
-    "🌧️ Bật/Tắt thời tiết thực tế (mưa rào, tự động tưới ruộng)",
-    "🌓 Bật/Tắt sáng/tối môi trường theo thời gian thực",
-    "🔊 Hệ thống âm thanh nông cụ và nhạc nền đồng quê",
-    "🔄 Tự tải bản EXE hoặc ZIP mới từ GitHub Releases, không cần Git hoặc thư mục .git"
+    "👘 Tùy biến trang phục: Áo bà ba vàng, áo bà ba xanh lá sen, áo bà ba nâu đất kèm khăn rằn Nam Bộ, áo dài truyền thống gấm đỏ du xuân",
+    "🏡 Nội thất nhà ba gian: Bộ bàn ghế cẩm thạch xưa, sập gỗ lim, tivi đen trắng cổ điển, quạt trần cổ",
+    "🌾 Ngoại thất nông thôn: Bù nhìn rơm đuổi chim, chậu hoa cúc đón Tết vàng rực, giàn mướp/bầu trĩu quả ngõ vào",
+    "🛏️ Cơ chế Đi ngủ & Tự động lưu game: Ngủ qua đêm trên sập/phản gỗ để tua sang ngày mới, tưới mát và thúc đẩy cây trồng lớn lên, lưu toàn bộ ô đất, túi đồ, vị trí và trang phục",
+    "🦗 Âm thanh môi trường chân thực (Ambient Sound): Tiếng gà gáy sớm ban mai, tiếng ve sầu râm ran trưa hè, dế mèn đêm thanh vắng, sóng biển rì rào",
+    "🎶 Nhạc nền mộc BGM Chillhop/Lo-fi phối âm hưởng Đàn Bầu, Sáo Trúc, Đàn Tranh tha thiết",
+    "🏝️ Tuyến tàu ra Đảo Ngọc làng chài, minigame câu cá và vựa cá mua bán",
+    "🏙️ Đại lộ ven biển & Thành phố Đà Thành hiện đại với casino cược xu, trường đua ngựa và trường học",
+    "🌾 Bản đồ Cánh Đồng Lúa nối trực tiếp với Chợ Quê nông sản",
+    "🌧️ Hệ thống thời tiết mưa rào tự động tưới ẩm toàn bộ ô ruộng",
+    "🔄 Cập nhật tự động trực tiếp từ GitHub Releases kèm thanh tiến độ tải thực tế"
   ],
   "upcoming_features": [
-    "🌊 Bản đồ Bờ biển Mỹ Khê & Chợ Đêm Hải Sản",
     "🚜 Xe máy cày đất và xe tải vận chuyển nông sản",
-    "🎣 Câu cá sông Hàn & chế biến đặc sản miền Trung",
+    "🎣 Câu cá sông Hàn & chế biến đặc sản ẩm thực miền Trung",
     "👥 Tính năng kết nối nhiều người chơi thăm nông trại"
   ]
 }

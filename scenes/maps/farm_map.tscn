@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/barn.png" id="6_barn"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props.png" id="7_props"]
 [ext_resource type="PackedScene" path="res://scenes/vehicle.tscn" id="8_vehiclescene"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rural_decorations.png" id="9_ruralprops"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_house_wall"]
 size = Vector2(170, 70)
@@ -285,6 +286,42 @@ region_rect = Rect2(0, 0, 64, 64)
 [node name="HaystackCollision" type="CollisionShape2D" parent="YSort/Haystack"]
 position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_haystack")
+
+[node name="Scarecrow" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(245, 120)
+collision_mask = 2
+
+[node name="ScarecrowSprite" type="Sprite2D" parent="YSort/Scarecrow"]
+texture_filter = 0
+texture = ExtResource("9_ruralprops")
+region_enabled = true
+region_rect = Rect2(8, 4, 34, 46)
+
+[node name="ScarecrowCol" type="CollisionShape2D" parent="YSort/Scarecrow"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_haystack")
+
+[node name="TetFlowerPot1" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(50, 100)
+texture = ExtResource("9_ruralprops")
+region_enabled = true
+region_rect = Rect2(52, 6, 26, 30)
+
+[node name="TetFlowerPot2" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(178, 100)
+texture = ExtResource("9_ruralprops")
+region_enabled = true
+region_rect = Rect2(52, 6, 26, 30)
+
+[node name="GourdTrellis" type="Sprite2D" parent="YSort"]
+texture_filter = 0
+position = Vector2(215, 30)
+texture = ExtResource("9_ruralprops")
+region_enabled = true
+region_rect = Rect2(150, 4, 60, 56)
 
 [node name="Bamboo1" type="Sprite2D" parent="YSort"]
 texture_filter = 0

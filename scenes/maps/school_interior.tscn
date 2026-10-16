@@ -4,232 +4,360 @@
 [ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_portal"]
 [ext_resource type="PackedScene" path="res://scenes/wandering_npc.tscn" id="3_wandering"]
 [ext_resource type="Texture2D" path="res://assets/sprites/city_npcs.png" id="4_npcs"]
+[ext_resource type="Texture2D" path="res://assets/sprites/school_props.png" id="5_school_props"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
-size = Vector2(560, 20)
+size = Vector2(660, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
-size = Vector2(20, 360)
+size = Vector2(20, 460)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_bot"]
-size = Vector2(220, 20)
+size = Vector2(260, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_desk_col"]
+size = Vector2(56, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t_desk_col"]
+size = Vector2(72, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drum_col"]
+size = Vector2(48, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bookcase_col"]
+size = Vector2(68, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
-size = Vector2(70, 24)
+size = Vector2(80, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bench_col"]
+size = Vector2(56, 20)
 
 [node name="SchoolInterior" type="Node2D"]
 script = ExtResource("1_base")
-map_title = "🏫 Trường Tiểu Học Đà Thành"
+map_title = "🏫 Trường Tiểu Học Đà Thành Thân Thiện"
 default_spawn_name = "spawn_entrance"
-map_width = 560.0
-map_height = 360.0
+map_width = 660.0
+map_height = 460.0
 
 [node name="Floor" type="ColorRect" parent="."]
-offset_right = 560.0
-offset_bottom = 360.0
-color = Color(0.81, 0.76, 0.61, 1)
+offset_right = 660.0
+offset_bottom = 460.0
+color = Color(0.84, 0.8, 0.7, 1)
 
-[node name="Classroom" type="ColorRect" parent="."]
-offset_left = 18.0
+[node name="FloorPlanks" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 42.0
+offset_right = 640.0
+offset_bottom = 420.0
+color = Color(0.9, 0.86, 0.76, 1)
+
+[node name="FloorTiles" type="Sprite2D" parent="."]
+position = Vector2(256, 370)
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 256, 512, 40)
+
+[node name="CorridorLine1" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 350.0
+offset_right = 640.0
+offset_bottom = 354.0
+color = Color(0.72, 0.65, 0.52, 1)
+
+[node name="CorridorLine2" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 356.0
+offset_right = 640.0
+offset_bottom = 358.0
+color = Color(0.78, 0.72, 0.58, 1)
+
+[node name="ClassroomWall" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 22.0
+offset_right = 640.0
+offset_bottom = 50.0
+color = Color(0.8, 0.86, 0.82, 1)
+
+[node name="WallStripe" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 48.0
+offset_right = 640.0
+offset_bottom = 54.0
+color = Color(0.4, 0.6, 0.48, 1)
+
+[node name="BlackboardBacking" type="ColorRect" parent="."]
+offset_left = 218.0
 offset_top = 38.0
-offset_right = 542.0
-offset_bottom = 330.0
-color = Color(0.91, 0.87, 0.72, 1)
+offset_right = 442.0
+offset_bottom = 100.0
+color = Color(0.46, 0.26, 0.1, 1)
 
-[node name="FloorStripe" type="ColorRect" parent="."]
-offset_left = 18.0
-offset_top = 285.0
-offset_right = 542.0
-offset_bottom = 330.0
-color = Color(0.78, 0.72, 0.57, 1)
+[node name="Blackboard" type="Sprite2D" parent="."]
+position = Vector2(330, 56)
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(248, 0, 180, 80)
 
-[node name="NoticeBoard" type="ColorRect" parent="."]
-offset_left = 42.0
-offset_top = 48.0
-offset_right = 132.0
-offset_bottom = 98.0
-color = Color(0.55, 0.31, 0.16, 1)
+[node name="MapVietnam" type="Sprite2D" parent="."]
+position = Vector2(70, 72)
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 100, 80, 112)
 
-[node name="NoticePaper" type="ColorRect" parent="."]
-offset_left = 50.0
-offset_top = 54.0
-offset_right = 124.0
-offset_bottom = 90.0
-color = Color(0.97, 0.9, 0.66, 1)
+[node name="SchoolFlag" type="Sprite2D" parent="."]
+position = Vector2(590, 68)
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(328, 100, 60, 140)
 
-[node name="WindowBand" type="ColorRect" parent="."]
-offset_left = 410.0
-offset_top = 50.0
-offset_right = 516.0
-offset_bottom = 94.0
-color = Color(0.42, 0.73, 0.82, 1)
-
-[node name="WindowDivider" type="ColorRect" parent="."]
-offset_left = 460.0
-offset_top = 50.0
-offset_right = 466.0
-offset_bottom = 94.0
-color = Color(0.88, 0.84, 0.68, 1)
-
-[node name="Blackboard" type="ColorRect" parent="."]
-offset_left = 205.0
-offset_top = 48.0
-offset_right = 355.0
-offset_bottom = 86.0
-color = Color(0.08, 0.28, 0.2, 1)
-
-[node name="BoardText" type="Label" parent="."]
-offset_left = 205.0
-offset_top = 52.0
-offset_right = 355.0
-offset_bottom = 82.0
-theme_override_colors/font_color = Color(0.95, 0.94, 0.8, 1)
-theme_override_font_sizes/font_size = 10
-text = "CHĂM HỌC · CHĂM LÀM"
+[node name="ClassroomTitle" type="Label" parent="."]
+offset_left = 200.0
+offset_top = 26.0
+offset_right = 460.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.32, 0.5, 0.38, 1)
+theme_override_font_sizes/font_size = 9
+text = "★ LỚP 3A - TRƯỜNG TIỂU HỌC ĐÀ THÀNH ★"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Desk1" type="ColorRect" parent="."]
-offset_left = 82.0
-offset_top = 125.0
-offset_right = 145.0
-offset_bottom = 150.0
-color = Color(0.48, 0.28, 0.15, 1)
-
-[node name="Book1" type="ColorRect" parent="."]
-offset_left = 96.0
-offset_top = 116.0
-offset_right = 118.0
-offset_bottom = 124.0
-color = Color(0.84, 0.25, 0.18, 1)
-
-[node name="Desk2" type="ColorRect" parent="."]
-offset_left = 190.0
-offset_top = 125.0
-offset_right = 253.0
-offset_bottom = 150.0
-color = Color(0.48, 0.28, 0.15, 1)
-
-[node name="Desk3" type="ColorRect" parent="."]
-offset_left = 298.0
-offset_top = 125.0
-offset_right = 361.0
-offset_bottom = 150.0
-color = Color(0.48, 0.28, 0.15, 1)
-
-[node name="Desk4" type="ColorRect" parent="."]
-offset_left = 406.0
-offset_top = 125.0
-offset_right = 469.0
-offset_bottom = 150.0
-color = Color(0.48, 0.28, 0.15, 1)
-
-[node name="Book2" type="ColorRect" parent="."]
-offset_left = 424.0
-offset_top = 116.0
-offset_right = 446.0
-offset_bottom = 124.0
-color = Color(0.2, 0.42, 0.78, 1)
-
-[node name="Desk5" type="ColorRect" parent="."]
-offset_left = 136.0
-offset_top = 215.0
-offset_right = 199.0
-offset_bottom = 240.0
-color = Color(0.48, 0.28, 0.15, 1)
-
-[node name="Desk6" type="ColorRect" parent="."]
-offset_left = 244.0
-offset_top = 215.0
-offset_right = 307.0
-offset_bottom = 240.0
-color = Color(0.48, 0.28, 0.15, 1)
-
-[node name="Desk7" type="ColorRect" parent="."]
-offset_left = 352.0
-offset_top = 215.0
-offset_right = 415.0
-offset_bottom = 240.0
-color = Color(0.48, 0.28, 0.15, 1)
 
 [node name="ClassroomHint" type="Label" parent="."]
-offset_left = 60.0
-offset_top = 292.0
-offset_right = 500.0
-offset_bottom = 315.0
-theme_override_colors/font_color = Color(0.3, 0.25, 0.18, 1)
-theme_override_font_sizes/font_size = 8
-text = "Học sinh và thầy cô đang đi lại trong giờ ra chơi."
+offset_left = 80.0
+offset_top = 400.0
+offset_right = 580.0
+offset_bottom = 420.0
+theme_override_colors/font_color = Color(0.32, 0.28, 0.2, 1)
+theme_override_font_sizes/font_size = 9
+text = "🏫 Lớp học thân thiện Đà Thành · Giờ ra chơi rộn ràng tiếng cười của các em"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Collisions" type="StaticBody2D" parent="."]
 collision_mask = 2
 
 [node name="WallTop" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(280, 10)
+position = Vector2(330, 10)
 shape = SubResource("RectangleShape2D_wall_h")
 
 [node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(10, 180)
+position = Vector2(10, 230)
 shape = SubResource("RectangleShape2D_wall_v")
 
 [node name="WallRight" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(550, 180)
+position = Vector2(650, 230)
 shape = SubResource("RectangleShape2D_wall_v")
 
 [node name="WallBottomLeft" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(105, 350)
+position = Vector2(120, 450)
 shape = SubResource("RectangleShape2D_wall_bot")
 
 [node name="WallBottomRight" type="CollisionShape2D" parent="Collisions"]
-position = Vector2(455, 350)
+position = Vector2(540, 450)
 shape = SubResource("RectangleShape2D_wall_bot")
 
 [node name="YSort" type="Node2D" parent="."]
 y_sort_enabled = true
 
+[node name="TeacherDesk" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(330, 120)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/TeacherDesk"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(112, 0, 124, 84)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/TeacherDesk"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_t_desk_col")
+
+[node name="SchoolDrum" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(520, 110)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/SchoolDrum"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(440, 0, 88, 100)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/SchoolDrum"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_drum_col")
+
+[node name="Bookcase" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(60, 130)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/Bookcase"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(96, 100, 120, 132)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/Bookcase"]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_bookcase_col")
+
+[node name="SchoolTree" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(620, 130)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/SchoolTree"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(224, 100, 88, 128)
+
+[node name="BenchOutdoor" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(470, 380)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/BenchOutdoor"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(408, 108, 96, 64)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/BenchOutdoor"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_bench_col")
+
+[node name="DeskRow1Left" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(180, 200)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/DeskRow1Left"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 72)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/DeskRow1Left"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_desk_col")
+
+[node name="DeskRow1Mid" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(330, 200)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/DeskRow1Mid"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 72)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/DeskRow1Mid"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_desk_col")
+
+[node name="DeskRow1Right" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(480, 200)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/DeskRow1Right"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 72)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/DeskRow1Right"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_desk_col")
+
+[node name="DeskRow2Left" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(180, 280)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/DeskRow2Left"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 72)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/DeskRow2Left"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_desk_col")
+
+[node name="DeskRow2Mid" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(330, 280)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/DeskRow2Mid"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 72)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/DeskRow2Mid"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_desk_col")
+
+[node name="DeskRow2Right" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(480, 280)
+collision_mask = 2
+
+[node name="Sprite" type="Sprite2D" parent="YSort/DeskRow2Right"]
+texture = ExtResource("5_school_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 72)
+
+[node name="Col" type="CollisionShape2D" parent="YSort/DeskRow2Right"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_desk_col")
+
 [node name="Teacher" parent="YSort" instance=ExtResource("3_wandering")]
-position = Vector2(280, 100)
-npc_name = "Cô Hạnh - Giáo Viên"
-dialogue_line = "Các em chăm học nhé! Hôm nay mình cùng tìm hiểu về những vùng đất và dòng sông quê hương."
+position = Vector2(330, 88)
+npc_name = "Cô Hạnh - Giáo Viên Chủ Nhiệm"
+dialogue_line = "Các em học sinh chăm ngoan nhé! Hôm nay chúng ta cùng học về dải non sông đất nước Việt Nam."
 custom_texture = ExtResource("4_npcs")
 sprite_region = Rect2(128, 0, 32, 32)
-wander_radius = Vector2(35, 10)
+wander_radius = Vector2(50, 10)
 move_speed = 18.0
 
 [node name="Student1" parent="YSort" instance=ExtResource("3_wandering")]
-position = Vector2(110, 175)
-npc_name = "Bé An - Học Sinh"
-dialogue_line = "Tan học em sẽ về phụ ông bà chăm vườn rau!"
+position = Vector2(140, 220)
+npc_name = "Bé An - Học Sinh Giỏi"
+dialogue_line = "Tan học em sẽ về phụ giúp gia đình tưới vườn rau bắp cải!"
 custom_texture = ExtResource("4_npcs")
 sprite_region = Rect2(160, 0, 32, 32)
-wander_radius = Vector2(45, 22)
+wander_radius = Vector2(35, 18)
 
 [node name="Student2" parent="YSort" instance=ExtResource("3_wandering")]
-position = Vector2(330, 180)
+position = Vector2(330, 250)
 npc_name = "Bé Bình - Học Sinh"
-dialogue_line = "Em thích môn thể dục và chạy đua với các bạn."
+dialogue_line = "Em thích môn thể dục và thường chạy đua với các bạn trên sân trường."
 custom_texture = ExtResource("4_npcs")
 sprite_region = Rect2(192, 0, 32, 32)
-wander_radius = Vector2(48, 26)
+wander_radius = Vector2(40, 20)
 
 [node name="Student3" parent="YSort" instance=ExtResource("3_wandering")]
-position = Vector2(450, 265)
+position = Vector2(520, 300)
 npc_name = "Bé Lan - Học Sinh"
-dialogue_line = "Trường mình gần biển, gió mát quanh năm!"
+dialogue_line = "Trường mình gần biển Mỹ Khê nên gió thổi mát rượi quanh năm!"
 custom_texture = ExtResource("4_npcs")
 sprite_region = Rect2(288, 0, 32, 32)
-wander_radius = Vector2(40, 20)
+wander_radius = Vector2(35, 18)
+
+[node name="Student4" parent="YSort" instance=ExtResource("3_wandering")]
+position = Vector2(200, 360)
+npc_name = "Bé Tùng - Học Sinh"
+dialogue_line = "Em vừa được điểm 10 môn Toán! Vui quá trời luôn!"
+custom_texture = ExtResource("4_npcs")
+sprite_region = Rect2(224, 0, 32, 32)
+wander_radius = Vector2(40, 22)
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="spawn_entrance" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(280, 320)
+position = Vector2(330, 400)
 
 [node name="Portals" type="Node2D" parent="."]
 
 [node name="Portal_Exit" parent="Portals" instance=ExtResource("2_portal")]
-position = Vector2(280, 352)
+position = Vector2(330, 452)
 target_map_path = "res://scenes/maps/modern_city.tscn"
 target_spawn_name = "spawn_from_school"
 portal_prompt = "Ra Phố"

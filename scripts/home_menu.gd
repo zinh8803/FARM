@@ -71,12 +71,12 @@ func load_version_file() -> void:
 	
 	if local_version_info.is_empty():
 		local_version_info = {
-			"version": "1.3.1",
+			"version": "1.4.0",
 			"release_date": "2026-10-16",
 			"changelog": []
 		}
 	
-	var ver = str(local_version_info.get("version", "1.3.1"))
+	var ver = str(local_version_info.get("version", "1.4.0"))
 	var rdate = str(local_version_info.get("release_date", ""))
 	if update_status_badge:
 		update_status_badge.text = "● Phiên bản hiện tại: v%s (%s)" % [ver, rdate]

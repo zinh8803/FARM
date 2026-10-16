@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scripts/base_map.gd" id="1_intext"]
 [ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_intptl"]
 [ext_resource type="Texture2D" path="res://assets/sprites/interior_tiles.png" id="3_inttex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rural_decorations.png" id="4_ruraltex"]
+[ext_resource type="Script" path="res://scripts/house_bed.gd" id="5_bedscript"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_top"]
 size = Vector2(380, 20)
@@ -99,6 +101,7 @@ shape = SubResource("RectangleShape2D_altar_col")
 y_sort_enabled = true
 position = Vector2(300, 110)
 collision_mask = 2
+script = ExtResource("5_bedscript")
 
 [node name="DaybedSprite" type="Sprite2D" parent="YSort/Daybed"]
 texture_filter = 0
@@ -109,6 +112,16 @@ region_rect = Rect2(64, 0, 64, 32)
 [node name="DaybedCol" type="CollisionShape2D" parent="YSort/Daybed"]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_bed_col")
+
+[node name="Area2D" type="Area2D" parent="YSort/Daybed"]
+collision_mask = 2
+
+[node name="InteractShape" type="CollisionShape2D" parent="YSort/Daybed/Area2D"]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_bed_col")
+
+[connection signal="body_entered" from="YSort/Daybed/Area2D" to="YSort/Daybed" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="YSort/Daybed/Area2D" to="YSort/Daybed" method="_on_area_2d_body_exited"]
 
 [node name="TeaTable" type="StaticBody2D" parent="YSort"]
 y_sort_enabled = true
@@ -124,6 +137,40 @@ region_rect = Rect2(64, 32, 64, 48)
 [node name="TableCol" type="CollisionShape2D" parent="YSort/TeaTable"]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_table_col")
+
+[node name="MarbleTableSet" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(190, 130)
+collision_mask = 2
+
+[node name="MarbleSprite" type="Sprite2D" parent="YSort/MarbleTableSet"]
+texture_filter = 0
+texture = ExtResource("4_ruraltex")
+region_enabled = true
+region_rect = Rect2(0, 68, 64, 50)
+
+[node name="MarbleCol" type="CollisionShape2D" parent="YSort/MarbleTableSet"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_table_col")
+
+[node name="VintageTV" type="StaticBody2D" parent="YSort"]
+y_sort_enabled = true
+position = Vector2(50, 60)
+collision_mask = 2
+
+[node name="TVSprite" type="Sprite2D" parent="YSort/VintageTV"]
+texture_filter = 0
+texture = ExtResource("4_ruraltex")
+region_enabled = true
+region_rect = Rect2(132, 70, 32, 36)
+
+[node name="CeilingFan" type="Sprite2D" parent="."]
+z_index = 8
+texture_filter = 0
+position = Vector2(190, 120)
+texture = ExtResource("4_ruraltex")
+region_enabled = true
+region_rect = Rect2(170, 70, 44, 44)
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 

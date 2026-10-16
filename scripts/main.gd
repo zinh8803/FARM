@@ -155,18 +155,69 @@ func _on_settings_changed() -> void:
 		time_system.set_day_night_enabled(game_settings.day_night_enabled)
 	update_indoor_outdoor_environment()
 
+func sleep_and_save() -> void:
+	if is_transitioning:
+		return
+	is_transitioning = true
+	if player_instance:
+		player_instance.input_blocked = true
+	
+	if transition_rect:
+		var tween = create_tween()
+		tween.tween_property(transition_rect, "color:a", 1.0, 0.4)
+		await tween.finished
+	
+	# Tua thời gian sang 06:00 sáng ngày hôm sau
+	if time_system:
+		time_system.current_hour = 6
+		time_system.current_minute = 0
+		time_system.current_day_num += 1
+		time_system.emit_time_signals()
+	
+	# Ruộng đất khô được tưới hoặc hoa màu lớn lên
+	if current_map and current_map.name == "FarmMap":
+		save_farm_plots_state()
+	for p_data in saved_plots_data:
+		if p_data is Dictionary:
+			var st = int(p_data.get("state", 0))
+			if st == 3: # SEEDED -> GROWING
+				p_data["state"] = 4
+				p_data["growth_time"] = 15.0
+			elif st == 4: # GROWING -> MATURE
+				p_data["state"] = 5
+				p_data["growth_time"] = 30.0
+	
+	# Tự động lưu game
+	save_game(true)
+	
+	if audio_manager and time_system:
+		audio_manager.update_ambient(6, false)
+	
+	await get_tree().create_timer(0.6).timeout
+	
+	if transition_rect:
+		var tween_out = create_tween()
+		tween_out.tween_property(transition_rect, "color:a", 0.0, 0.4)
+		await tween_out.finished
+	
+	is_transitioning = false
+	if player_instance:
+		player_instance.input_blocked = false
+	if ui:
+		ui.show_toast("🌅 Chào buổi sáng ngày mới! Nông sản đã phát triển thêm.")
+
 # -------------------------------------------------------------
 # LƯU TRỮ VÀ TẢI TIẾN TRÌNH CHƠI (SAVE / LOAD)
 # -------------------------------------------------------------
 func has_save_game() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
 
-func save_game() -> void:
+func save_game(is_sleep_save: bool = false) -> void:
 	if current_map and current_map.name == "FarmMap":
 		save_farm_plots_state()
 	
 	var data = {
-		"version": 1,
+		"version": 2,
 		"coins": inventory.coins if inventory else 150,
 		"seeds": inventory.seeds if inventory else 10,
 		"crops_harvested": inventory.crops_harvested if inventory else 0,
@@ -177,6 +228,7 @@ func save_game() -> void:
 		"current_quest_id": inventory.current_quest_id if inventory else 1,
 		"quest_progress": inventory.quest_progress if inventory else 0,
 		"quest_target": inventory.quest_target if inventory else 4,
+		"current_outfit": player_instance.current_outfit if player_instance else 0,
 		"current_map_path": current_map.scene_file_path if (current_map and current_map.scene_file_path != "") else "res://scenes/maps/farm_map.tscn",
 		"player_pos_x": player_instance.global_position.x if player_instance else 240.0,
 		"player_pos_y": player_instance.global_position.y if player_instance else 220.0,
@@ -187,6 +239,8 @@ func save_game() -> void:
 	if f:
 		f.store_string(JSON.stringify(data, "  "))
 		f.close()
+	if is_sleep_save and ui:
+		ui.show_toast("💾 Đã tự động lưu dữ liệu nông trại sau khi ngủ qua đêm!")
 
 func load_saved_game() -> bool:
 	if not FileAccess.file_exists(SAVE_PATH):
@@ -219,6 +273,10 @@ func load_saved_game() -> bool:
 		inventory.inventory_changed.emit()
 	
 	saved_plots_data = data.get("plots_data", [])
+	
+	var saved_outfit = int(data.get("current_outfit", 0))
+	if player_instance:
+		player_instance.set_outfit(saved_outfit)
 	
 	var target_map = str(data.get("current_map_path", "res://scenes/maps/farm_map.tscn"))
 	var px = float(data.get("player_pos_x", 240.0))
@@ -409,6 +467,11 @@ func load_map(map_path: String, spawn_name: String, animate: bool = true) -> voi
 	
 	# Cập nhật nhãn vị trí trên UI
 	ui.update_location(current_map.map_title)
+	
+	# Cập nhật Ambient Sound theo map và thời gian
+	if audio_manager and time_system:
+		var is_sea = current_map.name.to_lower().contains("highway") or current_map.name.to_lower().contains("island")
+		audio_manager.update_ambient(time_system.current_hour, is_sea)
 	
 	# Nếu là FarmMap thì thiết lập / khôi phục các ô ruộng
 	if current_map.name == "FarmMap":
