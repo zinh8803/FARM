@@ -1,0 +1,240 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/base_map.gd" id="1_base"]
+[ext_resource type="PackedScene" path="res://scenes/map_portal.tscn" id="2_portal"]
+[ext_resource type="PackedScene" path="res://scenes/wandering_npc.tscn" id="3_wanderer"]
+[ext_resource type="Texture2D" path="res://assets/sprites/beach_props.png" id="4_beach"]
+[ext_resource type="Texture2D" path="res://assets/sprites/city_npcs.png" id="5_npcs"]
+[ext_resource type="PackedScene" path="res://scenes/fishing_spot.tscn" id="6_fishing_spot"]
+[ext_resource type="PackedScene" path="res://scenes/npc.tscn" id="7_npc"]
+[ext_resource type="Script" path="res://scripts/fish_buyer.gd" id="8_fish_buyer"]
+
+[sub_resource type="RectangleShape2D" id="IslandBoundaryH"]
+size = Vector2(900, 16)
+
+[sub_resource type="RectangleShape2D" id="IslandBoundaryV"]
+size = Vector2(16, 600)
+
+[sub_resource type="RectangleShape2D" id="IslandDockPortal"]
+size = Vector2(80, 36)
+
+[node name="TropicalIsland" type="Node2D"]
+script = ExtResource("1_base")
+map_title = "🏝️ Đảo Ngọc Đà Nẵng"
+default_spawn_name = "spawn_from_sea"
+map_width = 900.0
+map_height = 600.0
+
+[node name="Sea" type="ColorRect" parent="."]
+offset_right = 900.0
+offset_bottom = 600.0
+color = Color(0.15, 0.48, 0.72, 1)
+
+[node name="ShallowWater" type="ColorRect" parent="."]
+offset_left = 48.0
+offset_top = 62.0
+offset_right = 852.0
+offset_bottom = 538.0
+color = Color(0.31, 0.72, 0.82, 1)
+
+[node name="IslandBeach" type="ColorRect" parent="."]
+offset_left = 92.0
+offset_top = 88.0
+offset_right = 808.0
+offset_bottom = 510.0
+color = Color(0.94, 0.84, 0.62, 1)
+
+[node name="IslandGrass" type="ColorRect" parent="."]
+offset_left = 154.0
+offset_top = 132.0
+offset_right = 746.0
+offset_bottom = 462.0
+color = Color(0.32, 0.62, 0.34, 1)
+
+[node name="VillageGreen" type="ColorRect" parent="."]
+offset_left = 330.0
+offset_top = 232.0
+offset_right = 580.0
+offset_bottom = 362.0
+color = Color(0.4, 0.68, 0.38, 1)
+
+[node name="Dock" type="ColorRect" parent="."]
+offset_left = 396.0
+offset_top = 450.0
+offset_right = 504.0
+offset_bottom = 572.0
+color = Color(0.43, 0.25, 0.14, 1)
+
+[node name="DockPlank1" type="ColorRect" parent="."]
+offset_left = 396.0
+offset_top = 472.0
+offset_right = 504.0
+offset_bottom = 478.0
+color = Color(0.72, 0.49, 0.27, 1)
+
+[node name="DockPlank2" type="ColorRect" parent="."]
+offset_left = 396.0
+offset_top = 500.0
+offset_right = 504.0
+offset_bottom = 506.0
+color = Color(0.72, 0.49, 0.27, 1)
+
+[node name="DockPlank3" type="ColorRect" parent="."]
+offset_left = 396.0
+offset_top = 528.0
+offset_right = 504.0
+offset_bottom = 534.0
+color = Color(0.72, 0.49, 0.27, 1)
+
+[node name="IslandName" type="Label" parent="."]
+offset_left = 300.0
+offset_top = 168.0
+offset_right = 600.0
+offset_bottom = 196.0
+theme_override_colors/font_color = Color(1, 0.94, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.25, 0.15, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "ĐẢO NGỌC · LÀNG CHÀI"
+horizontal_alignment = 1
+
+[node name="PierHint" type="Label" parent="."]
+offset_left = 288.0
+offset_top = 548.0
+offset_right = 612.0
+offset_bottom = 570.0
+theme_override_colors/font_color = Color(1, 0.95, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.12, 0.08, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "BẾN TÀU · Lên thuyền để trở về đất liền"
+horizontal_alignment = 1
+
+[node name="FishingPierSign" type="Label" parent="."]
+offset_left = 82.0
+offset_top = 474.0
+offset_right = 284.0
+offset_bottom = 496.0
+theme_override_colors/font_color = Color(0.12, 0.34, 0.45, 1)
+theme_override_font_sizes/font_size = 8
+text = "🎣 BẾN CÂU · Nhấn E quăng cần"
+horizontal_alignment = 1
+
+[node name="Palm1" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(206, 160)
+texture = ExtResource("4_beach")
+region_enabled = true
+region_rect = Rect2(160, 0, 64, 96)
+
+[node name="Palm2" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(690, 180)
+texture = ExtResource("4_beach")
+region_enabled = true
+region_rect = Rect2(160, 0, 64, 96)
+
+[node name="Palm3" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(230, 426)
+texture = ExtResource("4_beach")
+region_enabled = true
+region_rect = Rect2(160, 0, 64, 96)
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="WallTop" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(450, 8)
+shape = SubResource("IslandBoundaryH")
+
+[node name="WallBottomLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(196, 592)
+shape = SubResource("IslandBoundaryH")
+
+[node name="WallBottomRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(704, 592)
+shape = SubResource("IslandBoundaryH")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(8, 300)
+shape = SubResource("IslandBoundaryV")
+
+[node name="WallRight" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(892, 300)
+shape = SubResource("IslandBoundaryV")
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Fisherman" parent="YSort" instance=ExtResource("3_wanderer")]
+position = Vector2(328, 310)
+npc_name = "Bác Năm - Ngư Dân Đảo"
+dialogue_line = "Sáng nay cá nục về đầy khoang! Thuyền ngoài kia sẽ chở hải sản vào đất liền."
+custom_texture = ExtResource("5_npcs")
+sprite_region = Rect2(160, 0, 32, 32)
+wander_radius = Vector2(45, 24)
+
+[node name="IslandCook" parent="YSort" instance=ExtResource("3_wanderer")]
+position = Vector2(580, 310)
+npc_name = "Cô Mận - Đầu Bếp Làng Chài"
+dialogue_line = "Đặc sản đảo mình là mực nướng và cá hấp cuốn bánh tráng đó con!"
+custom_texture = ExtResource("5_npcs")
+sprite_region = Rect2(128, 0, 32, 32)
+wander_radius = Vector2(34, 22)
+
+[node name="YoungSailor" parent="YSort" instance=ExtResource("3_wanderer")]
+position = Vector2(470, 398)
+npc_name = "Tí - Cậu Bé Giữ Thuyền"
+dialogue_line = "Em có thể chỉ đường ra rạn san hô, nhưng nhớ đừng làm phiền đàn cá nhé!"
+custom_texture = ExtResource("5_npcs")
+sprite_region = Rect2(192, 0, 32, 32)
+wander_radius = Vector2(42, 18)
+
+[node name="FishingSpotWest" parent="YSort" instance=ExtResource("6_fishing_spot")]
+position = Vector2(170, 490)
+spot_name = "Bến câu phía Tây"
+cast_direction = Vector2(-1, 0)
+cast_distance = 96.0
+
+[node name="FishingSpotEast" parent="YSort" instance=ExtResource("6_fishing_spot")]
+position = Vector2(738, 490)
+spot_name = "Bãi san hô phía Đông"
+cast_direction = Vector2(1, 0)
+cast_distance = 96.0
+
+[node name="FishBuyer" parent="YSort" instance=ExtResource("7_npc")]
+position = Vector2(620, 350)
+script = ExtResource("8_fish_buyer")
+npc_name = "Chú Sáu - Vựa Cá Đảo Ngọc"
+dialogue_line = "Cá tươi mới lên bờ đây! Tôi thu mua mỗi con cá câu được với giá 40 xu."
+custom_texture = ExtResource("5_npcs")
+sprite_region = Rect2(160, 0, 32, 32)
+
+[node name="IslandGuide" parent="YSort" instance=ExtResource("3_wanderer")]
+position = Vector2(450, 220)
+npc_name = "Chị Vy - Hướng Dẫn Viên"
+dialogue_line = "Chào mừng đến Đảo Ngọc! Bãi cát phía đông có rạn san hô rất đẹp."
+custom_texture = ExtResource("5_npcs")
+sprite_region = Rect2(288, 0, 32, 32)
+wander_radius = Vector2(40, 20)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="spawn_from_sea" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(450, 520)
+
+[node name="spawn_default" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(450, 520)
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal_ToMainland" parent="Portals" instance=ExtResource("2_portal")]
+position = Vector2(450, 566)
+target_map_path = "res://scenes/maps/danang_highway.tscn"
+target_spawn_name = "spawn_from_island"
+portal_prompt = "Lên tàu về đất liền"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToMainland" index="0"]
+shape = SubResource("IslandDockPortal")

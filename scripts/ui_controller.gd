@@ -20,6 +20,7 @@ signal menu_button_pressed()
 @onready var shop_produce_label: Label = $ShopPanel/MarginContainer/VBoxContainer/ShopProduceLabel
 
 @onready var inventory_panel: PanelContainer = $InventoryPanel
+@onready var fishing_gauge = $FishingGauge
 @onready var inv_coins_label: Label = $InventoryPanel/MarginContainer/VBoxContainer/InvCoinsLabel
 @onready var label_seeds_inv: Label = $InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot3/LabelSeedsInv
 @onready var label_hay_inv: Label = $InventoryPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsList/Slot5/LabelHayInv
@@ -31,6 +32,14 @@ var is_dialogue_open: bool = false
 var is_shop_open: bool = false
 var is_inventory_menu_open: bool = false
 var inventory: InventoryData
+var fishing_active: bool = false
+var fishing_bite: bool = false
+var fishing_wait_timer: float = 0.0
+var fishing_marker: float = 0.0
+var fishing_marker_direction: float = 1.0
+var fishing_target_start: float = 0.4
+var fishing_target_width: float = 0.18
+var fish_market_open: bool = false
 
 # Hàng đợi toast để không mất thông báo khi có nhiều hành động cùng lúc
 var _toast_queue: Array[String] = []
@@ -92,6 +101,19 @@ func setup(inv: InventoryData) -> void:
 		inventory_panel.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
+	if fishing_active:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_ESCAPE:
+				_finish_fishing(false, true)
+			elif fishing_bite and (event.keycode == KEY_E or event.keycode == KEY_SPACE or event.keycode == KEY_ENTER):
+				_resolve_fishing()
+			get_viewport().set_input_as_handled()
+			return
+		if fishing_bite and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			_resolve_fishing()
+			get_viewport().set_input_as_handled()
+			return
+
 	if is_inventory_menu_open:
 		if event is InputEventKey and event.pressed and not event.echo:
 			if event.keycode == KEY_TAB or event.keycode == KEY_ESCAPE or event.keycode == KEY_E or event.keycode == KEY_I or event.keycode == KEY_B:
@@ -135,9 +157,9 @@ func update_inventory_display() -> void:
 	
 	# Cập nhật tài nguyên (thêm rơm)
 	if resource_label:
-		resource_label.text = "💰%d  🌱%d  🌾%d  🥚%d  🌿%d" % [
+		resource_label.text = "💰%d  🌱%d  🌾%d  🥚%d  🌿%d  🐟%d" % [
 			inventory.coins, inventory.seeds, inventory.crops_harvested, 
-			inventory.eggs_collected, inventory.hay_bundles
+			inventory.eggs_collected, inventory.hay_bundles, inventory.fish_caught
 		]
 	
 	# Cập nhật nhiệm vụ
@@ -182,6 +204,75 @@ func show_toast(msg: String) -> void:
 	_toast_queue.append(msg)
 	if not _is_showing_toast:
 		_show_next_toast()
+
+func _process(delta: float) -> void:
+	if not fishing_active:
+		return
+	if not fishing_bite:
+		fishing_wait_timer -= delta
+		if fishing_wait_timer <= 0.0:
+			fishing_bite = true
+			fishing_marker = randf_range(0.05, 0.95)
+			fishing_marker_direction = 1.0
+			fishing_target_start = randf_range(0.16, 0.68)
+			_set_player_fishing_bite(true)
+			fishing_gauge.set_gauge("CÁ CẮN CÂU! Canh kim vào vùng xanh.", fishing_marker, fishing_target_start, fishing_target_width)
+			return
+	else:
+		fishing_marker += fishing_marker_direction * delta * 0.82
+		if fishing_marker >= 1.0:
+			fishing_marker = 1.0
+			fishing_marker_direction = -1.0
+		elif fishing_marker <= 0.0:
+			fishing_marker = 0.0
+			fishing_marker_direction = 1.0
+		fishing_gauge.set_gauge("CÁ CẮN CÂU! Canh kim vào vùng xanh.", fishing_marker, fishing_target_start, fishing_target_width)
+
+func start_fishing(target_global_position: Vector2) -> void:
+	if fishing_active or is_shop_open or is_dialogue_open:
+		return
+	fishing_active = true
+	fishing_bite = false
+	fishing_wait_timer = randf_range(1.8, 3.4)
+	fishing_gauge.visible = true
+	fishing_gauge.set_gauge("Đã quăng cần, chờ cá cắn câu...", 0.0, 0.0, 0.0)
+	_set_player_fishing_lock(true)
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.call("start_fishing_animation", target_global_position)
+
+func _resolve_fishing() -> void:
+	var zone_end: float = fishing_target_start + fishing_target_width
+	if fishing_marker >= fishing_target_start and fishing_marker <= zone_end:
+		var fish_names: Array[String] = ["cá nục", "cá dìa", "cá hồng", "cá chuồn"]
+		inventory.add_fish(1)
+		_finish_fishing(true, false)
+		show_toast("🐟 Câu được %s! Mang đến vựa cá trên đảo bán với giá 40 xu." % fish_names.pick_random())
+	else:
+		_finish_fishing(false, false)
+		show_toast("Cá tuột mất rồi! Hãy canh kim dừng trong vùng xanh để câu trúng.")
+
+func _finish_fishing(caught: bool, cancelled: bool) -> void:
+	fishing_active = false
+	fishing_bite = false
+	if fishing_gauge:
+		fishing_gauge.visible = false
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.call("finish_fishing_animation", caught, cancelled)
+	_set_player_fishing_lock(false)
+	if cancelled:
+		show_toast("Đã thu cần câu.")
+
+func _set_player_fishing_lock(locked: bool) -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.set("input_blocked", locked)
+
+func _set_player_fishing_bite(active: bool) -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.call("set_fishing_bite_animation", active)
 
 func _show_next_toast() -> void:
 	if _toast_queue.is_empty():
@@ -248,12 +339,16 @@ func _on_tool_button_pressed(tool_idx: int) -> void:
 func open_shop() -> void:
 	if not shop_panel:
 		return
+	fish_market_open = false
+	_set_fish_market_layout(false)
 	is_shop_open = true
 	update_shop_display()
 	shop_panel.visible = true
 
 func close_shop() -> void:
 	is_shop_open = false
+	fish_market_open = false
+	_set_fish_market_layout(false)
 	if shop_panel:
 		shop_panel.visible = false
 
@@ -263,7 +358,31 @@ func update_shop_display() -> void:
 	if shop_coins_label:
 		shop_coins_label.text = "💰 Số xu hiện có: %d xu" % inventory.coins
 	if shop_produce_label:
-		shop_produce_label.text = "🌾 Nông sản: %d bắp | 🥚 Trứng gà: %d quả" % [inventory.crops_harvested, inventory.eggs_collected]
+		if fish_market_open:
+			shop_produce_label.text = "🐟 Cá đã câu: %d con" % inventory.fish_caught
+		else:
+			shop_produce_label.text = "🌾 %d bắp | 🥚 %d trứng | 🐟 %d cá" % [inventory.crops_harvested, inventory.eggs_collected, inventory.fish_caught]
+
+func open_fish_shop() -> void:
+	if not shop_panel:
+		return
+	fish_market_open = true
+	_set_fish_market_layout(true)
+	is_shop_open = true
+	update_shop_display()
+	shop_panel.visible = true
+
+func _set_fish_market_layout(fish_only: bool) -> void:
+	var title: Label = get_node_or_null("ShopPanel/MarginContainer/VBoxContainer/ShopTitle")
+	var sell_button: Button = get_node_or_null("ShopPanel/MarginContainer/VBoxContainer/BtnSellAll")
+	for node_path in ["LabelSeeds", "SeedButtons", "LabelHay", "HayButtons", "HSeparator1"]:
+		var node = get_node_or_null("ShopPanel/MarginContainer/VBoxContainer/" + node_path)
+		if node is CanvasItem:
+			node.visible = not fish_only
+	if title:
+		title.text = "🐟 VỰA CÁ ĐẢO NGỌC - CHÚ SÁU" if fish_only else "🏮 TIỆM HẠT GIỐNG CHỢ QUÊ - CÔ ÚT"
+	if sell_button:
+		sell_button.text = "💰 Bán cá (+40 xu/con)" if fish_only else "💰 Bán nông sản, trứng và cá (cá 40 xu/con)"
 
 func _on_buy_seeds_pressed(amount: int, cost_per_unit: int = 5) -> void:
 	if not inventory:
@@ -294,18 +413,31 @@ func _on_buy_hay_pressed(amount: int, cost_per_unit: int = 4) -> void:
 func _on_sell_all_pressed() -> void:
 	if not inventory:
 		return
-	if inventory.crops_harvested == 0 and inventory.eggs_collected == 0:
-		show_toast("Chưa có nông sản hoặc trứng gà nào để bán!")
+	if fish_market_open:
+		if inventory.fish_caught == 0:
+			show_toast("Bạn chưa câu được cá nào để bán!")
+			return
+		var market_fish_sold: int = inventory.fish_caught
+		var fish_earned: int = market_fish_sold * 40
+		inventory.fish_caught = 0
+		inventory.add_coins(fish_earned)
+		update_shop_display()
+		show_toast("💰 Đã bán %d con cá, thu về +%d xu!" % [market_fish_sold, fish_earned])
 		return
-	var earned = inventory.crops_harvested * 25 + inventory.eggs_collected * 15
+	if inventory.crops_harvested == 0 and inventory.eggs_collected == 0 and inventory.fish_caught == 0:
+		show_toast("Chưa có nông sản, trứng hoặc cá nào để bán!")
+		return
+	var fish_sold: int = inventory.fish_caught
+	var earned = inventory.crops_harvested * 25 + inventory.eggs_collected * 15 + fish_sold * 40
 	var crops_sold = inventory.crops_harvested
 	var eggs_sold = inventory.eggs_collected
 	inventory.coins += earned
 	inventory.crops_harvested = 0
 	inventory.eggs_collected = 0
+	inventory.fish_caught = 0
 	inventory.inventory_changed.emit()
 	update_shop_display()
-	show_toast("💰 Đã bán %d bắp ngô và %d quả trứng, thu về +%d xu!" % [crops_sold, eggs_sold, earned])
+	show_toast("💰 Đã bán %d bắp, %d trứng và %d cá, thu về +%d xu!" % [crops_sold, eggs_sold, fish_sold, earned])
 
 # -------------------------------------------------------------
 # QUẢN LÝ MENU TÚI ĐỒ VÀ CÁC Ô VẬT PHẨM (INVENTORY PANEL)

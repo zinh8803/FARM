@@ -36,6 +36,69 @@ offset_right = 600.0
 offset_bottom = 370.0
 color = Color(0.42, 0.08, 0.16, 1)
 
+[node name="CarpetGoldBorder" type="ColorRect" parent="."]
+offset_left = 30.0
+offset_top = 52.0
+offset_right = 590.0
+offset_bottom = 60.0
+color = Color(0.88, 0.67, 0.25, 1)
+
+[node name="CarpetGoldBorderBottom" type="ColorRect" parent="."]
+offset_left = 30.0
+offset_top = 352.0
+offset_right = 590.0
+offset_bottom = 360.0
+color = Color(0.88, 0.67, 0.25, 1)
+
+[node name="LampLeft" type="ColorRect" parent="."]
+offset_left = 92.0
+offset_top = 78.0
+offset_right = 116.0
+offset_bottom = 94.0
+color = Color(1, 0.72, 0.28, 1)
+
+[node name="LampCenter" type="ColorRect" parent="."]
+offset_left = 298.0
+offset_top = 88.0
+offset_right = 322.0
+offset_bottom = 104.0
+color = Color(1, 0.72, 0.28, 1)
+
+[node name="LampRight" type="ColorRect" parent="."]
+offset_left = 504.0
+offset_top = 78.0
+offset_right = 528.0
+offset_bottom = 94.0
+color = Color(1, 0.72, 0.28, 1)
+
+[node name="SlotMachine1" type="ColorRect" parent="."]
+offset_left = 42.0
+offset_top = 250.0
+offset_right = 92.0
+offset_bottom = 318.0
+color = Color(0.58, 0.12, 0.18, 1)
+
+[node name="SlotMachineScreen1" type="ColorRect" parent="."]
+offset_left = 50.0
+offset_top = 260.0
+offset_right = 84.0
+offset_bottom = 286.0
+color = Color(0.24, 0.77, 0.66, 1)
+
+[node name="SlotMachine2" type="ColorRect" parent="."]
+offset_left = 528.0
+offset_top = 250.0
+offset_right = 578.0
+offset_bottom = 318.0
+color = Color(0.18, 0.24, 0.58, 1)
+
+[node name="SlotMachineScreen2" type="ColorRect" parent="."]
+offset_left = 536.0
+offset_top = 260.0
+offset_right = 570.0
+offset_bottom = 286.0
+color = Color(0.96, 0.68, 0.25, 1)
+
 [node name="Stage" type="ColorRect" parent="."]
 offset_left = 170.0
 offset_top = 48.0

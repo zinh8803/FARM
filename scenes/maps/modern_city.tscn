@@ -171,6 +171,90 @@ theme_override_font_sizes/font_size = 9
 text = "♠ CASINO ♣"
 horizontal_alignment = 1
 
+[node name="CasinoMarquee" type="ColorRect" parent="Ground"]
+offset_left = 720.0
+offset_top = 72.0
+offset_right = 840.0
+offset_bottom = 82.0
+color = Color(1, 0.78, 0.28, 1)
+
+[node name="CasinoColumns" type="ColorRect" parent="Ground"]
+offset_left = 704.0
+offset_top = 112.0
+offset_right = 714.0
+offset_bottom = 184.0
+color = Color(0.92, 0.68, 0.31, 1)
+
+[node name="CasinoColumnRight" type="ColorRect" parent="Ground"]
+offset_left = 846.0
+offset_top = 112.0
+offset_right = 856.0
+offset_bottom = 184.0
+color = Color(0.92, 0.68, 0.31, 1)
+
+[node name="CasinoWindowLeft" type="ColorRect" parent="Ground"]
+offset_left = 720.0
+offset_top = 124.0
+offset_right = 754.0
+offset_bottom = 168.0
+color = Color(0.96, 0.61, 0.24, 1)
+
+[node name="CasinoWindowRight" type="ColorRect" parent="Ground"]
+offset_left = 806.0
+offset_top = 124.0
+offset_right = 840.0
+offset_bottom = 168.0
+color = Color(0.96, 0.61, 0.24, 1)
+
+[node name="CasinoDoor" type="ColorRect" parent="Ground"]
+offset_left = 766.0
+offset_top = 142.0
+offset_right = 794.0
+offset_bottom = 190.0
+color = Color(0.12, 0.08, 0.12, 1)
+
+[node name="SchoolWingLeft" type="ColorRect" parent="Ground"]
+offset_left = 780.0
+offset_top = 494.0
+offset_right = 844.0
+offset_bottom = 566.0
+color = Color(0.91, 0.69, 0.39, 1)
+
+[node name="SchoolWingRight" type="ColorRect" parent="Ground"]
+offset_left = 916.0
+offset_top = 494.0
+offset_right = 980.0
+offset_bottom = 566.0
+color = Color(0.91, 0.69, 0.39, 1)
+
+[node name="SchoolWindowRow" type="ColorRect" parent="Ground"]
+offset_left = 788.0
+offset_top = 516.0
+offset_right = 836.0
+offset_bottom = 544.0
+color = Color(0.4, 0.73, 0.84, 1)
+
+[node name="SchoolWindowMiddle" type="ColorRect" parent="Ground"]
+offset_left = 852.0
+offset_top = 516.0
+offset_right = 908.0
+offset_bottom = 544.0
+color = Color(0.4, 0.73, 0.84, 1)
+
+[node name="SchoolWindowRight" type="ColorRect" parent="Ground"]
+offset_left = 924.0
+offset_top = 516.0
+offset_right = 972.0
+offset_bottom = 544.0
+color = Color(0.4, 0.73, 0.84, 1)
+
+[node name="SchoolEntrance" type="ColorRect" parent="Ground"]
+offset_left = 858.0
+offset_top = 546.0
+offset_right = 902.0
+offset_bottom = 575.0
+color = Color(0.4, 0.2, 0.15, 1)
+
 [node name="SchoolFacade" type="ColorRect" parent="Ground"]
 offset_left = 770.0
 offset_top = 472.0

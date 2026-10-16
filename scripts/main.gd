@@ -171,6 +171,7 @@ func save_game() -> void:
 		"seeds": inventory.seeds if inventory else 10,
 		"crops_harvested": inventory.crops_harvested if inventory else 0,
 		"eggs_collected": inventory.eggs_collected if inventory else 0,
+		"fish_caught": inventory.fish_caught if inventory else 0,
 		"hay_bundles": inventory.hay_bundles if inventory else 5,
 		"active_tool": inventory.active_tool if inventory else 1,
 		"current_quest_id": inventory.current_quest_id if inventory else 1,
@@ -209,6 +210,7 @@ func load_saved_game() -> bool:
 		inventory.seeds = int(data.get("seeds", 10))
 		inventory.crops_harvested = int(data.get("crops_harvested", 0))
 		inventory.eggs_collected = int(data.get("eggs_collected", 0))
+		inventory.fish_caught = int(data.get("fish_caught", 0))
 		inventory.hay_bundles = int(data.get("hay_bundles", 5))
 		inventory.active_tool = int(data.get("active_tool", 1))
 		inventory.current_quest_id = int(data.get("current_quest_id", 1))
@@ -237,6 +239,7 @@ func reset_to_new_game() -> void:
 		inventory.seeds = 10
 		inventory.crops_harvested = 0
 		inventory.eggs_collected = 0
+		inventory.fish_caught = 0
 		inventory.hay_bundles = 5
 		inventory.active_tool = 1
 		inventory.current_quest_id = 1

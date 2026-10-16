@@ -12,6 +12,7 @@ var seeds: int = 10
 var crops_harvested: int = 0
 var eggs_collected: int = 0
 var hay_bundles: int = 5
+var fish_caught: int = 0
 
 # Quests
 var current_quest_id: int = 1 # 1: Khai hoang, 2: Tiếng gà ban mai, 3: Chợ phiên
@@ -47,6 +48,10 @@ func add_egg(amount: int = 1) -> void:
 	eggs_collected += amount
 	if current_quest_id == 2:
 		quest_progress += amount
+	inventory_changed.emit()
+
+func add_fish(amount: int = 1) -> void:
+	fish_caught += amount
 	inventory_changed.emit()
 
 func use_seed() -> bool:

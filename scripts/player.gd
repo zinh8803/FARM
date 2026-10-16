@@ -43,6 +43,19 @@ func setup(inv: InventoryData, ui: Node) -> void:
 	inventory = inv
 	ui_node = ui
 
+func start_fishing_animation(target_global_position: Vector2) -> void:
+	var cast_direction: Vector2 = (target_global_position - global_position).normalized()
+	if cast_direction != Vector2.ZERO:
+		current_direction = cast_direction
+		update_sprite()
+	$FishingAnimation.start_cast(target_global_position)
+
+func set_fishing_bite_animation(active: bool) -> void:
+	$FishingAnimation.set_bite(active)
+
+func finish_fishing_animation(caught: bool, cancelled: bool = false) -> void:
+	$FishingAnimation.finish_cast(caught, cancelled)
+
 func apply_speed_buff(multiplier: float, duration: float) -> void:
 	speed_buff_multiplier = multiplier
 	speed_buff_timer = duration

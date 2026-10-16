@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/street_vendor.tscn" id="6_vendorscene"]
 [ext_resource type="Texture2D" path="res://assets/sprites/beach_props.png" id="7_beachprops"]
 [ext_resource type="Script" path="res://scripts/traffic_manager.gd" id="8_tfmgr"]
+[ext_resource type="PackedScene" path="res://scenes/ferry_boat.tscn" id="9_boat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sea_water"]
 size = Vector2(1400, 80)
@@ -468,6 +469,24 @@ texture = ExtResource("3_hwprops")
 region_enabled = true
 region_rect = Rect2(160, 0, 64, 96)
 
+[node name="FerryToIsland" parent="YSort" instance=ExtResource("9_boat")]
+position = Vector2(240, 34)
+boat_name = "Tàu ra đảo"
+boat_color = Color(0.88, 0.3, 0.18, 1)
+travel_speed = 46.0
+
+[node name="FishingBoat" parent="YSort" instance=ExtResource("9_boat")]
+position = Vector2(760, 55)
+boat_name = "Thuyền đánh cá"
+boat_color = Color(0.2, 0.42, 0.72, 1)
+travel_speed = -34.0
+
+[node name="IslandFerry" parent="YSort" instance=ExtResource("9_boat")]
+position = Vector2(1120, 27)
+boat_name = "Canô du lịch"
+boat_color = Color(0.92, 0.7, 0.2, 1)
+travel_speed = 58.0
+
 [node name="Vendor_Sugarcane" parent="YSort" instance=ExtResource("6_vendorscene")]
 position = Vector2(530, 126)
 vendor_type = 0
@@ -502,6 +521,9 @@ position = Vector2(400, 305)
 [node name="spawn_from_city" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1320, 195)
 
+[node name="spawn_from_island" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(700, 96)
+
 [node name="Portals" type="Node2D" parent="."]
 
 [node name="Portal_ToFarm" parent="Portals" instance=ExtResource("2_hwptl")]
@@ -530,3 +552,13 @@ portal_prompt = "Vào Thành Phố Đà Thành"
 
 [node name="CollisionShape2D" parent="Portals/Portal_ToCity" index="0"]
 shape = SubResource("RectangleShape2D_portal_highway_city")
+
+[node name="Portal_ToIsland" parent="Portals" instance=ExtResource("2_hwptl")]
+position = Vector2(700, 94)
+target_map_path = "res://scenes/maps/tropical_island.tscn"
+target_spawn_name = "spawn_from_sea"
+portal_prompt = "Lên thuyền ra Đảo Ngọc"
+requires_interaction_key = true
+
+[node name="CollisionShape2D" parent="Portals/Portal_ToIsland" index="0"]
+shape = SubResource("RectangleShape2D_portal_highway_market")
