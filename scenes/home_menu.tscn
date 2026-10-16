@@ -243,7 +243,7 @@ grow_vertical = 0
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.65, 0.58, 1)
 theme_override_font_sizes/font_size = 8
-text = "v1.4.0 • Tùy Biến Thôn Quê & Âm Vang Đồng Nội"
+text = "v1.4.1 • Cập Nhật PCK Tự Động"
 
 [node name="Spacer" type="Control" parent="MainContainer/FooterBox"]
 layout_mode = 2
@@ -434,7 +434,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.95, 0.5, 1)
 theme_override_font_sizes/font_size = 9
-text = "● Phiên bản hiện tại: v1.4.0 (Bản phát hành chính thức)"
+text = "● Phiên bản hiện tại: v1.4.1 (Bản phát hành chính thức)"
 
 [node name="UpdateNotice" type="Label" parent="UpdatePanel/MarginContainer/VBoxContainer"]
 layout_mode = 2

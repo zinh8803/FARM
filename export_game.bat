@@ -113,24 +113,19 @@ if not defined VERSION (
     goto :done
 )
 set "TAG=v!VERSION!"
-echo Dang tao release !TAG! kem %EXPORT_NAME%...
-gh release view "!TAG!" --repo zinh8803/FARM >nul 2>&1
+echo Tao PCK, patch SHA-256 va release !TAG!...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0publish_patch.ps1" -GodotExe "!GODOT_EXE!" -GameExe "%~dp0%EXPORT_NAME%" -Version "!VERSION!" -Repository "zinh8803/FARM"
 if errorlevel 1 (
-    gh release create "!TAG!" "%~dp0%EXPORT_NAME%" --repo zinh8803/FARM --title "Little DaNang !TAG!" --generate-notes
+    echo [LOI] Khong the tao patch/manifest hoac tai release len GitHub.
 ) else (
-    gh release upload "!TAG!" "%~dp0%EXPORT_NAME%" --repo zinh8803/FARM --clobber
-)
-if errorlevel 1 (
-    echo [LOI] Khong the tao release/tai asset. Kiem tra quyen GitHub va release !TAG!.
-) else (
-    echo [OK] Asset LittleDaNang.exe da duoc tai len release !TAG!.
+    echo [OK] Da tai exe, PCK baseline, patch va update_manifest.json len release !TAG!.
 )
 
 :done
 echo.
 echo ========================================================
 echo   HOAN TAT! File game: %EXPORT_NAME%
-echo   Phat hanh game bang GitHub Release voi asset %EXPORT_NAME%.
+echo   Phat hanh game bang GitHub Release kem update_manifest.json va cac patch PCK.
 echo   Nguoi choi chi can tai/chay file exe; khong can Git hay .git.
 echo ========================================================
 echo.

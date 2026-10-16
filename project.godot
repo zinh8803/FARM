@@ -15,6 +15,10 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/sprites/crops_and_items.png"
 
+[autoload]
+
+PatchLoader="*res://scripts/patch_loader.gd"
+
 [display]
 
 window/size/viewport_width=640
